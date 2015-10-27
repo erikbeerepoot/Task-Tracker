@@ -1,0 +1,392 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		03C269A41BDF2ABB00DAA4E7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03C269A31BDF2ABB00DAA4E7 /* AppDelegate.swift */; };
+		03C269A61BDF2ABB00DAA4E7 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03C269A51BDF2ABB00DAA4E7 /* ViewController.swift */; };
+		03C269A81BDF2ABB00DAA4E7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 03C269A71BDF2ABB00DAA4E7 /* Assets.xcassets */; };
+		03C269AB1BDF2ABB00DAA4E7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 03C269A91BDF2ABB00DAA4E7 /* Main.storyboard */; };
+		03C269B61BDF2ABB00DAA4E7 /* Task_TrackerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03C269B51BDF2ABB00DAA4E7 /* Task_TrackerTests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		03C269B21BDF2ABB00DAA4E7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 03C269981BDF2ABB00DAA4E7 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 03C2699F1BDF2ABB00DAA4E7;
+			remoteInfo = "Task Tracker";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		03C269A01BDF2ABB00DAA4E7 /* Task Tracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Task Tracker.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		03C269A31BDF2ABB00DAA4E7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		03C269A51BDF2ABB00DAA4E7 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		03C269A71BDF2ABB00DAA4E7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		03C269AA1BDF2ABB00DAA4E7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		03C269AC1BDF2ABB00DAA4E7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		03C269B11BDF2ABB00DAA4E7 /* Task TrackerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Task TrackerTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		03C269B51BDF2ABB00DAA4E7 /* Task_TrackerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Task_TrackerTests.swift; sourceTree = "<group>"; };
+		03C269B71BDF2ABB00DAA4E7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		03C2699D1BDF2ABB00DAA4E7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		03C269AE1BDF2ABB00DAA4E7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		03C269971BDF2ABB00DAA4E7 = {
+			isa = PBXGroup;
+			children = (
+				03C269A21BDF2ABB00DAA4E7 /* Task Tracker */,
+				03C269B41BDF2ABB00DAA4E7 /* Task TrackerTests */,
+				03C269A11BDF2ABB00DAA4E7 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		03C269A11BDF2ABB00DAA4E7 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				03C269A01BDF2ABB00DAA4E7 /* Task Tracker.app */,
+				03C269B11BDF2ABB00DAA4E7 /* Task TrackerTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		03C269A21BDF2ABB00DAA4E7 /* Task Tracker */ = {
+			isa = PBXGroup;
+			children = (
+				03C269A31BDF2ABB00DAA4E7 /* AppDelegate.swift */,
+				03C269A51BDF2ABB00DAA4E7 /* ViewController.swift */,
+				03C269A71BDF2ABB00DAA4E7 /* Assets.xcassets */,
+				03C269A91BDF2ABB00DAA4E7 /* Main.storyboard */,
+				03C269AC1BDF2ABB00DAA4E7 /* Info.plist */,
+			);
+			path = "Task Tracker";
+			sourceTree = "<group>";
+		};
+		03C269B41BDF2ABB00DAA4E7 /* Task TrackerTests */ = {
+			isa = PBXGroup;
+			children = (
+				03C269B51BDF2ABB00DAA4E7 /* Task_TrackerTests.swift */,
+				03C269B71BDF2ABB00DAA4E7 /* Info.plist */,
+			);
+			path = "Task TrackerTests";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		03C2699F1BDF2ABB00DAA4E7 /* Task Tracker */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 03C269BA1BDF2ABB00DAA4E7 /* Build configuration list for PBXNativeTarget "Task Tracker" */;
+			buildPhases = (
+				03C2699C1BDF2ABB00DAA4E7 /* Sources */,
+				03C2699D1BDF2ABB00DAA4E7 /* Frameworks */,
+				03C2699E1BDF2ABB00DAA4E7 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Task Tracker";
+			productName = "Task Tracker";
+			productReference = 03C269A01BDF2ABB00DAA4E7 /* Task Tracker.app */;
+			productType = "com.apple.product-type.application";
+		};
+		03C269B01BDF2ABB00DAA4E7 /* Task TrackerTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 03C269BD1BDF2ABB00DAA4E7 /* Build configuration list for PBXNativeTarget "Task TrackerTests" */;
+			buildPhases = (
+				03C269AD1BDF2ABB00DAA4E7 /* Sources */,
+				03C269AE1BDF2ABB00DAA4E7 /* Frameworks */,
+				03C269AF1BDF2ABB00DAA4E7 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				03C269B31BDF2ABB00DAA4E7 /* PBXTargetDependency */,
+			);
+			name = "Task TrackerTests";
+			productName = "Task TrackerTests";
+			productReference = 03C269B11BDF2ABB00DAA4E7 /* Task TrackerTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		03C269981BDF2ABB00DAA4E7 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0710;
+				LastUpgradeCheck = 0710;
+				ORGANIZATIONNAME = "Barefoot Systems";
+				TargetAttributes = {
+					03C2699F1BDF2ABB00DAA4E7 = {
+						CreatedOnToolsVersion = 7.1;
+					};
+					03C269B01BDF2ABB00DAA4E7 = {
+						CreatedOnToolsVersion = 7.1;
+						TestTargetID = 03C2699F1BDF2ABB00DAA4E7;
+					};
+				};
+			};
+			buildConfigurationList = 03C2699B1BDF2ABB00DAA4E7 /* Build configuration list for PBXProject "Task Tracker" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 03C269971BDF2ABB00DAA4E7;
+			productRefGroup = 03C269A11BDF2ABB00DAA4E7 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				03C2699F1BDF2ABB00DAA4E7 /* Task Tracker */,
+				03C269B01BDF2ABB00DAA4E7 /* Task TrackerTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		03C2699E1BDF2ABB00DAA4E7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				03C269A81BDF2ABB00DAA4E7 /* Assets.xcassets in Resources */,
+				03C269AB1BDF2ABB00DAA4E7 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		03C269AF1BDF2ABB00DAA4E7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		03C2699C1BDF2ABB00DAA4E7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				03C269A61BDF2ABB00DAA4E7 /* ViewController.swift in Sources */,
+				03C269A41BDF2ABB00DAA4E7 /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		03C269AD1BDF2ABB00DAA4E7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				03C269B61BDF2ABB00DAA4E7 /* Task_TrackerTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		03C269B31BDF2ABB00DAA4E7 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 03C2699F1BDF2ABB00DAA4E7 /* Task Tracker */;
+			targetProxy = 03C269B21BDF2ABB00DAA4E7 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		03C269A91BDF2ABB00DAA4E7 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				03C269AA1BDF2ABB00DAA4E7 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		03C269B81BDF2ABB00DAA4E7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		03C269B91BDF2ABB00DAA4E7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		03C269BB1BDF2ABB00DAA4E7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = "Task Tracker/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.barefootsystems.Task-Tracker";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		03C269BC1BDF2ABB00DAA4E7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = "Task Tracker/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.barefootsystems.Task-Tracker";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		03C269BE1BDF2ABB00DAA4E7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = "Task TrackerTests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.barefootsystems.Task-TrackerTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Task Tracker.app/Contents/MacOS/Task Tracker";
+			};
+			name = Debug;
+		};
+		03C269BF1BDF2ABB00DAA4E7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = "Task TrackerTests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.barefootsystems.Task-TrackerTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Task Tracker.app/Contents/MacOS/Task Tracker";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		03C2699B1BDF2ABB00DAA4E7 /* Build configuration list for PBXProject "Task Tracker" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				03C269B81BDF2ABB00DAA4E7 /* Debug */,
+				03C269B91BDF2ABB00DAA4E7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		03C269BA1BDF2ABB00DAA4E7 /* Build configuration list for PBXNativeTarget "Task Tracker" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				03C269BB1BDF2ABB00DAA4E7 /* Debug */,
+				03C269BC1BDF2ABB00DAA4E7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		03C269BD1BDF2ABB00DAA4E7 /* Build configuration list for PBXNativeTarget "Task TrackerTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				03C269BE1BDF2ABB00DAA4E7 /* Debug */,
+				03C269BF1BDF2ABB00DAA4E7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 03C269981BDF2ABB00DAA4E7 /* Project object */;
+}
