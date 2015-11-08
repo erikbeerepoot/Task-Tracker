@@ -7,11 +7,38 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		032A88D11BE56D74005AC234 /* EEBSimpleTableCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032A88D01BE56D74005AC234 /* EEBSimpleTableCellView.swift */; };
+		032A88D41BE69856005AC234 /* arrow-right-black-48.png in Resources */ = {isa = PBXBuildFile; fileRef = 032A88D31BE69856005AC234 /* arrow-right-black-48.png */; };
+		032A88D61BE6AFB8005AC234 /* delete.png in Resources */ = {isa = PBXBuildFile; fileRef = 032A88D51BE6AFB8005AC234 /* delete.png */; };
+		032A88D81BE6B0DA005AC234 /* EEBOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032A88D71BE6B0DA005AC234 /* EEBOverlayView.swift */; };
+		0378FAF11BE717F100F06307 /* EEBBorderedPictureButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0378FAF01BE717F100F06307 /* EEBBorderedPictureButton.swift */; };
+		0378FAF31BE71B8900F06307 /* arrow-left-black-48.png in Resources */ = {isa = PBXBuildFile; fileRef = 0378FAF21BE71B8900F06307 /* arrow-left-black-48.png */; };
+		0378FAF51BE7B5F000F06307 /* settings-48.png in Resources */ = {isa = PBXBuildFile; fileRef = 0378FAF41BE7B5F000F06307 /* settings-48.png */; };
+		0378FAF71BE7B60100F06307 /* square-inc-cash-48.png in Resources */ = {isa = PBXBuildFile; fileRef = 0378FAF61BE7B60100F06307 /* square-inc-cash-48.png */; };
+		03B67CFF1BDFD03B005CD45E /* AppData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 03B67CFD1BDFD03B005CD45E /* AppData.xcdatamodeld */; };
+		03B67D011BE084D8005CD45E /* PersistentStoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B67D001BE084D8005CD45E /* PersistentStoreManager.swift */; };
+		03B67D0A1BE08709005CD45E /* TimingSession+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B67D021BE08709005CD45E /* TimingSession+CoreDataProperties.swift */; };
+		03B67D0B1BE08709005CD45E /* TimingSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B67D031BE08709005CD45E /* TimingSession.swift */; };
+		03B67D0C1BE08709005CD45E /* Job+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B67D041BE08709005CD45E /* Job+CoreDataProperties.swift */; };
+		03B67D0D1BE08709005CD45E /* Job.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B67D051BE08709005CD45E /* Job.swift */; };
+		03B67D0E1BE08709005CD45E /* Invoice+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B67D061BE08709005CD45E /* Invoice+CoreDataProperties.swift */; };
+		03B67D0F1BE08709005CD45E /* Invoice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B67D071BE08709005CD45E /* Invoice.swift */; };
+		03B67D101BE08709005CD45E /* Client+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B67D081BE08709005CD45E /* Client+CoreDataProperties.swift */; };
+		03B67D111BE08709005CD45E /* Client.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B67D091BE08709005CD45E /* Client.swift */; };
+		03B67D151BE117BA005CD45E /* client128.png in Resources */ = {isa = PBXBuildFile; fileRef = 03B67D141BE117BA005CD45E /* client128.png */; };
+		03B67D181BE12D0B005CD45E /* EEBJobViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B67D171BE12D0B005CD45E /* EEBJobViewController.swift */; };
+		03B67D1A1BE13A0C005CD45E /* EEBNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B67D191BE13A0C005CD45E /* EEBNavigationController.swift */; };
+		03B67D1C1BE16498005CD45E /* EEBBaseTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B67D1B1BE16498005CD45E /* EEBBaseTableViewController.swift */; };
+		03B67D1E1BE26FA0005CD45E /* suitcase32.png in Resources */ = {isa = PBXBuildFile; fileRef = 03B67D1D1BE26FA0005CD45E /* suitcase32.png */; };
+		03B67D201BE273F4005CD45E /* receipt-us32.png in Resources */ = {isa = PBXBuildFile; fileRef = 03B67D1F1BE273F4005CD45E /* receipt-us32.png */; };
+		03B67D221BE27475005CD45E /* play32.png in Resources */ = {isa = PBXBuildFile; fileRef = 03B67D211BE27475005CD45E /* play32.png */; };
+		03B67D251BE27632005CD45E /* EEBStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B67D241BE27632005CD45E /* EEBStatusView.swift */; };
 		03C269A41BDF2ABB00DAA4E7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03C269A31BDF2ABB00DAA4E7 /* AppDelegate.swift */; };
-		03C269A61BDF2ABB00DAA4E7 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03C269A51BDF2ABB00DAA4E7 /* ViewController.swift */; };
+		03C269A61BDF2ABB00DAA4E7 /* EEBClientViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03C269A51BDF2ABB00DAA4E7 /* EEBClientViewController.swift */; };
 		03C269A81BDF2ABB00DAA4E7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 03C269A71BDF2ABB00DAA4E7 /* Assets.xcassets */; };
 		03C269AB1BDF2ABB00DAA4E7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 03C269A91BDF2ABB00DAA4E7 /* Main.storyboard */; };
 		03C269B61BDF2ABB00DAA4E7 /* Task_TrackerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03C269B51BDF2ABB00DAA4E7 /* Task_TrackerTests.swift */; };
+		03C269C11BDF2B7700DAA4E7 /* MainWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03C269C01BDF2B7700DAA4E7 /* MainWindowController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -25,15 +52,42 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		032A88D01BE56D74005AC234 /* EEBSimpleTableCellView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EEBSimpleTableCellView.swift; sourceTree = "<group>"; };
+		032A88D31BE69856005AC234 /* arrow-right-black-48.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow-right-black-48.png"; sourceTree = "<group>"; };
+		032A88D51BE6AFB8005AC234 /* delete.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = delete.png; sourceTree = "<group>"; };
+		032A88D71BE6B0DA005AC234 /* EEBOverlayView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EEBOverlayView.swift; sourceTree = "<group>"; };
+		0378FAF01BE717F100F06307 /* EEBBorderedPictureButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EEBBorderedPictureButton.swift; sourceTree = "<group>"; };
+		0378FAF21BE71B8900F06307 /* arrow-left-black-48.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow-left-black-48.png"; sourceTree = "<group>"; };
+		0378FAF41BE7B5F000F06307 /* settings-48.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "settings-48.png"; sourceTree = "<group>"; };
+		0378FAF61BE7B60100F06307 /* square-inc-cash-48.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "square-inc-cash-48.png"; sourceTree = "<group>"; };
+		03B67CFE1BDFD03B005CD45E /* AppData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = AppData.xcdatamodel; sourceTree = "<group>"; };
+		03B67D001BE084D8005CD45E /* PersistentStoreManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersistentStoreManager.swift; sourceTree = "<group>"; };
+		03B67D021BE08709005CD45E /* TimingSession+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "TimingSession+CoreDataProperties.swift"; path = "../CoreData Generated/TimingSession+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		03B67D031BE08709005CD45E /* TimingSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TimingSession.swift; path = "../CoreData Generated/TimingSession.swift"; sourceTree = "<group>"; };
+		03B67D041BE08709005CD45E /* Job+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Job+CoreDataProperties.swift"; path = "../CoreData Generated/Job+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		03B67D051BE08709005CD45E /* Job.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Job.swift; path = "../CoreData Generated/Job.swift"; sourceTree = "<group>"; };
+		03B67D061BE08709005CD45E /* Invoice+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Invoice+CoreDataProperties.swift"; path = "../CoreData Generated/Invoice+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		03B67D071BE08709005CD45E /* Invoice.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Invoice.swift; path = "../CoreData Generated/Invoice.swift"; sourceTree = "<group>"; };
+		03B67D081BE08709005CD45E /* Client+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Client+CoreDataProperties.swift"; path = "../CoreData Generated/Client+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		03B67D091BE08709005CD45E /* Client.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Client.swift; path = "../CoreData Generated/Client.swift"; sourceTree = "<group>"; };
+		03B67D141BE117BA005CD45E /* client128.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = client128.png; sourceTree = "<group>"; };
+		03B67D171BE12D0B005CD45E /* EEBJobViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EEBJobViewController.swift; sourceTree = "<group>"; };
+		03B67D191BE13A0C005CD45E /* EEBNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EEBNavigationController.swift; sourceTree = "<group>"; };
+		03B67D1B1BE16498005CD45E /* EEBBaseTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EEBBaseTableViewController.swift; sourceTree = "<group>"; };
+		03B67D1D1BE26FA0005CD45E /* suitcase32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = suitcase32.png; sourceTree = "<group>"; };
+		03B67D1F1BE273F4005CD45E /* receipt-us32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "receipt-us32.png"; sourceTree = "<group>"; };
+		03B67D211BE27475005CD45E /* play32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = play32.png; sourceTree = "<group>"; };
+		03B67D241BE27632005CD45E /* EEBStatusView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EEBStatusView.swift; sourceTree = "<group>"; };
 		03C269A01BDF2ABB00DAA4E7 /* Task Tracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Task Tracker.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		03C269A31BDF2ABB00DAA4E7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		03C269A51BDF2ABB00DAA4E7 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		03C269A51BDF2ABB00DAA4E7 /* EEBClientViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EEBClientViewController.swift; sourceTree = "<group>"; };
 		03C269A71BDF2ABB00DAA4E7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		03C269AA1BDF2ABB00DAA4E7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		03C269AC1BDF2ABB00DAA4E7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		03C269B11BDF2ABB00DAA4E7 /* Task TrackerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Task TrackerTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		03C269B51BDF2ABB00DAA4E7 /* Task_TrackerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Task_TrackerTests.swift; sourceTree = "<group>"; };
 		03C269B71BDF2ABB00DAA4E7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		03C269C01BDF2B7700DAA4E7 /* MainWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainWindowController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +108,85 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		032A88D21BE69831005AC234 /* Material design */ = {
+			isa = PBXGroup;
+			children = (
+				032A88D31BE69856005AC234 /* arrow-right-black-48.png */,
+				0378FAF21BE71B8900F06307 /* arrow-left-black-48.png */,
+				0378FAF41BE7B5F000F06307 /* settings-48.png */,
+				0378FAF61BE7B60100F06307 /* square-inc-cash-48.png */,
+			);
+			name = "Material design";
+			sourceTree = "<group>";
+		};
+		03B67CFB1BDFCB59005CD45E /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				03B67D1B1BE16498005CD45E /* EEBBaseTableViewController.swift */,
+				03C269A51BDF2ABB00DAA4E7 /* EEBClientViewController.swift */,
+				03B67D171BE12D0B005CD45E /* EEBJobViewController.swift */,
+				03B67D191BE13A0C005CD45E /* EEBNavigationController.swift */,
+			);
+			name = ViewControllers;
+			sourceTree = "<group>";
+		};
+		03B67CFC1BDFD010005CD45E /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				03B67D121BE08716005CD45E /* CoreData Generated */,
+				03B67CFD1BDFD03B005CD45E /* AppData.xcdatamodeld */,
+				03B67D001BE084D8005CD45E /* PersistentStoreManager.swift */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		03B67D121BE08716005CD45E /* CoreData Generated */ = {
+			isa = PBXGroup;
+			children = (
+				03B67D021BE08709005CD45E /* TimingSession+CoreDataProperties.swift */,
+				03B67D031BE08709005CD45E /* TimingSession.swift */,
+				03B67D041BE08709005CD45E /* Job+CoreDataProperties.swift */,
+				03B67D051BE08709005CD45E /* Job.swift */,
+				03B67D061BE08709005CD45E /* Invoice+CoreDataProperties.swift */,
+				03B67D071BE08709005CD45E /* Invoice.swift */,
+				03B67D081BE08709005CD45E /* Client+CoreDataProperties.swift */,
+				03B67D091BE08709005CD45E /* Client.swift */,
+			);
+			name = "CoreData Generated";
+			sourceTree = "<group>";
+		};
+		03B67D131BE11793005CD45E /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				032A88D21BE69831005AC234 /* Material design */,
+				03B67D161BE117C7005CD45E /* Images */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		03B67D161BE117C7005CD45E /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				03B67D211BE27475005CD45E /* play32.png */,
+				032A88D51BE6AFB8005AC234 /* delete.png */,
+				03B67D1F1BE273F4005CD45E /* receipt-us32.png */,
+				03B67D1D1BE26FA0005CD45E /* suitcase32.png */,
+				03B67D141BE117BA005CD45E /* client128.png */,
+			);
+			name = Images;
+			sourceTree = "<group>";
+		};
+		03B67D231BE27611005CD45E /* VIew */ = {
+			isa = PBXGroup;
+			children = (
+				03B67D241BE27632005CD45E /* EEBStatusView.swift */,
+				032A88D01BE56D74005AC234 /* EEBSimpleTableCellView.swift */,
+				032A88D71BE6B0DA005AC234 /* EEBOverlayView.swift */,
+				0378FAF01BE717F100F06307 /* EEBBorderedPictureButton.swift */,
+			);
+			name = VIew;
+			sourceTree = "<group>";
+		};
 		03C269971BDF2ABB00DAA4E7 = {
 			isa = PBXGroup;
 			children = (
@@ -75,8 +208,12 @@
 		03C269A21BDF2ABB00DAA4E7 /* Task Tracker */ = {
 			isa = PBXGroup;
 			children = (
+				03B67D131BE11793005CD45E /* Resources */,
+				03B67D231BE27611005CD45E /* VIew */,
+				03B67CFC1BDFD010005CD45E /* Model */,
+				03B67CFB1BDFCB59005CD45E /* ViewControllers */,
 				03C269A31BDF2ABB00DAA4E7 /* AppDelegate.swift */,
-				03C269A51BDF2ABB00DAA4E7 /* ViewController.swift */,
+				03C269C01BDF2B7700DAA4E7 /* MainWindowController.swift */,
 				03C269A71BDF2ABB00DAA4E7 /* Assets.xcassets */,
 				03C269A91BDF2ABB00DAA4E7 /* Main.storyboard */,
 				03C269AC1BDF2ABB00DAA4E7 /* Info.plist */,
@@ -174,8 +311,17 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0378FAF71BE7B60100F06307 /* square-inc-cash-48.png in Resources */,
+				032A88D61BE6AFB8005AC234 /* delete.png in Resources */,
+				03B67D1E1BE26FA0005CD45E /* suitcase32.png in Resources */,
+				03B67D221BE27475005CD45E /* play32.png in Resources */,
+				03B67D201BE273F4005CD45E /* receipt-us32.png in Resources */,
+				0378FAF31BE71B8900F06307 /* arrow-left-black-48.png in Resources */,
+				032A88D41BE69856005AC234 /* arrow-right-black-48.png in Resources */,
+				0378FAF51BE7B5F000F06307 /* settings-48.png in Resources */,
 				03C269A81BDF2ABB00DAA4E7 /* Assets.xcassets in Resources */,
 				03C269AB1BDF2ABB00DAA4E7 /* Main.storyboard in Resources */,
+				03B67D151BE117BA005CD45E /* client128.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -193,8 +339,26 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				03C269A61BDF2ABB00DAA4E7 /* ViewController.swift in Sources */,
+				03B67D251BE27632005CD45E /* EEBStatusView.swift in Sources */,
+				03C269A61BDF2ABB00DAA4E7 /* EEBClientViewController.swift in Sources */,
 				03C269A41BDF2ABB00DAA4E7 /* AppDelegate.swift in Sources */,
+				03B67D0A1BE08709005CD45E /* TimingSession+CoreDataProperties.swift in Sources */,
+				0378FAF11BE717F100F06307 /* EEBBorderedPictureButton.swift in Sources */,
+				03B67CFF1BDFD03B005CD45E /* AppData.xcdatamodeld in Sources */,
+				03B67D0D1BE08709005CD45E /* Job.swift in Sources */,
+				032A88D11BE56D74005AC234 /* EEBSimpleTableCellView.swift in Sources */,
+				03B67D1A1BE13A0C005CD45E /* EEBNavigationController.swift in Sources */,
+				03B67D011BE084D8005CD45E /* PersistentStoreManager.swift in Sources */,
+				03B67D111BE08709005CD45E /* Client.swift in Sources */,
+				03B67D0C1BE08709005CD45E /* Job+CoreDataProperties.swift in Sources */,
+				03B67D181BE12D0B005CD45E /* EEBJobViewController.swift in Sources */,
+				03B67D1C1BE16498005CD45E /* EEBBaseTableViewController.swift in Sources */,
+				03C269C11BDF2B7700DAA4E7 /* MainWindowController.swift in Sources */,
+				032A88D81BE6B0DA005AC234 /* EEBOverlayView.swift in Sources */,
+				03B67D101BE08709005CD45E /* Client+CoreDataProperties.swift in Sources */,
+				03B67D0E1BE08709005CD45E /* Invoice+CoreDataProperties.swift in Sources */,
+				03B67D0B1BE08709005CD45E /* TimingSession.swift in Sources */,
+				03B67D0F1BE08709005CD45E /* Invoice.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -377,6 +541,7 @@
 				03C269BC1BDF2ABB00DAA4E7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		03C269BD1BDF2ABB00DAA4E7 /* Build configuration list for PBXNativeTarget "Task TrackerTests" */ = {
 			isa = XCConfigurationList;
@@ -385,8 +550,22 @@
 				03C269BF1BDF2ABB00DAA4E7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		03B67CFD1BDFD03B005CD45E /* AppData.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				03B67CFE1BDFD03B005CD45E /* AppData.xcdatamodel */,
+			);
+			currentVersion = 03B67CFE1BDFD03B005CD45E /* AppData.xcdatamodel */;
+			path = AppData.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 03C269981BDF2ABB00DAA4E7 /* Project object */;
 }
