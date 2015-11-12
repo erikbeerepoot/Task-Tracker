@@ -32,6 +32,7 @@ class EEBSimpleTableCellView : NSTableCellView,EEBSimpleTableCellViewDelegate {
     }
     
     //MARK: Subviews
+    var outlineView : NSView? = nil;
     var headerView : NSView? = nil;
     var contentView : NSView? = nil;
     var accessoryView : NSView? = nil;
@@ -100,7 +101,10 @@ class EEBSimpleTableCellView : NSTableCellView,EEBSimpleTableCellViewDelegate {
         initializeContentView()
         initializeAccessoryView(accessoryType)
         
+        
+        
         self.layer = CALayer()
+
         if(debugViews){
             self.layer?.backgroundColor = NSColor.blackColor().CGColor
         }
@@ -221,7 +225,7 @@ class EEBSimpleTableCellView : NSTableCellView,EEBSimpleTableCellViewDelegate {
         tinted.unlockFocus()
         return tinted
     }
-    
+        
     /** 
      * @name    disclosureButtonPressed
      * @brief   Placeholder for disclosure button delegate method.

@@ -2,7 +2,7 @@
 //  Job+CoreDataProperties.swift
 //  Task Tracker
 //
-//  Created by Erik Beerepoot on 2015-10-27.
+//  Created by Erik Beerepoot on 2015-11-11.
 //  Copyright © 2015 Barefoot Systems. All rights reserved.
 //
 //  Choose "Create NSManagedObject Subclass…" from the Core Data editor menu

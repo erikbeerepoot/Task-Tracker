@@ -30,6 +30,21 @@ class EEBBaseTableViewController : NSViewController, NSTableViewDataSource, NSTa
     let kIconView : String! = "iconView"
     let kNameView : String! = "nameView"
     
+    var selectedObject : AnyObject? {
+        let idx = self.tableView.selectedRow
+        if(idx == -1 ){
+            return nil
+        }
+                
+        if self is EEBJobViewController{
+            let jobs = Array((self as! EEBJobViewController).client!.jobs!)
+            return (jobs.count > idx) ? jobs[idx] : nil
+        } else if self is EEBClientViewController {
+            return (sm.allObjectsOfType(kTVObjectType) != nil) ? sm.allObjectsOfType(kTVObjectType)![idx] : nil
+        }
+        return nil
+    }
+    
     override func viewWillAppear() {
         self.backgroundView.layer?.backgroundColor = NSColor.whiteColor().CGColor
     }

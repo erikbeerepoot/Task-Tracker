@@ -12,6 +12,14 @@ import CoreData
 
 class Job: NSManagedObject {
 
-// Insert code here to add functionality to your managed object subclass
+    func addTimingSession(session : TimingSession) {
+        let sessions = self.mutableSetValueForKey("sessions");
+        sessions.addObject(session)
+    }
+    
+    func removeTimingSession(session : TimingSession) {
+        let sessions = self.mutableSetValueForKey("sessions");
+        sessions.removeObject(session)
+    }
 
 }

@@ -76,7 +76,6 @@ class EEBNavigationController : NSViewController {
         }
         self.transitionFromViewController(originVC!, toViewController: destinationVC!, options:NSViewControllerTransitionOptions.SlideRight, completionHandler: nil)
         viewControllers?.removeLast()
-        //self.view.subviews.removeLast()
     }
     
     @IBAction func add(sender : AnyObject){
@@ -90,8 +89,26 @@ class EEBNavigationController : NSViewController {
             currentVC.remove(self)
         }
     }
-    
+
+    let jc = JobController()
     @IBAction func run(sender : AnyObject){
-        //stub
+        if let currentVC = viewControllers?.last as? EEBBaseTableViewController {
+            let obj = currentVC.selectedObject
+            
+            //Get job
+            var job : Job? = nil
+            if obj is Job {
+                job = obj as? Job
+            } else if obj is Client {
+                job = (obj as! Client).jobs?.anyObject() as? Job
+            }
+            
+
+            if(job != nil){
+                jc.toggleSession(job!)
+            } else {
+                (sender as! NSButton).state = NSOffState
+            }
+        }
     }
 }

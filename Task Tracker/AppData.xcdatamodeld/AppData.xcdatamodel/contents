@@ -19,7 +19,7 @@
         <attribute name="jobDescription" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="rate" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="sessions" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="TimingSession" syncable="YES"/>
+        <relationship name="sessions" optional="YES" transient="YES" toMany="YES" deletionRule="Nullify" destinationEntity="TimingSession" syncable="YES"/>
     </entity>
     <entity name="TimingSession" representedClassName=".TimingSession" syncable="YES">
         <attribute name="endDate" optional="YES" attributeType="Date" syncable="YES"/>

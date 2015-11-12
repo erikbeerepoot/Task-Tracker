@@ -66,12 +66,33 @@ class EEBStatusView : NSView {
         configureLeftJustifiedTextView(frame)
         configureRightJustifiedTextView(frame)
         
-        leftTextView?.insertText(leftJustifiedText)
-        rightTextView?.insertText(rightJustifiedText)
+        leftTextView?.insertText(leftJustifiedText, replacementRange: NSMakeRange(0, 0))
+        rightTextView?.insertText(rightJustifiedText, replacementRange: NSMakeRange(0, 0))
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("didStartTimer:"), name: kJobTimingSessionDidStartNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("didStopTimer:"), name: kJobTimingSessionDidStopNotification, object: nil)
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
+    }
+    
+    override func viewDidHide() {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
+    
+    func didStartTimer(notification : NSNotification){
+        self.progressIndicator?.hidden = false
+        self.progressIndicator?.startAnimation(self)
+        
+        if let job = notification.object as? Job{
+            leftTextView?.textStorage?.mutableString.setString(job.name!)
+        }
+    }
+    
+    func didStopTimer(notification : NSNotification){
+        self.progressIndicator?.hidden = true
+        self.progressIndicator?.stopAnimation(self)
     }
 
     func configureLayers(frame : CGRect){
@@ -120,9 +141,25 @@ class EEBStatusView : NSView {
     func setupProgressIndicator(){
         let piFrame = CGRectMake(self.frame.size.width - kContentItemSize - kPadding, self.frame.origin.y + ((self.frame.size.height-kContentItemSize)/2), kContentItemSize, kContentItemSize)
         progressIndicator = NSProgressIndicator(frame: piFrame)
+        progressIndicator?.controlSize = NSControlSize.SmallControlSize
         progressIndicator?.style = NSProgressIndicatorStyle.SpinningStyle
-        progressIndicator?.startAnimation(self)
+        progressIndicator?.hidden = true
         self.addSubview(progressIndicator!)
+    }
+    
+    func toggleProgress(){
+        guard (progressIndicator != nil) else {
+            return
+        }
+        
+        //switch state
+        if(progressIndicator!.hidden){
+            progressIndicator?.hidden = false
+            progressIndicator?.startAnimation(self)
+        } else {
+            progressIndicator?.hidden = true
+            progressIndicator?.stopAnimation(self)
+        }
     }
     
     func configureLeftJustifiedTextView(frame : CGRect){
@@ -133,6 +170,7 @@ class EEBStatusView : NSView {
         textViewFrame.size.height = kContentItemSize
         
         leftTextView = NSTextView(frame: textViewFrame)
+//        leftTextView?.editable = false
         leftTextView?.backgroundColor = NSColor.clearColor()
         leftTextView?.font = NSFont(name: "Helvetica Neue Light", size: 12)
         self.addSubview(leftTextView!)
@@ -147,6 +185,7 @@ class EEBStatusView : NSView {
         textViewFrame.size.height = kContentItemSize
         
         rightTextView = NSTextView(frame: textViewFrame)
+//        rightTextView?.selectable = false
         rightTextView?.backgroundColor = NSColor.clearColor()
         rightTextView?.font = NSFont(name: "Helvetica Neue Light", size: 12)
         self.addSubview(rightTextView!)

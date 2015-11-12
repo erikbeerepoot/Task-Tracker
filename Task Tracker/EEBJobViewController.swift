@@ -20,7 +20,7 @@ class EEBJobViewController: EEBBaseTableViewController {
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        kRowHeight = 32.0
+        kRowHeight = 17.0
         kTVObjectType = "Job"
     }
     
@@ -55,19 +55,54 @@ class EEBJobViewController: EEBBaseTableViewController {
     }
     
     func tableView(tableView: NSTableView, viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView? {
-        
-        //Get the object of which we wish to display the properties
-        if let currentObject = sm.allObjectsOfType(kTVObjectType)?[row] as? Job {
-
+        guard (client != nil || client!.jobs != nil || client!.jobs?.count < row) else {
+            return nil
         }
-        return nil;
+        //Get the object of which we wish to display the properties
+        let currentJob = Array(client!.jobs!)[row]
+        let view = NSTextField()
+        
+        switch(tableColumn!.identifier){
+            case "name":
+                if let cellView = tableView.makeViewWithIdentifier("nameCell", owner: self) as? NSTableCellView{
+                    cellView.textField?.stringValue = currentJob.name!
+                    return cellView
+                }
+                
+                break;
+            case "description":
+                if let cellView = tableView.makeViewWithIdentifier("nameCell", owner: self) as? NSTableCellView{
+                    cellView.textField?.stringValue = currentJob.description!
+                    return cellView
+                }
+                break;
+            case "time":
+                if let cellView = tableView.makeViewWithIdentifier("nameCell", owner: self) as? NSTableCellView{
+                    cellView.textField?.stringValue = currentJob.name!
+                    return cellView
+                }
+                break;
+            case "cost":
+                if let cellView = tableView.makeViewWithIdentifier("nameCell", owner: self) as? NSTableCellView{
+                    cellView.textField?.stringValue = currentJob.name!
+                    return cellView
+                }
+                break
+            default:
+                break;
+        }
+        return view
     }
     
     override func numberOfRowsInTableView(tableView: NSTableView) -> Int {
         return (client == nil || client?.jobs == nil) ? 0 : (client?.jobs?.count)!
     }
     
-    func tableView(tableView: NSTableView, shouldSelectTableColumn tableColumn: NSTableColumn?) -> Bool {
+    func tableView(tableView: NSTableView, shouldSelectRow row: Int) -> Bool {
+        return true
+    }
+    
+    func tableView(tableView: NSTableView, shouldEditTableColumn tableColumn: NSTableColumn?, row: Int) -> Bool {
         return true
     }
     
@@ -85,6 +120,7 @@ class EEBJobViewController: EEBBaseTableViewController {
         if let createdObject = sm.createObjectOfType(self.kTVObjectType) as? Job {
             createdObject.name = "New"
             client?.jobs?.addObject(createdObject)
+            sm.save()
         }
         self.tableView.reloadData()
     }

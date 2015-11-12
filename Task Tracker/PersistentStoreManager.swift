@@ -20,7 +20,7 @@ class PresistentStoreManager : NSObject {
         
         
         if(self.configureBackingStore() == false){
-            print("Could not CoreData store for passes!");
+            print("Could not CoreData store for AppData!");
         }
     }
     
@@ -57,7 +57,6 @@ class PresistentStoreManager : NSObject {
         } catch {
             print("Error migrating store: \(error)");
         }
-        //   }
         return true;
     }
     
@@ -107,84 +106,4 @@ class PresistentStoreManager : NSObject {
         }
         return nil;
     }
-
-
-    
-//    /**
-//     * @name    createPassWithName
-//     * @brief   Creates a new pass with "name" and "barcode", returns the identifier of the pass
-//     */
-//    func createPassWithName(name : String, andBarcode barcode : String) -> String {
-//        guard persistentStorePresent != false else { return "" }
-//        
-//        let pass = NSEntityDescription.insertNewObjectForEntityForName("Pass", inManagedObjectContext: self.managedObjectContext!) as! Pass;
-//        pass.name = name
-//        pass.barcode = barcode;
-//        pass.identifier = NSUUID().UUIDString
-//        return pass.identifier!;
-//    }
-//    
-//    func passWithIdentifier(identifier : String) -> Pass? {
-//        guard persistentStorePresent != false else { return nil }
-//        
-//        let passFetch = NSFetchRequest(entityName: "Pass");
-//        do {
-//            let fetchedPasses = try self.managedObjectContext?.executeFetchRequest(passFetch) as! [Pass]
-//            
-//            for(var passIdx=0; passIdx < fetchedPasses.count;++passIdx){
-//                if(fetchedPasses[passIdx].identifier == identifier){
-//                    return fetchedPasses[passIdx]
-//                }
-//            }
-//        } catch {
-//            print("Requested pass does not exist!");
-//        }
-//        return nil;
-//    }
-//    
-//    func updatePass(pass : Pass) -> Bool {
-//        guard persistentStorePresent != false else { return false }
-//        
-//        let passFetch = NSFetchRequest(entityName: "Pass");
-//        do {
-//            let fetchedPasses = try self.managedObjectContext?.executeFetchRequest(passFetch) as! [Pass]
-//            
-//            for(var passIdx=0; passIdx < fetchedPasses.count;++passIdx){
-//                if(fetchedPasses[passIdx].identifier == pass.identifier){
-//                    fetchedPasses[passIdx].name = pass.name
-//                    fetchedPasses[passIdx].barcode = pass.barcode
-//                    self.save()
-//                    return true
-//                }
-//            }
-//        } catch {
-//            print("Requested pass does not exist!");
-//        }
-//        return false;
-//    }
-//    
-//    /**
-//     * @name    deletePassWithUUID
-//     * @brief   Deletes a pass with the UUID given, if it exists
-//     */
-//    func deletePassWithIdentifier(identifier : String) -> Bool {
-//        guard persistentStorePresent != false else { return false }
-//        
-//        let passFetch = NSFetchRequest(entityName: "Pass");
-//        do {
-//            let fetchedPasses = try self.managedObjectContext?.executeFetchRequest(passFetch) as! [Pass]
-//            
-//            for(var passIdx=0; passIdx < fetchedPasses.count;++passIdx){
-//                if(fetchedPasses[passIdx].identifier == identifier){
-//                    self.managedObjectContext?.deleteObject(fetchedPasses[passIdx])
-//                    self.save()
-//                    return true
-//                }
-//            }
-//        } catch {
-//            print("Unable to delete pass!");
-//        }
-//        return false
-//    }
-//    
 }

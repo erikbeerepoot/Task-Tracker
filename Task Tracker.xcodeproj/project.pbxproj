@@ -15,6 +15,10 @@
 		0378FAF31BE71B8900F06307 /* arrow-left-black-48.png in Resources */ = {isa = PBXBuildFile; fileRef = 0378FAF21BE71B8900F06307 /* arrow-left-black-48.png */; };
 		0378FAF51BE7B5F000F06307 /* settings-48.png in Resources */ = {isa = PBXBuildFile; fileRef = 0378FAF41BE7B5F000F06307 /* settings-48.png */; };
 		0378FAF71BE7B60100F06307 /* square-inc-cash-48.png in Resources */ = {isa = PBXBuildFile; fileRef = 0378FAF61BE7B60100F06307 /* square-inc-cash-48.png */; };
+		0382E6BA1BF3DC05002CABF5 /* JobController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0382E6B91BF3DC05002CABF5 /* JobController.swift */; };
+		0382E6C31BF3ED29002CABF5 /* constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0382E6C21BF3ED29002CABF5 /* constants.swift */; };
+		0382E6C51BF407DD002CABF5 /* stop32.png in Resources */ = {isa = PBXBuildFile; fileRef = 0382E6C41BF407DD002CABF5 /* stop32.png */; };
+		0382E6C71BF4086B002CABF5 /* pause32.png in Resources */ = {isa = PBXBuildFile; fileRef = 0382E6C61BF4086B002CABF5 /* pause32.png */; };
 		03B67CFF1BDFD03B005CD45E /* AppData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 03B67CFD1BDFD03B005CD45E /* AppData.xcdatamodeld */; };
 		03B67D011BE084D8005CD45E /* PersistentStoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B67D001BE084D8005CD45E /* PersistentStoreManager.swift */; };
 		03B67D0A1BE08709005CD45E /* TimingSession+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B67D021BE08709005CD45E /* TimingSession+CoreDataProperties.swift */; };
@@ -60,6 +64,10 @@
 		0378FAF21BE71B8900F06307 /* arrow-left-black-48.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow-left-black-48.png"; sourceTree = "<group>"; };
 		0378FAF41BE7B5F000F06307 /* settings-48.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "settings-48.png"; sourceTree = "<group>"; };
 		0378FAF61BE7B60100F06307 /* square-inc-cash-48.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "square-inc-cash-48.png"; sourceTree = "<group>"; };
+		0382E6B91BF3DC05002CABF5 /* JobController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JobController.swift; sourceTree = "<group>"; };
+		0382E6C21BF3ED29002CABF5 /* constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = constants.swift; sourceTree = "<group>"; };
+		0382E6C41BF407DD002CABF5 /* stop32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = stop32.png; sourceTree = "<group>"; };
+		0382E6C61BF4086B002CABF5 /* pause32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pause32.png; sourceTree = "<group>"; };
 		03B67CFE1BDFD03B005CD45E /* AppData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = AppData.xcdatamodel; sourceTree = "<group>"; };
 		03B67D001BE084D8005CD45E /* PersistentStoreManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersistentStoreManager.swift; sourceTree = "<group>"; };
 		03B67D021BE08709005CD45E /* TimingSession+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "TimingSession+CoreDataProperties.swift"; path = "../CoreData Generated/TimingSession+CoreDataProperties.swift"; sourceTree = "<group>"; };
@@ -119,6 +127,22 @@
 			name = "Material design";
 			sourceTree = "<group>";
 		};
+		0382E6B81BF3DBE9002CABF5 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				0382E6B91BF3DC05002CABF5 /* JobController.swift */,
+			);
+			name = Controller;
+			sourceTree = "<group>";
+		};
+		0382E6C11BF3ED20002CABF5 /* Helper */ = {
+			isa = PBXGroup;
+			children = (
+				0382E6C21BF3ED29002CABF5 /* constants.swift */,
+			);
+			name = Helper;
+			sourceTree = "<group>";
+		};
 		03B67CFB1BDFCB59005CD45E /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -168,6 +192,8 @@
 			isa = PBXGroup;
 			children = (
 				03B67D211BE27475005CD45E /* play32.png */,
+				0382E6C41BF407DD002CABF5 /* stop32.png */,
+				0382E6C61BF4086B002CABF5 /* pause32.png */,
 				032A88D51BE6AFB8005AC234 /* delete.png */,
 				03B67D1F1BE273F4005CD45E /* receipt-us32.png */,
 				03B67D1D1BE26FA0005CD45E /* suitcase32.png */,
@@ -208,9 +234,11 @@
 		03C269A21BDF2ABB00DAA4E7 /* Task Tracker */ = {
 			isa = PBXGroup;
 			children = (
+				0382E6C11BF3ED20002CABF5 /* Helper */,
 				03B67D131BE11793005CD45E /* Resources */,
 				03B67D231BE27611005CD45E /* VIew */,
 				03B67CFC1BDFD010005CD45E /* Model */,
+				0382E6B81BF3DBE9002CABF5 /* Controller */,
 				03B67CFB1BDFCB59005CD45E /* ViewControllers */,
 				03C269A31BDF2ABB00DAA4E7 /* AppDelegate.swift */,
 				03C269C01BDF2B7700DAA4E7 /* MainWindowController.swift */,
@@ -313,9 +341,11 @@
 			files = (
 				0378FAF71BE7B60100F06307 /* square-inc-cash-48.png in Resources */,
 				032A88D61BE6AFB8005AC234 /* delete.png in Resources */,
+				0382E6C71BF4086B002CABF5 /* pause32.png in Resources */,
 				03B67D1E1BE26FA0005CD45E /* suitcase32.png in Resources */,
 				03B67D221BE27475005CD45E /* play32.png in Resources */,
 				03B67D201BE273F4005CD45E /* receipt-us32.png in Resources */,
+				0382E6C51BF407DD002CABF5 /* stop32.png in Resources */,
 				0378FAF31BE71B8900F06307 /* arrow-left-black-48.png in Resources */,
 				032A88D41BE69856005AC234 /* arrow-right-black-48.png in Resources */,
 				0378FAF51BE7B5F000F06307 /* settings-48.png in Resources */,
@@ -354,9 +384,11 @@
 				03B67D181BE12D0B005CD45E /* EEBJobViewController.swift in Sources */,
 				03B67D1C1BE16498005CD45E /* EEBBaseTableViewController.swift in Sources */,
 				03C269C11BDF2B7700DAA4E7 /* MainWindowController.swift in Sources */,
+				0382E6C31BF3ED29002CABF5 /* constants.swift in Sources */,
 				032A88D81BE6B0DA005AC234 /* EEBOverlayView.swift in Sources */,
 				03B67D101BE08709005CD45E /* Client+CoreDataProperties.swift in Sources */,
 				03B67D0E1BE08709005CD45E /* Invoice+CoreDataProperties.swift in Sources */,
+				0382E6BA1BF3DC05002CABF5 /* JobController.swift in Sources */,
 				03B67D0B1BE08709005CD45E /* TimingSession.swift in Sources */,
 				03B67D0F1BE08709005CD45E /* Invoice.swift in Sources */,
 			);
