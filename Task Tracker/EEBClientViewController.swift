@@ -38,22 +38,28 @@ class EEBClientViewController: EEBBaseTableViewController,EEBSimpleTableCellView
                 let companyNameRect = CGRectMake(0.0, 5.0, frame.size.width,25.0)
                 let companyNameView = NSTextField(frame: companyNameRect)
                 companyNameView.font = NSFont(name: "Helvetica Neue Light", size: 15.0)
-                companyNameView.stringValue = "<Placeholder>"
+                companyNameView.stringValue = currentObject.company == nil ? "" : currentObject.company!
                 companyNameView.textColor = NSColor.lightGrayColor()
-                companyNameView.editable = false
-                companyNameView.selectable = false
+                companyNameView.editable = true
+                companyNameView.selectable = true
                 companyNameView.bordered = false
-
+                companyNameView.focusRingType = .None
+                companyNameView.target = self
+                companyNameView.identifier = "company"
+                companyNameView.action = Selector("textfieldEdited:")
                 
                 let clientNameRect = CGRectMake(0.0, 30.0, frame.size.width,25.0)
                 let clientNameView = NSTextField(frame: clientNameRect)
-                clientNameView.stringValue = currentObject.firstName! + currentObject.lastName!
+                clientNameView.stringValue = currentObject.name!
                 clientNameView.font = NSFont(name: "Helvetica Neue Light", size: 22.0)
-                clientNameView.editable = false
-                clientNameView.selectable = false
+                clientNameView.editable = true
+                clientNameView.selectable = true
                 clientNameView.bordered = false
-                
-                
+                clientNameView.focusRingType = .None
+                clientNameView.target = self
+                clientNameView.identifier = "name"
+                clientNameView.action = Selector("textfieldEdited:")
+                    
                 simpleCellView.contentView?.addSubview(companyNameView)
                 simpleCellView.contentView?.addSubview(clientNameView)
                 
@@ -66,6 +72,7 @@ class EEBClientViewController: EEBBaseTableViewController,EEBSimpleTableCellView
         }
         return nil;
     }
+    
     
     func tableView(tableView: NSTableView, shouldSelectRow row: Int) -> Bool {
         if(!self.allowSelection){
@@ -86,8 +93,7 @@ class EEBClientViewController: EEBBaseTableViewController,EEBSimpleTableCellView
     
     @IBAction override func add(sender : AnyObject){
         if let createdObject = sm.createObjectOfType(kTVObjectType) as? Client {
-            createdObject.firstName = "New"
-            createdObject.lastName = "Client"
+            createdObject.name = "Jane Doe"
         }
         self.tableView.reloadData()
     }

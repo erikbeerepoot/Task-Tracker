@@ -13,10 +13,11 @@ import Foundation
 import CoreData
 
 extension Job {
-
+    //needs "job" to avoid name clash
     @NSManaged var jobDescription: String?
     @NSManaged var name: String?
-    @NSManaged var rate: String?
-    @NSManaged var sessions: NSSet?
+    @NSManaged var rate: NSNumber?
+    @NSManaged var sessions: NSSet
+    @NSManaged var client : Client
 
 }

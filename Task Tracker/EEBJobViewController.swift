@@ -59,32 +59,42 @@ class EEBJobViewController: EEBBaseTableViewController {
             return nil
         }
         //Get the object of which we wish to display the properties
-        let currentJob = Array(client!.jobs!)[row]
+        let currentJob = Array(client!.jobs!)[row] as! Job
         let view = NSTextField()
         
         switch(tableColumn!.identifier){
             case "name":
                 if let cellView = tableView.makeViewWithIdentifier("nameCell", owner: self) as? NSTableCellView{
-                    cellView.textField?.stringValue = currentJob.name!
+                    cellView.textField?.stringValue = (currentJob.name == nil) ? ""  : currentJob.name!
+                    cellView.textField?.editable = true
+                    cellView.textField?.target = self
+                    cellView.textField?.action = Selector("textfieldEdited:")
+                    cellView.textField?.identifier = "name"
                     return cellView
                 }
                 
                 break;
             case "description":
                 if let cellView = tableView.makeViewWithIdentifier("nameCell", owner: self) as? NSTableCellView{
-                    cellView.textField?.stringValue = currentJob.description!
+                    cellView.textField?.stringValue = (currentJob.jobDescription == nil) ? "" : currentJob.jobDescription!
+                    cellView.textField?.editable = true
+                    cellView.textField?.target = self
+                    cellView.textField?.action = Selector("textfieldEdited:")
+                    cellView.textField?.identifier = "jobDescription"
                     return cellView
                 }
                 break;
             case "time":
                 if let cellView = tableView.makeViewWithIdentifier("nameCell", owner: self) as? NSTableCellView{
-                    cellView.textField?.stringValue = currentJob.name!
+                    cellView.textField?.stringValue = currentJob.totalTimeString()
+                    cellView.textField?.editable = false
                     return cellView
                 }
                 break;
             case "cost":
                 if let cellView = tableView.makeViewWithIdentifier("nameCell", owner: self) as? NSTableCellView{
-                    cellView.textField?.stringValue = currentJob.name!
+                    cellView.textField?.stringValue = currentJob.cost()
+                    cellView.textField?.editable = false
                     return cellView
                 }
                 break
@@ -102,9 +112,6 @@ class EEBJobViewController: EEBBaseTableViewController {
         return true
     }
     
-    func tableView(tableView: NSTableView, shouldEditTableColumn tableColumn: NSTableColumn?, row: Int) -> Bool {
-        return true
-    }
     
     //MARK: IBActions
     @IBAction override func remove(sender : AnyObject){
@@ -119,7 +126,8 @@ class EEBJobViewController: EEBBaseTableViewController {
     @IBAction override func add(sender : AnyObject){
         if let createdObject = sm.createObjectOfType(self.kTVObjectType) as? Job {
             createdObject.name = "New"
-            client?.jobs?.addObject(createdObject)
+            createdObject.client = client!
+            client!.jobs?.addObject(createdObject)
             sm.save()
         }
         self.tableView.reloadData()

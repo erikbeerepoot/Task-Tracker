@@ -62,7 +62,15 @@ class EEBBaseTableViewController : NSViewController, NSTableViewDataSource, NSTa
             // Update the view, if already loaded.
         }
     }
-        
+    
+    func textfieldEdited(sender : NSTextField){
+        let rowIdx = tableView.rowForView(sender)
+        if(rowIdx != -1){
+            let client = sm.allObjectsOfType(self.kTVObjectType)?[rowIdx]
+            client?.setValue(sender.stringValue, forKey: sender.identifier!)
+        }
+    }
+    
     //MARK: TableView methods
     func tableView(tableView: NSTableView, heightOfRow row: Int) -> CGFloat {
         return kRowHeight

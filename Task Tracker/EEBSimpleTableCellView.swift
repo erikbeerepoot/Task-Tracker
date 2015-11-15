@@ -101,10 +101,8 @@ class EEBSimpleTableCellView : NSTableCellView,EEBSimpleTableCellViewDelegate {
         initializeContentView()
         initializeAccessoryView(accessoryType)
         
-        
-        
         self.layer = CALayer()
-
+        
         if(debugViews){
             self.layer?.backgroundColor = NSColor.blackColor().CGColor
         }
