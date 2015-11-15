@@ -8,10 +8,13 @@
 
 import Foundation
 
-class JobController : NSObject {
-    let sm = PresistentStoreManager()
+class JobController {
     var currentSession : TimingSession? = nil;
+    var sm : PersistentStoreManager
     
+    init(storeManager : PersistentStoreManager){
+        sm = storeManager
+    }
     
     func toggleSession(job : Job) -> Bool {
         if(currentSession==nil){
@@ -31,8 +34,10 @@ class JobController : NSObject {
         //Create new timing session
         if let session = sm.createObjectOfType("TimingSession") as? TimingSession {
             session.startDate = NSDate()
-            session.endDate = NSDate()
+            session.endDate = session.startDate
             currentSession = session
+            
+            job.addTimingSession(currentSession!)
         }
         
         NSNotificationCenter.defaultCenter().postNotificationName(kJobTimingSessionDidStartNotification, object: job)
@@ -41,10 +46,13 @@ class JobController : NSObject {
     func stopTimingSession(job : Job){
         if(currentSession != nil){
             currentSession!.endDate = NSDate()
+            
+            //Remove the last timing session we add (essentially a placeholder)
+            job.removeTimingSession(job.sessions.lastObject as! TimingSession)
             job.addTimingSession(currentSession!)
+            
             currentSession = nil
         }
-        NSNotificationCenter.defaultCenter().postNotificationName(kJobTimingSessionDidStopNotification, object: job)
-        
+        NSNotificationCenter.defaultCenter().postNotificationName(kJobTimingSessionDidStopNotification, object: job)        
     }
 }

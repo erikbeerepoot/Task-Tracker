@@ -12,7 +12,7 @@ import AppKit
 class EEBClientViewController: EEBBaseTableViewController,EEBSimpleTableCellViewDelegate {
     
     let kDefaultIconImageName = "client128.png"
-    
+        
     override func awakeFromNib() {
         super.awakeFromNib()
     
@@ -27,7 +27,7 @@ class EEBClientViewController: EEBBaseTableViewController,EEBSimpleTableCellView
     
     func tableView(tableView: NSTableView, viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView? {
         //Get the object of which we wish to display the properties
-        if let currentObject = self.sm.allObjectsOfType(self.kTVObjectType)?[row] as? Client {
+        if let currentObject = self.sm!.allObjectsOfType(self.kTVObjectType)?[row] as? Client {
 
             if let simpleCellView = tableView.makeViewWithIdentifier("simpleCellView", owner: nil) as? EEBSimpleTableCellView {
                 simpleCellView.headerImage = NSImage(named: "client128")
@@ -62,10 +62,6 @@ class EEBClientViewController: EEBBaseTableViewController,EEBSimpleTableCellView
                     
                 simpleCellView.contentView?.addSubview(companyNameView)
                 simpleCellView.contentView?.addSubview(clientNameView)
-                
-
-                
-                
                 return simpleCellView
             }
 
@@ -76,23 +72,24 @@ class EEBClientViewController: EEBBaseTableViewController,EEBSimpleTableCellView
     
     func tableView(tableView: NSTableView, shouldSelectRow row: Int) -> Bool {
         if(!self.allowSelection){
-            return self.allowSelection
+            return false
         }
         return true
     }
+    
  
     //MARK: IBActions
     @IBAction override func remove(sender : AnyObject){
         //code
         let rowIdx = self.tableView.selectedRow
-        if let currentObject = sm.allObjectsOfType(kTVObjectType)?[rowIdx] as? Client {
-            sm.removeObject(currentObject)
+        if let currentObject = sm!.allObjectsOfType(kTVObjectType)?[rowIdx] as? Client {
+            sm!.removeObject(currentObject)
         }
         self.tableView.reloadData()
     }
     
     @IBAction override func add(sender : AnyObject){
-        if let createdObject = sm.createObjectOfType(kTVObjectType) as? Client {
+        if let createdObject = sm!.createObjectOfType(kTVObjectType) as? Client {
             createdObject.name = "Jane Doe"
         }
         self.tableView.reloadData()
@@ -102,11 +99,12 @@ class EEBClientViewController: EEBBaseTableViewController,EEBSimpleTableCellView
         //show jobs for the selected client
         if let vc = self.storyboard?.instantiateControllerWithIdentifier("jobsViewController") as? EEBJobViewController {
             vc.navigationController = self.navigationController
+            vc.sm = sm
             
             //This method is invoked with the calling object as sender, which is the parent TableCellView
             if let view = sender as? NSView {
                 let rowIdx = tableView.rowForView(view)
-                vc.client = self.sm.allObjectsOfType(self.kTVObjectType)?[rowIdx] as? Client
+                vc.client = self.sm!.allObjectsOfType(self.kTVObjectType)?[rowIdx] as? Client
             }
 
             self.navigationController?.pushViewController(vc, true)

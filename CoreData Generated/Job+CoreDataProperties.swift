@@ -2,7 +2,7 @@
 //  Job+CoreDataProperties.swift
 //  Task Tracker
 //
-//  Created by Erik Beerepoot on 2015-11-11.
+//  Created by Erik Beerepoot on 2015-11-15.
 //  Copyright © 2015 Barefoot Systems. All rights reserved.
 //
 //  Choose "Create NSManagedObject Subclass…" from the Core Data editor menu
@@ -13,11 +13,11 @@ import Foundation
 import CoreData
 
 extension Job {
-    //needs "job" to avoid name clash
+
     @NSManaged var jobDescription: String?
-    @NSManaged var name: String?
+    @NSManaged var name: String
     @NSManaged var rate: NSNumber?
-    @NSManaged var sessions: NSSet
-    @NSManaged var client : Client
+    @NSManaged var sessions: NSOrderedSet
+    @NSManaged var client: Client
 
 }

@@ -10,3 +10,7 @@ import Foundation
 
 let kJobTimingSessionDidStartNotification = "JobTimingSessionDidStartNotification"
 let kJobTimingSessionDidStopNotification = "JobTimingSessionDidStopNotification"
+let kJobDidUpdateNotification = "JobDidUpdateNotification"
+let kClientDidUpdateNotification = "ClientDidUpdateNotification"
+
+let kUpdateFrequency : NSTimeInterval = 0.2

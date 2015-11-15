@@ -19,16 +19,19 @@ class EEBBaseTableViewController : NSViewController, NSTableViewDataSource, NSTa
     var kRowHeight : CGFloat = 64.0
     
     //MARK: Module state
-    let sm = PresistentStoreManager()
+    var sm : PersistentStoreManager? = nil
     var kTVObjectType = ""
     var navigationController : EEBNavigationController? = nil;
     var allowSelection = false;
+    var timerRunning = false;
     
     //MARK: Appearance constants
     let kIconHeader : String! = "iconHeader"
     let kNameHeader : String! = "nameHeader"
     let kIconView : String! = "iconView"
     let kNameView : String! = "nameView"
+    
+    var lastSelectedRowIndex : Int = -1 
     
     var selectedObject : AnyObject? {
         let idx = self.tableView.selectedRow
@@ -37,10 +40,10 @@ class EEBBaseTableViewController : NSViewController, NSTableViewDataSource, NSTa
         }
                 
         if self is EEBJobViewController{
-            let jobs = Array((self as! EEBJobViewController).client!.jobs!)
+            let jobs = Array((self as! EEBJobViewController).client!.jobs)
             return (jobs.count > idx) ? jobs[idx] : nil
         } else if self is EEBClientViewController {
-            return (sm.allObjectsOfType(kTVObjectType) != nil) ? sm.allObjectsOfType(kTVObjectType)![idx] : nil
+            return (sm?.allObjectsOfType(kTVObjectType) != nil) ? sm?.allObjectsOfType(kTVObjectType)![idx] : nil
         }
         return nil
     }
@@ -54,7 +57,7 @@ class EEBBaseTableViewController : NSViewController, NSTableViewDataSource, NSTa
     }
     
     override func viewWillDisappear() {
-        sm.save()
+        sm?.save()
     }
     
     override var representedObject: AnyObject? {
@@ -66,8 +69,22 @@ class EEBBaseTableViewController : NSViewController, NSTableViewDataSource, NSTa
     func textfieldEdited(sender : NSTextField){
         let rowIdx = tableView.rowForView(sender)
         if(rowIdx != -1){
-            let client = sm.allObjectsOfType(self.kTVObjectType)?[rowIdx]
-            client?.setValue(sender.stringValue, forKey: sender.identifier!)
+            let obj = sm?.allObjectsOfType(self.kTVObjectType)?[rowIdx]
+            obj?.setValue(sender.stringValue, forKey: sender.identifier!)
+            
+            if(obj is Client){
+                if let jobsArray = (obj as! Client).jobs.allObjects as?  Array<Job>{
+                    let newJobs = jobsArray.map({
+                        (let job) -> Job  in
+                        job.client = (obj as! Client)
+                        return job
+                    })
+                    (obj as! Client).jobs = NSMutableSet(array: newJobs)
+                }
+            }
+            if(obj is Job){
+                NSNotificationCenter.defaultCenter().postNotificationName(kJobDidUpdateNotification, object: obj as! Job)
+            }
         }
     }
     
@@ -77,7 +94,7 @@ class EEBBaseTableViewController : NSViewController, NSTableViewDataSource, NSTa
     }
     
     func numberOfRowsInTableView(tableView: NSTableView) -> Int {
-        return (sm.allObjectsOfType(kTVObjectType) != nil) ? sm.allObjectsOfType(kTVObjectType)!.count : 0
+        return (sm?.allObjectsOfType(kTVObjectType) != nil) ? sm!.allObjectsOfType(kTVObjectType)!.count : 0
     }
     
     @IBAction func add(sender : AnyObject){

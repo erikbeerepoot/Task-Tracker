@@ -13,9 +13,18 @@ class EEBJobViewController: EEBBaseTableViewController {
     
     @IBOutlet weak var overlayView : EEBOverlayView!
     
-    let kDefaultIconImageName = "suitcase32.png"
+    let kDefaultIconImageName = "suitcase32.png"    
+    let kTimeColumnIdentifier = "time"
+    let kCostColumnIdentifier = "cost"
+
     var client : Client? = nil
     
+    override var timerRunning : Bool {
+        didSet {
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(kUpdateFrequency * Double(NSEC_PER_SEC))), dispatch_get_main_queue(),updateRow)
+        }
+    }
+
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -45,9 +54,6 @@ class EEBJobViewController: EEBBaseTableViewController {
         overlayView.rightBarButtonItems = [settingsButton,invoicesButton]
     }
     
-    override func viewWillAppear() {
-        
-    }
     
     func tableView(tableView: NSTableView, objectValueForTableColumn tableColumn: NSTableColumn?, row: Int) -> AnyObject? {
         //stub
@@ -55,17 +61,17 @@ class EEBJobViewController: EEBBaseTableViewController {
     }
     
     func tableView(tableView: NSTableView, viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView? {
-        guard (client != nil || client!.jobs != nil || client!.jobs?.count < row) else {
+        guard (client != nil  && client!.jobs.count > row) else {
             return nil
         }
         //Get the object of which we wish to display the properties
-        let currentJob = Array(client!.jobs!)[row] as! Job
+        let currentJob = Array(client!.jobs)[row] as! Job
         let view = NSTextField()
         
         switch(tableColumn!.identifier){
             case "name":
                 if let cellView = tableView.makeViewWithIdentifier("nameCell", owner: self) as? NSTableCellView{
-                    cellView.textField?.stringValue = (currentJob.name == nil) ? ""  : currentJob.name!
+                    cellView.textField?.stringValue = currentJob.name
                     cellView.textField?.editable = true
                     cellView.textField?.target = self
                     cellView.textField?.action = Selector("textfieldEdited:")
@@ -84,14 +90,15 @@ class EEBJobViewController: EEBBaseTableViewController {
                     return cellView
                 }
                 break;
-            case "time":
+            case kTimeColumnIdentifier:
                 if let cellView = tableView.makeViewWithIdentifier("nameCell", owner: self) as? NSTableCellView{
                     cellView.textField?.stringValue = currentJob.totalTimeString()
                     cellView.textField?.editable = false
+                    
                     return cellView
                 }
                 break;
-            case "cost":
+            case kCostColumnIdentifier:
                 if let cellView = tableView.makeViewWithIdentifier("nameCell", owner: self) as? NSTableCellView{
                     cellView.textField?.stringValue = currentJob.cost()
                     cellView.textField?.editable = false
@@ -105,30 +112,64 @@ class EEBJobViewController: EEBBaseTableViewController {
     }
     
     override func numberOfRowsInTableView(tableView: NSTableView) -> Int {
-        return (client == nil || client?.jobs == nil) ? 0 : (client?.jobs?.count)!
+        return (client == nil || client?.jobs == nil) ? 0 : (client?.jobs.count)!
     }
     
     func tableView(tableView: NSTableView, shouldSelectRow row: Int) -> Bool {
         return true
     }
     
+    func tableViewSelectionDidChange(notification: NSNotification) {
+        lastSelectedRowIndex = tableView.selectedRow
+    }
+    
+    func updateRow(){
+        guard (tableView.numberOfRows > 0) && (lastSelectedRowIndex < tableView.numberOfRows) && (lastSelectedRowIndex != -1) else {
+            return
+        }
+        
+        if let cellView = tableView(tableView, viewForTableColumn: NSTableColumn(identifier:kTimeColumnIdentifier), row: lastSelectedRowIndex) as? NSTableCellView {
+            let currentJob = Array(client!.jobs)[lastSelectedRowIndex] as! Job
+
+            cellView.textField?.stringValue = currentJob.totalTimeString()
+
+            tableView.beginUpdates()
+            tableView.reloadDataForRowIndexes(NSIndexSet(index:lastSelectedRowIndex), columnIndexes: NSIndexSet(index:tableView.columnWithIdentifier(kTimeColumnIdentifier)))
+            tableView.endUpdates()
+        }
+        
+        if let cellView = tableView(tableView, viewForTableColumn: NSTableColumn(identifier: kCostColumnIdentifier), row: lastSelectedRowIndex) as? NSTableCellView {
+            let currentJob = Array(client!.jobs)[lastSelectedRowIndex] as! Job
+            
+            cellView.textField?.stringValue = currentJob.cost()
+            
+            tableView.beginUpdates()
+            tableView.reloadDataForRowIndexes(NSIndexSet(index:lastSelectedRowIndex), columnIndexes: NSIndexSet(index:tableView.columnWithIdentifier(kCostColumnIdentifier)))
+            tableView.endUpdates()
+        }
+        
+        //repeat
+        if(timerRunning){
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(kUpdateFrequency * Double(NSEC_PER_SEC))), dispatch_get_main_queue(),updateRow)
+        }
+    }
     
     //MARK: IBActions
     @IBAction override func remove(sender : AnyObject){
         //code
         let rowIdx = self.tableView.selectedRow
-        if let currentObject = sm.allObjectsOfType(self.kTVObjectType)?[rowIdx] as? Job {
-            sm.removeObject(currentObject)
+        if let currentObject = sm!.allObjectsOfType(self.kTVObjectType)?[rowIdx] as? Job {
+            sm!.removeObject(currentObject)
         }
         self.tableView.reloadData()
     }
     
     @IBAction override func add(sender : AnyObject){
-        if let createdObject = sm.createObjectOfType(self.kTVObjectType) as? Job {
-            createdObject.name = "New"
+        if let createdObject = sm!.createObjectOfType(self.kTVObjectType) as? Job {
+            createdObject.name = "Untitled Job"
             createdObject.client = client!
-            client!.jobs?.addObject(createdObject)
-            sm.save()
+            client!.jobs.addObject(createdObject)
+            sm!.save()
         }
         self.tableView.reloadData()
     }

@@ -13,20 +13,30 @@ import CoreData
 class Job: NSManagedObject {
 
     func addTimingSession(session : TimingSession) {
-        let sessions = self.mutableSetValueForKey("sessions");
-        sessions.addObject(session)
+        let ses = self.mutableOrderedSetValueForKey("sessions")
+        ses.addObject(session)
+        sessions = ses
     }
     
     func removeTimingSession(session : TimingSession) {
-        let sessions = self.mutableSetValueForKey("sessions");
-        sessions.removeObject(session)
+        let ses = self.mutableOrderedSetValueForKey("sessions")
+        ses.removeObject(session)
+        sessions = ses
     }
-
+    
     func totalTime() -> NSTimeInterval {
-        if let nativeSpecializedSet = sessions as? Set<TimingSession>{
-            return nativeSpecializedSet.reduce(0) { ($1.endDate).timeIntervalSinceDate($1.startDate)}
+        var time : NSTimeInterval = 0
+        if let nativeSpecializedSet = sessions.set as?  Set<TimingSession>{
+            time = nativeSpecializedSet.reduce(0) { $0 + ($1.endDate).timeIntervalSinceDate($1.startDate)}
         }
-        return 0
+        
+        //If we haven't stopped the last sessions yet, we need to compare against the current time
+        if let lastSession = sessions.lastObject as? TimingSession {
+            if(lastSession.startDate == lastSession.endDate){
+               time += NSDate().timeIntervalSinceDate(lastSession.startDate)
+            }
+        }        
+        return time
     }
     
     //Since this swift class is objective-c interop, can't just overload on the return type :(

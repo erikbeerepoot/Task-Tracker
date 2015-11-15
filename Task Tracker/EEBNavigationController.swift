@@ -18,16 +18,22 @@ class EEBNavigationController : NSViewController {
     @IBOutlet weak var containerView : NSView!
     
     var viewControllers : [NavigableViewController]? = nil
+    var jobController : JobController? = nil
+    let storeManager = PersistentStoreManager()
+    
     
     override  func viewDidLoad() {
         viewControllers = [NavigableViewController]()
         
         let vc = self.storyboard?.instantiateControllerWithIdentifier("clientViewController") as? EEBBaseTableViewController
-        assert(vc != nil)
         
-        vc?.navigationController = self;
-        self.addChildViewController(vc!)
-        self.pushViewController(vc!, false)
+        assert(vc != nil)
+        vc!.sm = storeManager
+        vc!.navigationController = self;
+        addChildViewController(vc!)
+        pushViewController(vc!, false)
+        
+        jobController = JobController(storeManager:storeManager)
     }
     
     override func viewWillAppear() {
@@ -89,8 +95,7 @@ class EEBNavigationController : NSViewController {
             currentVC.remove(self)
         }
     }
-
-    let jc = JobController()
+    
     @IBAction func run(sender : AnyObject){
         if let currentVC = viewControllers?.last as? EEBBaseTableViewController {
             let obj = currentVC.selectedObject
@@ -98,14 +103,31 @@ class EEBNavigationController : NSViewController {
             //Get job
             var job : Job? = nil
             if obj is Job {
+                //get selected job
                 job = obj as? Job
+                
+
             } else if obj is Client {
-                job = (obj as! Client).jobs?.anyObject() as? Job
+                //get any job for this client
+                job = (obj as! Client).jobs.anyObject() as? Job
             }
             
-
+            //Start timing the job, and update the UI
             if(job != nil){
-                jc.toggleSession(job!)
+                let result = jobController?.toggleSession(job!)
+                guard result != nil else {
+                    currentVC.timerRunning = false
+                    (sender as! NSButton).state = NSOffState
+                    return
+                }
+                
+                if result! {
+                    currentVC.timerRunning = true
+                    (sender as! NSButton).state = NSOnState
+                } else {
+                    currentVC.timerRunning = false
+                    (sender as! NSButton).state = NSOffState
+                }
             } else {
                 (sender as! NSButton).state = NSOffState
             }

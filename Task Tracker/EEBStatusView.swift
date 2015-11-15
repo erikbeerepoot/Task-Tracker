@@ -40,17 +40,20 @@ class EEBStatusView : NSView {
     let kOutlineStartColour : CGFloat = 0.6392
     let kOutlineEndColour : CGFloat = 0.8196
     let kCornerRadius : CGFloat = 3.0;
-    let kContentItemSize : CGFloat = 16
+    let kInset : CGFloat = 2.0
     let kPadding : CGFloat = 5
+    let kTimeFieldWidth : CGFloat = 70.0
+    let kContentItemSize : CGFloat = 16.0
     
-    var leftJustifiedText : String = "Client : Job"
-    var leftTextView : NSTextView? = nil;
+    var leftJustifiedText : String = NSLocalizedString("Timer Stopped", comment: "Timer Stopped")
+    var leftTextView : NSTextField? = nil;
     
-    var rightJustifiedText : String = "02:11:01"
-    var rightTextView : NSTextView? = nil;
+    var rightJustifiedText : String = "00:00:00"
+    var rightTextView : NSTextField? = nil;
     
     var showProgressIndicator : Bool = true;
     var progressIndicator : NSProgressIndicator? = nil;
+    var timerRunning = false
     
     override init(frame frameRect: NSRect) {
         super.init(frame:frameRect)
@@ -66,11 +69,14 @@ class EEBStatusView : NSView {
         configureLeftJustifiedTextView(frame)
         configureRightJustifiedTextView(frame)
         
-        leftTextView?.insertText(leftJustifiedText, replacementRange: NSMakeRange(0, 0))
-        rightTextView?.insertText(rightJustifiedText, replacementRange: NSMakeRange(0, 0))
+        
+        leftTextView?.stringValue = leftJustifiedText
+        rightTextView?.stringValue = rightJustifiedText
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("didStartTimer:"), name: kJobTimingSessionDidStartNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("didStopTimer:"), name: kJobTimingSessionDidStopNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("updateDetailsText:"), name: kJobDidUpdateNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("updateDetailsText:"), name: kClientDidUpdateNotification, object: nil)
     }
     
     required init?(coder: NSCoder) {
@@ -81,18 +87,47 @@ class EEBStatusView : NSView {
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
+    func updateDetailsText(notification : NSNotification){
+        if let job = notification.object as? Job {
+            leftTextView?.stringValue = "\(job.name) (\(job.client.name!))"
+            leftTextView?.needsDisplay = true
+        }
+    }
+    
     func didStartTimer(notification : NSNotification){
         self.progressIndicator?.hidden = false
         self.progressIndicator?.startAnimation(self)
+        rightTextView?.hidden = false
+        timerRunning = true
         
         if let job = notification.object as? Job{
-            leftTextView?.textStorage?.mutableString.setString(job.name!)
+            leftTextView?.stringValue = "\(job.name) (\(job.client.name!))"
+
+            //Recursive closure to keep time updated!
+            func updateTimeWrapper(job : Job){
+                func updateTime(job : Job) -> () {
+                    rightTextView?.stringValue = job.totalTimeString()
+                    rightTextView?.needsDisplay = true
+                    
+                    if(timerRunning){
+                        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(kUpdateFrequency * Double(NSEC_PER_SEC))), dispatch_get_main_queue(),{
+                            updateTime(job)
+                        })
+                    }
+                }
+                updateTime(job)
+            }
+            updateTimeWrapper(job)
         }
     }
+    
     
     func didStopTimer(notification : NSNotification){
         self.progressIndicator?.hidden = true
         self.progressIndicator?.stopAnimation(self)
+        timerRunning = false
+        
+        leftTextView?.stringValue = NSLocalizedString("Timer Stopped", comment: "Timer Stopped")
     }
 
     func configureLayers(frame : CGRect){
@@ -163,14 +198,14 @@ class EEBStatusView : NSView {
     }
     
     func configureLeftJustifiedTextView(frame : CGRect){
-        var textViewFrame = frame;
-        textViewFrame.origin.x += kPadding
-        textViewFrame.size.width -= (frame.width / 2)
-        textViewFrame.origin.y += ((frame.size.height-kContentItemSize)/2)
-        textViewFrame.size.height = kContentItemSize
+        var textFieldFrame = frame;
+        textFieldFrame.origin.x += kPadding
+        textFieldFrame.origin.y -= kInset
+        textFieldFrame.size.width = (frame.width - (progressIndicator!.frame.size.width +  kTimeFieldWidth + 2*kPadding))
         
-        leftTextView = NSTextView(frame: textViewFrame)
-//        leftTextView?.editable = false
+        leftTextView = NSTextField(frame: textFieldFrame)
+        leftTextView?.editable = false
+        leftTextView?.bordered = false
         leftTextView?.backgroundColor = NSColor.clearColor()
         leftTextView?.font = NSFont(name: "Helvetica Neue Light", size: 12)
         self.addSubview(leftTextView!)
@@ -178,16 +213,17 @@ class EEBStatusView : NSView {
     
     
     func configureRightJustifiedTextView(frame : CGRect){
-        var textViewFrame = frame;
-        textViewFrame.size.width = 70
-        textViewFrame.origin.x += (progressIndicator?.frame.origin.x)! - kPadding - textViewFrame.size.width
-        textViewFrame.origin.y += ((frame.size.height-kContentItemSize)/2)
-        textViewFrame.size.height = kContentItemSize
+        var textFieldFrame = frame;
+        textFieldFrame.size.width = kTimeFieldWidth
+        textFieldFrame.origin.y -= kInset
+        textFieldFrame.origin.x = (progressIndicator?.frame.origin.x)! - (kPadding + textFieldFrame.size.width)
         
-        rightTextView = NSTextView(frame: textViewFrame)
-//        rightTextView?.selectable = false
+        rightTextView = NSTextField(frame: textFieldFrame)
+        rightTextView?.editable = false
+        rightTextView?.bordered = false
         rightTextView?.backgroundColor = NSColor.clearColor()
         rightTextView?.font = NSFont(name: "Helvetica Neue Light", size: 12)
+        rightTextView?.hidden = true
         self.addSubview(rightTextView!)
     }
     
