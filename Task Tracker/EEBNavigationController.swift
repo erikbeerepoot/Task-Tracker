@@ -21,7 +21,6 @@ class EEBNavigationController : NSViewController {
     var jobController : JobController? = nil
     let storeManager = PersistentStoreManager()
     
-    
     override  func viewDidLoad() {
         viewControllers = [NavigableViewController]()
         
@@ -30,7 +29,6 @@ class EEBNavigationController : NSViewController {
         assert(vc != nil)
         vc!.sm = storeManager
         vc!.navigationController = self;
-        addChildViewController(vc!)
         pushViewController(vc!, false)
         
         jobController = JobController(storeManager:storeManager)
@@ -81,7 +79,7 @@ class EEBNavigationController : NSViewController {
         
         let originVC = viewControllers?[viewControllers!.count - 1] as? NSViewController
         let destinationVC = viewControllers?[viewControllers!.count - 2] as? NSViewController
-        guard(originVC != nil && destinationVC != nil) else{
+        guard(originVC != nil && destinationVC != nil) else {
             return;
         }
         self.transitionFromViewController(originVC!, toViewController: destinationVC!, options:NSViewControllerTransitionOptions.SlideRight, completionHandler: nil)

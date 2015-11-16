@@ -64,6 +64,7 @@ class EEBJobViewController: EEBBaseTableViewController {
         guard (client != nil  && client!.jobs.count > row) else {
             return nil
         }
+        
         //Get the object of which we wish to display the properties
         let currentJob = Array(client!.jobs)[row] as! Job
         let view = NSTextField()
