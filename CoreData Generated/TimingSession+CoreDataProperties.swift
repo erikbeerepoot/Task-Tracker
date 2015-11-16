@@ -13,7 +13,7 @@ import Foundation
 import CoreData
 
 extension TimingSession {
-
+    
     @NSManaged var startDate: NSDate
     @NSManaged var endDate: NSDate
     @NSManaged var job : Job

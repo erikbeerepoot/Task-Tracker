@@ -1,5 +1,5 @@
 //
-//  JobController.swift
+//  Timer
 //  Task Tracker
 //
 //  Created by Erik Beerepoot on 2015-11-11.
@@ -8,20 +8,20 @@
 
 import Foundation
 
-class JobController {
+class EEBTimer {
     var currentSession : TimingSession? = nil;
     var sm : PersistentStoreManager
     
-    init(storeManager : PersistentStoreManager){
-        sm = storeManager
+    var running : Bool {
+        return (currentSession != nil)
     }
     
-    /**
-     * @name    timerRunning
-     * @brief   Returns true if session timer is running, false otherwise
-     */
-    func timerRunning() -> Bool {
-        return (currentSession != nil)
+    var job : Job? {
+        return currentSession?.job
+    }
+    
+    init(storeManager : PersistentStoreManager){
+        sm = storeManager
     }
     
     /**

@@ -18,13 +18,7 @@ class EEBJobViewController: EEBBaseTableViewController {
     let kCostColumnIdentifier = "cost"
 
     var client : Client? = nil
-    
-    override var timerRunning : Bool {
-        didSet {
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(kUpdateFrequency * Double(NSEC_PER_SEC))), dispatch_get_main_queue(),updateRow)
-        }
-    }
-
+    var timer : EEBTimer? = nil;
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -52,6 +46,11 @@ class EEBJobViewController: EEBBaseTableViewController {
         
         overlayView.leftBarButtonItems = [leftButton]
         overlayView.rightBarButtonItems = [settingsButton,invoicesButton]
+        
+        if(timer != nil && timer!.running){
+            lastSelectedRowIndex = client!.jobs.indexOfObject(timer!.job!)
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(kUpdateFrequency * Double(NSEC_PER_SEC))), dispatch_get_main_queue(),updateRow)
+        }
     }
     
     
@@ -127,7 +126,6 @@ class EEBJobViewController: EEBBaseTableViewController {
         
         let items = self.view.window?.toolbar?.items.filter({$0.itemIdentifier == kToolbarItemIdentifierRun})
         if(items?.count > 0){
-            
             items?.first?.enabled = (tableView.selectedRow != -1) || ((items?.first?.view as! NSButton).state == NSOnState)
         }
     }
@@ -161,7 +159,7 @@ class EEBJobViewController: EEBBaseTableViewController {
         }
         
         //repeat
-        if(timerRunning){
+        if(timer!.running){
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(kUpdateFrequency * Double(NSEC_PER_SEC))), dispatch_get_main_queue(),updateRow)
         }
     }
@@ -197,6 +195,35 @@ class EEBJobViewController: EEBBaseTableViewController {
     
     func showInvoices(sender : AnyObject){
         //stub        
+    }
+    
+    
+    @IBAction override func run(sender : AnyObject){
+        guard(timer != nil) else {
+            return
+        }
+                
+        if(timer!.running){
+            let result = (timer?.stopTimingSession())!
+            if(result){
+                (sender as! NSButton).state = NSOffState
+            }
+            (sender as! NSButton).enabled = (tableView.selectedRow != -1)
+        } else {
+            guard (tableView.selectedRow != -1) else {
+                (sender as! NSButton).enabled = false
+                return
+            }
+            
+            let currentJob = Array(client!.jobs)[tableView.selectedRow] as! Job
+            let result = (timer?.startTimingSession(currentJob))!
+            if(result){
+                (sender as! NSButton).state = NSOnState
+                //Periodically update the appropriate row
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(kUpdateFrequency * Double(NSEC_PER_SEC))), dispatch_get_main_queue(),updateRow)
+                
+            }
+        }
     }
 
 }

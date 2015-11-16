@@ -15,7 +15,7 @@
 		0378FAF31BE71B8900F06307 /* arrow-left-black-48.png in Resources */ = {isa = PBXBuildFile; fileRef = 0378FAF21BE71B8900F06307 /* arrow-left-black-48.png */; };
 		0378FAF51BE7B5F000F06307 /* settings-48.png in Resources */ = {isa = PBXBuildFile; fileRef = 0378FAF41BE7B5F000F06307 /* settings-48.png */; };
 		0378FAF71BE7B60100F06307 /* square-inc-cash-48.png in Resources */ = {isa = PBXBuildFile; fileRef = 0378FAF61BE7B60100F06307 /* square-inc-cash-48.png */; };
-		0382E6BA1BF3DC05002CABF5 /* JobController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0382E6B91BF3DC05002CABF5 /* JobController.swift */; };
+		0382E6BA1BF3DC05002CABF5 /* Timer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0382E6B91BF3DC05002CABF5 /* Timer.swift */; };
 		0382E6C31BF3ED29002CABF5 /* constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0382E6C21BF3ED29002CABF5 /* constants.swift */; };
 		0382E6C51BF407DD002CABF5 /* stop32.png in Resources */ = {isa = PBXBuildFile; fileRef = 0382E6C41BF407DD002CABF5 /* stop32.png */; };
 		0382E6C71BF4086B002CABF5 /* pause32.png in Resources */ = {isa = PBXBuildFile; fileRef = 0382E6C61BF4086B002CABF5 /* pause32.png */; };
@@ -64,7 +64,7 @@
 		0378FAF21BE71B8900F06307 /* arrow-left-black-48.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow-left-black-48.png"; sourceTree = "<group>"; };
 		0378FAF41BE7B5F000F06307 /* settings-48.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "settings-48.png"; sourceTree = "<group>"; };
 		0378FAF61BE7B60100F06307 /* square-inc-cash-48.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "square-inc-cash-48.png"; sourceTree = "<group>"; };
-		0382E6B91BF3DC05002CABF5 /* JobController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JobController.swift; sourceTree = "<group>"; };
+		0382E6B91BF3DC05002CABF5 /* Timer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Timer.swift; sourceTree = "<group>"; };
 		0382E6C21BF3ED29002CABF5 /* constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = constants.swift; sourceTree = "<group>"; };
 		0382E6C41BF407DD002CABF5 /* stop32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = stop32.png; sourceTree = "<group>"; };
 		0382E6C61BF4086B002CABF5 /* pause32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pause32.png; sourceTree = "<group>"; };
@@ -130,7 +130,7 @@
 		0382E6B81BF3DBE9002CABF5 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				0382E6B91BF3DC05002CABF5 /* JobController.swift */,
+				0382E6B91BF3DC05002CABF5 /* Timer.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -388,7 +388,7 @@
 				032A88D81BE6B0DA005AC234 /* EEBOverlayView.swift in Sources */,
 				03B67D101BE08709005CD45E /* Client+CoreDataProperties.swift in Sources */,
 				03B67D0E1BE08709005CD45E /* Invoice+CoreDataProperties.swift in Sources */,
-				0382E6BA1BF3DC05002CABF5 /* JobController.swift in Sources */,
+				0382E6BA1BF3DC05002CABF5 /* Timer.swift in Sources */,
 				03B67D0B1BE08709005CD45E /* TimingSession.swift in Sources */,
 				03B67D0F1BE08709005CD45E /* Invoice.swift in Sources */,
 			);

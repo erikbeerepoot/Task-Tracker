@@ -18,10 +18,9 @@ class EEBNavigationController : NSViewController {
     @IBOutlet weak var containerView : NSView!
     
     var viewControllers : [NavigableViewController]? = nil
-    var jobController : JobController? = nil
     let storeManager = PersistentStoreManager()
     
-    override  func viewDidLoad() {
+    override func viewDidLoad() {
         viewControllers = [NavigableViewController]()
         
         let vc = self.storyboard?.instantiateControllerWithIdentifier("clientViewController") as? EEBBaseTableViewController
@@ -30,8 +29,6 @@ class EEBNavigationController : NSViewController {
         vc!.sm = storeManager
         vc!.navigationController = self;
         pushViewController(vc!, false)
-        
-        jobController = JobController(storeManager:storeManager)
     }
     
     override func viewWillAppear() {
@@ -58,8 +55,8 @@ class EEBNavigationController : NSViewController {
             let options = (animated ? NSViewControllerTransitionOptions.SlideLeft : NSViewControllerTransitionOptions.None)
             
             //Note that we only add the destination VC as a child VC - the origin VC was added last time
-            self.addChildViewController(destinationVC!)
-            
+            self.addChildViewController(destinationVC!)            
+
             //animate the transition
             self.transitionFromViewController(viewControllers?.last as! NSViewController, toViewController: viewController as! NSViewController, options: options, completionHandler: nil)
         } else {
@@ -97,37 +94,10 @@ class EEBNavigationController : NSViewController {
             currentVC.remove(self)
         }
     }
-    
     @IBAction func run(sender : AnyObject){
-        guard jobController != nil else {
-            return
+        if let currentVC = viewControllers?.last as? EEBBaseTableViewController {
+            currentVC.run(sender)
         }
         
-        if let currentVC = viewControllers?.last as? EEBBaseTableViewController {
-            let obj = currentVC.selectedObject
-            
-            //Get job
-            if let job = obj as? Job {
-                if(jobController!.timerRunning()){
-                    let result = (jobController?.stopTimingSession())!
-                    if(result){
-                        (sender as! NSButton).state = NSOffState
-                        currentVC.timerRunning = false
-                    }
-                } else {
-                    let result = (jobController?.startTimingSession(job))!
-                    if(result){
-                        (sender as! NSButton).state = NSOnState
-                        currentVC.timerRunning = true
-                    }
-                }
-            } else {
-                let result = (jobController?.stopTimingSession())!
-                if(result){
-                    (sender as! NSButton).state = NSOffState
-                    currentVC.timerRunning = false
-                }
-            }
-        }
     }
 }

@@ -12,6 +12,7 @@ import AppKit
 class EEBClientViewController: EEBBaseTableViewController,EEBSimpleTableCellViewDelegate {
     
     let kDefaultIconImageName = "client128.png"
+    var timer : EEBTimer? = nil;
         
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -21,7 +22,10 @@ class EEBClientViewController: EEBBaseTableViewController,EEBSimpleTableCellView
     }
     
     override func viewDidLoad() {
-        super.viewDidLoad()        
+        super.viewDidLoad()
+        
+        assert(sm != nil, "Persistent store manager nil in ClientVieController \(self)")
+        timer = EEBTimer(storeManager:sm!)
     }
     
     
@@ -102,12 +106,25 @@ class EEBClientViewController: EEBBaseTableViewController,EEBSimpleTableCellView
         }
         self.tableView.reloadData()
     }
+        
+    @IBAction override func run(sender : AnyObject){
+        guard timer != nil else {
+            return
+        }
+        
+        let result = (timer?.stopTimingSession())!
+        if(result){
+            (sender as! NSButton).state = NSOffState
+        }
+        (sender as! NSButton).enabled = (tableView.selectedRow != -1)
+    }
     
     func disclosureButtonPressed(sender: AnyObject) {
         //show jobs for the selected client
         if let vc = self.storyboard?.instantiateControllerWithIdentifier("jobsViewController") as? EEBJobViewController {
             vc.navigationController = self.navigationController
             vc.sm = sm
+            vc.timer = timer
             
             //This method is invoked with the calling object as sender, which is the parent TableCellView
             if let view = sender as? NSView {
@@ -116,7 +133,6 @@ class EEBClientViewController: EEBBaseTableViewController,EEBSimpleTableCellView
             }
 
             self.navigationController?.pushViewController(vc, true)
-            
         }
     }
 }

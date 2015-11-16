@@ -23,7 +23,6 @@ class EEBBaseTableViewController : NSViewController, NSTableViewDataSource, NSTa
     var kTVObjectType = ""
     var navigationController : EEBNavigationController? = nil;
     var allowSelection = false;
-    var timerRunning = false;
     
     //MARK: Appearance constants
     let kIconHeader : String! = "iconHeader"
@@ -103,6 +102,10 @@ class EEBBaseTableViewController : NSViewController, NSTableViewDataSource, NSTa
     }
     
     @IBAction func remove(sender : AnyObject){
+        
+    }
+    
+    @IBAction func run(sender : AnyObject){
         
     }
 
