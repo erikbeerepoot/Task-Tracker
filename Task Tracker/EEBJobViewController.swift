@@ -123,13 +123,24 @@ class EEBJobViewController: EEBBaseTableViewController {
         if(tableView.selectedRow != -1){
             lastSelectedRowIndex = tableView.selectedRow
         }
-        
+
         let items = self.view.window?.toolbar?.items.filter({$0.itemIdentifier == kToolbarItemIdentifierRun})
         if(items?.count > 0){
             items?.first?.enabled = (tableView.selectedRow != -1) || ((items?.first?.view as! NSButton).state == NSOnState)
         }
     }
     
+    override func textfieldEdited(sender: NSTextField) {
+        super.textfieldEdited(sender)
+        
+        if let currentJob = Array(client!.jobs)[tableView.selectedRow] as? Job {
+            sm?.save()
+            
+            if(timer!.running){
+                NSNotificationCenter.defaultCenter().postNotificationName(kJobDidUpdateNotification, object: currentJob)
+            }
+        }
+    }
     
     
         

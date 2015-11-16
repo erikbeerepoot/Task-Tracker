@@ -88,6 +88,19 @@ class EEBClientViewController: EEBBaseTableViewController,EEBSimpleTableCellView
         }
     }
     
+    override func textfieldEdited(sender: NSTextField) {
+        if let client = self.sm!.allObjectsOfType(self.kTVObjectType)?[tableView.selectedRow] as? Client {
+            if let jobsSet = client.jobs.set as? Set<Job>{
+                let newJobs = jobsSet.map({
+                    (let job) -> Job  in
+                    job.client = client
+                    return job
+                })
+                client.jobs = NSMutableOrderedSet(array: newJobs)
+            }
+        }
+        
+    }
  
     //MARK: IBActions
     @IBAction override func remove(sender : AnyObject){
