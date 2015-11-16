@@ -120,9 +120,20 @@ class EEBJobViewController: EEBBaseTableViewController {
     }
     
     func tableViewSelectionDidChange(notification: NSNotification) {
-        lastSelectedRowIndex = tableView.selectedRow
+        if(tableView.selectedRow != -1){
+            lastSelectedRowIndex = tableView.selectedRow
+        }
+        
+        let items = self.view.window?.toolbar?.items.filter({$0.itemIdentifier == kToolbarItemIdentifierRun})
+        if(items?.count > 0){
+            
+            items?.first?.enabled = (tableView.selectedRow != -1) || ((items?.first?.view as! NSButton).state == NSOnState)
+        }
     }
     
+    
+    
+        
     func updateRow(){
         guard (tableView.numberOfRows > 0) && (lastSelectedRowIndex < tableView.numberOfRows) && (lastSelectedRowIndex != -1) else {
             return

@@ -40,6 +40,10 @@ class EEBNavigationController : NSViewController {
         
     }
     
+    override func viewWillDisappear() {
+        storeManager.save()
+    }
+    
     func pushViewController(viewController : NavigableViewController, _ animated : Bool) {
         let destinationVC = viewController as? NSViewController
         let originVC = viewControllers?.last as? NSViewController
@@ -97,39 +101,34 @@ class EEBNavigationController : NSViewController {
     }
     
     @IBAction func run(sender : AnyObject){
+        guard jobController != nil else {
+            return
+        }
+        
         if let currentVC = viewControllers?.last as? EEBBaseTableViewController {
             let obj = currentVC.selectedObject
             
             //Get job
-            var job : Job? = nil
-            if obj is Job {
-                //get selected job
-                job = obj as? Job
-                
-
-            } else if obj is Client {
-                //get any job for this client
-                job = (obj as! Client).jobs.anyObject() as? Job
-            }
-            
-            //Start timing the job, and update the UI
-            if(job != nil){
-                let result = jobController?.toggleSession(job!)
-                guard result != nil else {
-                    currentVC.timerRunning = false
-                    (sender as! NSButton).state = NSOffState
-                    return
-                }
-                
-                if result! {
-                    currentVC.timerRunning = true
-                    (sender as! NSButton).state = NSOnState
+            if let job = obj as? Job {
+                if(jobController!.timerRunning()){
+                    let result = (jobController?.stopTimingSession())!
+                    if(result){
+                        (sender as! NSButton).state = NSOffState
+                        currentVC.timerRunning = false
+                    }
                 } else {
-                    currentVC.timerRunning = false
-                    (sender as! NSButton).state = NSOffState
+                    let result = (jobController?.startTimingSession(job))!
+                    if(result){
+                        (sender as! NSButton).state = NSOnState
+                        currentVC.timerRunning = true
+                    }
                 }
             } else {
-                (sender as! NSButton).state = NSOffState
+                let result = (jobController?.stopTimingSession())!
+                if(result){
+                    (sender as! NSButton).state = NSOffState
+                    currentVC.timerRunning = false
+                }
             }
         }
     }

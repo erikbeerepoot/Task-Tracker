@@ -73,17 +73,18 @@ class EEBBaseTableViewController : NSViewController, NSTableViewDataSource, NSTa
             obj?.setValue(sender.stringValue, forKey: sender.identifier!)
             
             if(obj is Client){
-                if let jobsArray = (obj as! Client).jobs.allObjects as?  Array<Job>{
-                    let newJobs = jobsArray.map({
+                if let jobsSet = (obj as! Client).jobs.set as? Set<Job>{
+                    let newJobs = jobsSet.map({
                         (let job) -> Job  in
                         job.client = (obj as! Client)
                         return job
                     })
-                    (obj as! Client).jobs = NSMutableSet(array: newJobs)
+                    (obj as! Client).jobs = NSMutableOrderedSet(array: newJobs)
                 }
             }
             if(obj is Job){
                 NSNotificationCenter.defaultCenter().postNotificationName(kJobDidUpdateNotification, object: obj as! Job)
+                sm?.save()
             }
         }
     }

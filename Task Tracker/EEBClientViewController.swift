@@ -77,6 +77,13 @@ class EEBClientViewController: EEBBaseTableViewController,EEBSimpleTableCellView
         return true
     }
     
+    func tableViewSelectionDidChange(notification: NSNotification) {
+        let items = self.view.window?.toolbar?.items.filter({$0.itemIdentifier == kToolbarItemIdentifierRun})
+        if(items?.count > 0){
+            items?.first?.enabled = false
+        }
+    }
+    
  
     //MARK: IBActions
     @IBAction override func remove(sender : AnyObject){
@@ -91,6 +98,7 @@ class EEBClientViewController: EEBBaseTableViewController,EEBSimpleTableCellView
     @IBAction override func add(sender : AnyObject){
         if let createdObject = sm!.createObjectOfType(kTVObjectType) as? Client {
             createdObject.name = "Jane Doe"
+            createdObject.hourlyRate = 90.0
         }
         self.tableView.reloadData()
     }

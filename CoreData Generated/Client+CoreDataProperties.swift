@@ -19,8 +19,8 @@ extension Client {
     @NSManaged var company: String?
     @NSManaged var hourlyRate: NSNumber
     @NSManaged var name: String?
-    @NSManaged var invoices: NSMutableSet
-    @NSManaged var jobs: NSMutableSet
+    @NSManaged var invoices: NSMutableOrderedSet
+    @NSManaged var jobs: NSMutableOrderedSet
     @NSManaged var identifier : String?
 
 }

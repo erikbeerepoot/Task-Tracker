@@ -13,4 +13,6 @@ let kJobTimingSessionDidStopNotification = "JobTimingSessionDidStopNotification"
 let kJobDidUpdateNotification = "JobDidUpdateNotification"
 let kClientDidUpdateNotification = "ClientDidUpdateNotification"
 
+let kToolbarItemIdentifierRun = "runToolbarItem"
+
 let kUpdateFrequency : NSTimeInterval = 0.2

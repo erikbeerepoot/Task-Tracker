@@ -62,7 +62,7 @@ class Job: NSManagedObject {
     private func computeCost() -> Double {
         let time = totalTime() as Double
         let r : Double = (rate == nil) ? client.hourlyRate.doubleValue : rate!.doubleValue
-        return (r*time)
+        return (r*(time/3600))
     }
     
     

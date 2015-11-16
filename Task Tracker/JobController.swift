@@ -16,19 +16,22 @@ class JobController {
         sm = storeManager
     }
     
-    func toggleSession(job : Job) -> Bool {
-        if(currentSession==nil){
-            startTimingSession(job)
-            return true
-        } else {
-            stopTimingSession(job)
-            return false
-        }
+    /**
+     * @name    timerRunning
+     * @brief   Returns true if session timer is running, false otherwise
+     */
+    func timerRunning() -> Bool {
+        return (currentSession != nil)
     }
     
-    func startTimingSession(job : Job){
+    /**
+     * @name    startTimingSession
+     * @brief   Tries to start a new timing session for this job. 
+     * @returns true on success, false on failure 
+     */
+    func startTimingSession(job : Job) -> Bool {
         guard (currentSession == nil) else {
-            return;
+            return false;
         }
         
         //Create new timing session
@@ -38,21 +41,30 @@ class JobController {
             currentSession = session
             
             job.addTimingSession(currentSession!)
+            NSNotificationCenter.defaultCenter().postNotificationName(kJobTimingSessionDidStartNotification, object: job)
+            return true
         }
-        
-        NSNotificationCenter.defaultCenter().postNotificationName(kJobTimingSessionDidStartNotification, object: job)
+        return false
     }
     
-    func stopTimingSession(job : Job){
+    /**
+     * @name    stopTimingSession
+     * @brief   Tries to stop the current timing session
+     * @returns true on success, false on failure
+     */
+    func stopTimingSession() -> Bool {
         if(currentSession != nil){
             currentSession!.endDate = NSDate()
             
             //Remove the last timing session we add (essentially a placeholder)
+            let job = currentSession!.job
             job.removeTimingSession(job.sessions.lastObject as! TimingSession)
             job.addTimingSession(currentSession!)
             
             currentSession = nil
+            NSNotificationCenter.defaultCenter().postNotificationName(kJobTimingSessionDidStopNotification, object: job)
+            return true
         }
-        NSNotificationCenter.defaultCenter().postNotificationName(kJobTimingSessionDidStopNotification, object: job)        
+        return false;
     }
 }
