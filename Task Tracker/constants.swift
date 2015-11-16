@@ -15,4 +15,4 @@ let kClientDidUpdateNotification = "ClientDidUpdateNotification"
 
 let kToolbarItemIdentifierRun = "runToolbarItem"
 
-let kUpdateFrequency : NSTimeInterval = 0.2
+let kUpdateFrequency : NSTimeInterval = 1.0

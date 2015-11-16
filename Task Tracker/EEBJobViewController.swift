@@ -149,23 +149,19 @@ class EEBJobViewController: EEBBaseTableViewController {
             return
         }
         
-        if let cellView = tableView(tableView, viewForTableColumn: NSTableColumn(identifier:kTimeColumnIdentifier), row: lastSelectedRowIndex) as? NSTableCellView {
-            let currentJob = Array(client!.jobs)[lastSelectedRowIndex] as! Job
-
-            cellView.textField?.stringValue = currentJob.totalTimeString()
-
-            tableView.beginUpdates()
-            tableView.reloadDataForRowIndexes(NSIndexSet(index:lastSelectedRowIndex), columnIndexes: NSIndexSet(index:tableView.columnWithIdentifier(kTimeColumnIdentifier)))
-            tableView.endUpdates()
-        }
         
-        if let cellView = tableView(tableView, viewForTableColumn: NSTableColumn(identifier: kCostColumnIdentifier), row: lastSelectedRowIndex) as? NSTableCellView {
-            let currentJob = Array(client!.jobs)[lastSelectedRowIndex] as! Job
+        if let currentJob = Array(client!.jobs)[lastSelectedRowIndex] as? Job {
+            let timeCellView = tableView(tableView, viewForTableColumn: NSTableColumn(identifier:kTimeColumnIdentifier), row: lastSelectedRowIndex) as? NSTableCellView
+            let costCellView = tableView(tableView, viewForTableColumn: NSTableColumn(identifier: kCostColumnIdentifier), row: lastSelectedRowIndex) as? NSTableCellView
+            timeCellView?.textField?.stringValue = currentJob.totalTimeString()
+            costCellView?.textField?.stringValue = currentJob.cost()
             
-            cellView.textField?.stringValue = currentJob.cost()
+            
+            let idxSet = NSMutableIndexSet(index: tableView.columnWithIdentifier(kTimeColumnIdentifier))
+            idxSet.addIndex(tableView.columnWithIdentifier(kCostColumnIdentifier))
             
             tableView.beginUpdates()
-            tableView.reloadDataForRowIndexes(NSIndexSet(index:lastSelectedRowIndex), columnIndexes: NSIndexSet(index:tableView.columnWithIdentifier(kCostColumnIdentifier)))
+            tableView.reloadDataForRowIndexes(NSIndexSet(index:lastSelectedRowIndex), columnIndexes: idxSet)
             tableView.endUpdates()
         }
         
