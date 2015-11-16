@@ -15,8 +15,6 @@ class EEBClientViewController: EEBBaseTableViewController,EEBSimpleTableCellView
     let kRateFieldWidth = CGFloat(60)
     let kPadding = CGFloat(10)
     
-    var timer : EEBTimer? = nil;
-        
     override func awakeFromNib() {
         super.awakeFromNib()
     
@@ -30,8 +28,7 @@ class EEBClientViewController: EEBBaseTableViewController,EEBSimpleTableCellView
         assert(sm != nil, "Persistent store manager nil in ClientVieController \(self)")
         timer = EEBTimer(storeManager:sm!)
     }
-    
-    
+            
     func tableView(tableView: NSTableView, viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView? {
         //Get the object of which we wish to display the properties
         if let currentObject = self.sm!.allObjectsOfType(self.kTVObjectType)?[row] as? Client {

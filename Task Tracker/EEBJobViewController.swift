@@ -18,7 +18,6 @@ class EEBJobViewController: EEBBaseTableViewController {
     let kCostColumnIdentifier = "cost"
 
     var client : Client? = nil
-    var timer : EEBTimer? = nil;
     
     override func awakeFromNib() {
         super.awakeFromNib()

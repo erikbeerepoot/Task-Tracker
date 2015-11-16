@@ -36,6 +36,13 @@ class EEBNavigationController : NSViewController {
     }
     
     override func viewWillDisappear() {
+        if let currentVC = viewControllers?.last as? EEBBaseTableViewController {
+            if(currentVC.timer!.running){
+                //TODO: Show confirmation
+                currentVC.timer?.stopTimingSession()
+            }
+        }
+        
         storeManager.save()
     }
     

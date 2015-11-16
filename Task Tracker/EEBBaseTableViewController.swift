@@ -23,6 +23,7 @@ class EEBBaseTableViewController : NSViewController, NSTableViewDataSource, NSTa
     var kTVObjectType = ""
     var navigationController : EEBNavigationController? = nil;
     var allowSelection = false;
+    var timer : EEBTimer? = nil;
     
     //MARK: Appearance constants
     let kIconHeader : String! = "iconHeader"
