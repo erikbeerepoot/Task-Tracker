@@ -12,6 +12,9 @@ import AppKit
 class EEBClientViewController: EEBBaseTableViewController,EEBSimpleTableCellViewDelegate {
     
     let kDefaultIconImageName = "client128.png"
+    let kRateFieldWidth = CGFloat(60)
+    let kPadding = CGFloat(10)
+    
     var timer : EEBTimer? = nil;
         
     override func awakeFromNib() {
@@ -39,7 +42,7 @@ class EEBClientViewController: EEBBaseTableViewController,EEBSimpleTableCellView
                 
                 //setup textfields in contentview
                 let frame = simpleCellView.contentFrame
-                let companyNameRect = CGRectMake(0.0, 5.0, frame.size.width,25.0)
+                let companyNameRect = CGRectMake(0.0, 5.0, frame.size.width - (kRateFieldWidth + kPadding),25.0)
                 let companyNameView = NSTextField(frame: companyNameRect)
                 companyNameView.font = NSFont(name: "Helvetica Neue Light", size: 15.0)
                 companyNameView.stringValue = currentObject.company == nil ? "" : currentObject.company!
@@ -52,7 +55,7 @@ class EEBClientViewController: EEBBaseTableViewController,EEBSimpleTableCellView
                 companyNameView.identifier = "company"
                 companyNameView.action = Selector("textfieldEdited:")
                 
-                let clientNameRect = CGRectMake(0.0, 30.0, frame.size.width,25.0)
+                let clientNameRect = CGRectMake(0.0, 30.0, frame.size.width ,25.0)
                 let clientNameView = NSTextField(frame: clientNameRect)
                 clientNameView.stringValue = currentObject.name!
                 clientNameView.font = NSFont(name: "Helvetica Neue Light", size: 22.0)
@@ -63,9 +66,26 @@ class EEBClientViewController: EEBBaseTableViewController,EEBSimpleTableCellView
                 clientNameView.target = self
                 clientNameView.identifier = "name"
                 clientNameView.action = Selector("textfieldEdited:")
-                    
+                
+                let clientRateRect = CGRectMake(frame.size.width - kRateFieldWidth, companyNameRect.origin.y, kRateFieldWidth,25.0)
+                let clientRateView = NSTextField(frame: clientRateRect)
+                clientRateView.font = NSFont(name: "Helvetica Neue Light", size: 15.0)
+                clientRateView.editable = true
+                clientRateView.selectable = true
+                clientRateView.bordered = false
+                clientRateView.focusRingType = .None
+                clientRateView.target = self
+                clientRateView.identifier = "rateString"
+                clientRateView.action = Selector("textfieldEdited:")
+                
+                let nf = NSNumberFormatter()
+                nf.numberStyle = NSNumberFormatterStyle.CurrencyStyle
+                clientRateView.formatter = nf
+                clientRateView.stringValue = currentObject.rateString
+                
                 simpleCellView.contentView?.addSubview(companyNameView)
                 simpleCellView.contentView?.addSubview(clientNameView)
+                simpleCellView.contentView?.addSubview(clientRateView)
                 return simpleCellView
             }
 
@@ -89,7 +109,10 @@ class EEBClientViewController: EEBBaseTableViewController,EEBSimpleTableCellView
     }
     
     override func textfieldEdited(sender: NSTextField) {
-        if let client = self.sm!.allObjectsOfType(self.kTVObjectType)?[tableView.selectedRow] as? Client {
+        super.textfieldEdited(sender)
+        
+        let rowIndex = tableView.rowForView(sender)
+        if let client = self.sm!.allObjectsOfType(self.kTVObjectType)?[rowIndex] as? Client {
             if let jobsSet = client.jobs.set as? Set<Job>{
                 let newJobs = jobsSet.map({
                     (let job) -> Job  in

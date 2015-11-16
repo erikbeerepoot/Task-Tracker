@@ -12,6 +12,21 @@ import CoreData
 
 class Client: NSManagedObject {
 
-// Insert code here to add functionality to your managed object subclass
-
+    lazy var formatter : NSNumberFormatter =  {
+        let tempFormatter = NSNumberFormatter()
+        tempFormatter.numberStyle = NSNumberFormatterStyle.CurrencyStyle
+        return tempFormatter
+    }()
+    
+    
+    var rateString : String {
+        get {
+            let rateStr = formatter.stringFromNumber(hourlyRate)
+            return (rateStr != nil) ? rateStr! : hourlyRate.stringValue
+        }
+        set {
+            let r = formatter.numberFromString(newValue)
+            hourlyRate = (r != nil) ? r! : 0.0
+        }
+    }
 }
