@@ -107,14 +107,14 @@ class EEBOverlayView : NSView {
         let verticalPadding = 0.5*(frameRect.size.height - kElementSize)
         
         //header frame is leftmost
-        self.leftItemsFrame = CGRectMake(kLeftPadding,verticalPadding,kElementSize,kElementSize)
+        leftItemsFrame = CGRectMake(kLeftPadding,verticalPadding,kElementSize,kElementSize)
         
         //accessory view is rightmost
-        self.rightItemsFrame = CGRectMake(frameRect.size.width - (2*kElementSize + kElementPadding + kRightPadding),verticalPadding, kElementSize, kElementSize)
+        rightItemsFrame = CGRectMake(frameRect.size.width - (2*kElementSize + kElementPadding + kRightPadding),verticalPadding, 2*kElementSize + kElementPadding, kElementSize)
         
         //content frame is the middle of the cell
         let contentFrameStart_x = self.leftItemsFrame.origin.x + self.leftItemsFrame.size.width + kLeftPadding
-        self.contentFrame = CGRectMake(contentFrameStart_x, self.leftItemsFrame.origin.y,self.rightItemsFrame.origin.x - contentFrameStart_x - kLeftPadding, kElementSize)
+        contentFrame = CGRectMake(contentFrameStart_x, self.leftItemsFrame.origin.y,self.rightItemsFrame.origin.x - contentFrameStart_x - kLeftPadding, kElementSize)
     }
     
     func configureLeftItemsView(){
@@ -180,7 +180,9 @@ class EEBOverlayView : NSView {
         let firstButton = _rightBarButtonItems?.first!
         let secondButton = _rightBarButtonItems?.last!
         
-        secondButton?.frame.origin.x = 32 + kElementPadding
+
+        
+        secondButton?.frame.origin.x = firstButton!.frame.origin.x + kElementSize + kElementPadding
         self.rightItemsView!.addSubview(firstButton!)
         self.rightItemsView!.addSubview(secondButton!)
     }

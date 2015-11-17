@@ -27,7 +27,7 @@ class EEBJobViewController: EEBBaseTableViewController {
     }
     
     override func viewDidLoad() {
-        //Set overlay
+        //Set overlay buttons
         let leftButton = EEBBorderedPictureButton(frame: CGRectMake(0,0,32,32))
         leftButton.image = NSImage(named:"arrow-left-black-48")
         leftButton.target = self
@@ -36,12 +36,12 @@ class EEBJobViewController: EEBBaseTableViewController {
         let settingsButton = EEBBorderedPictureButton(frame: CGRectMake(0,0,32,32))
         settingsButton.image = NSImage(named:"settings-48")
         settingsButton.target = self
-        settingsButton.action = Selector("settings:")
+        settingsButton.action = Selector("showSettings:")
         
         let invoicesButton = EEBBorderedPictureButton(frame: CGRectMake(0,0,32,32))
         invoicesButton.image = NSImage(named:"square-inc-cash-48")
         invoicesButton.target = self
-        invoicesButton.action = Selector("invoices:")
+        invoicesButton.action = Selector("showInvoices:")
         
         overlayView.leftBarButtonItems = [leftButton]
         overlayView.rightBarButtonItems = [settingsButton,invoicesButton]
@@ -129,6 +129,11 @@ class EEBJobViewController: EEBBaseTableViewController {
         }
     }
     
+    /**
+     * @name 	textFieldEdited
+     * @brief   Method called to update the model when a textfield in the tableview has been changed
+     */
+
     override func textfieldEdited(sender: NSTextField) {
         super.textfieldEdited(sender)
         
@@ -142,7 +147,12 @@ class EEBJobViewController: EEBBaseTableViewController {
     }
     
     
-        
+    
+    /**
+     * @name    updateRow
+     * @brief   When a timing session is running, we need to update the row 
+     *          to which that job belongs. This method takes care of that
+     */
     func updateRow(){
         guard (tableView.numberOfRows > 0) && (lastSelectedRowIndex < tableView.numberOfRows) && (lastSelectedRowIndex != -1) else {
             return
@@ -171,6 +181,8 @@ class EEBJobViewController: EEBBaseTableViewController {
     }
     
     //MARK: IBActions
+    
+    //Remove the selected job from the DB
     @IBAction override func remove(sender : AnyObject){
         //code
         let rowIdx = self.tableView.selectedRow
@@ -180,6 +192,7 @@ class EEBJobViewController: EEBBaseTableViewController {
         self.tableView.reloadData()
     }
     
+    //Add a new item of type Job to the DB
     @IBAction override func add(sender : AnyObject){
         if let createdObject = sm!.createObjectOfType(self.kTVObjectType) as? Job {
             createdObject.name = "Untitled Job"
@@ -195,15 +208,23 @@ class EEBJobViewController: EEBBaseTableViewController {
         self.navigationController?.popViewControllerAnimated(true)
     }
     
-    func settings(sender : AnyObject){
+    func showSettings(sender : AnyObject){
         //stub
     }
     
     func showInvoices(sender : AnyObject){
-        //stub        
+        if let vc = self.storyboard?.instantiateControllerWithIdentifier("invoiceViewController") as? EEBInvoiceViewController {
+            vc.navigationController = self.navigationController
+            vc.storeManager = sm
+            self.navigationController?.pushViewController(vc, true)
+        }
     }
     
-    
+    /**
+     * @name run
+     * @brief Method called when the run button is pressed. Note that part of the 
+     * run functionality is in the ClientViewController class
+     */
     @IBAction override func run(sender : AnyObject){
         guard(timer != nil) else {
             return

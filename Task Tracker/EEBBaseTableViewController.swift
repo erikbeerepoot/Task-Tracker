@@ -49,7 +49,7 @@ class EEBBaseTableViewController : NSViewController, NSTableViewDataSource, NSTa
     }
     
     override func viewWillAppear() {
-        self.backgroundView.layer?.backgroundColor = NSColor.whiteColor().CGColor
+        self.view.layer?.backgroundColor = NSColor.whiteColor().CGColor
     }
     
     override func viewDidAppear() {

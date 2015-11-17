@@ -17,7 +17,8 @@ protocol NavigableViewController  {
 class EEBNavigationController : NSViewController {
     @IBOutlet weak var containerView : NSView!
     
-    var viewControllers : [NavigableViewController]? = nil
+    var viewConstraints : [String : [[NSLayoutConstraint]]] = [ String : [[NSLayoutConstraint]]]()
+    var viewControllers : [NavigableViewController] = []
     let storeManager = PersistentStoreManager()
     
     override func viewDidLoad() {
@@ -36,7 +37,7 @@ class EEBNavigationController : NSViewController {
     }
     
     override func viewWillDisappear() {
-        if let currentVC = viewControllers?.last as? EEBBaseTableViewController {
+        if let currentVC = viewControllers.last as? EEBBaseTableViewController {
             if(currentVC.timer!.running){
                 //TODO: Show confirmation
                 currentVC.timer?.stopTimingSession()
@@ -48,14 +49,15 @@ class EEBNavigationController : NSViewController {
     
     func pushViewController(viewController : NavigableViewController, _ animated : Bool) {
         let destinationVC = viewController as? NSViewController
-        let originVC = viewControllers?.last as? NSViewController
+        let originVC = viewControllers.last as? NSViewController
         guard destinationVC != originVC else {
             print("Tried to transition to current view controller")
             return
         }
         
         //add the view hierarchy
-        self.view.addSubview(viewController.view)
+        addSubview(viewController.view, fillingAndInsertedIntoView: view)
+        //self.view.addSubview(viewController.view)
         
         //we can only transition *to* a ViewController is we have a source *and* a destination VC
         if(originVC != nil){
@@ -65,44 +67,68 @@ class EEBNavigationController : NSViewController {
             self.addChildViewController(destinationVC!)            
 
             //animate the transition
-            self.transitionFromViewController(viewControllers?.last as! NSViewController, toViewController: viewController as! NSViewController, options: options, completionHandler: nil)
+            self.transitionFromViewController(viewControllers.last as! NSViewController, toViewController: viewController as! NSViewController, options: options, completionHandler: nil)
         } else {
             //special case for the first VC pushed onto the stack
             self.addChildViewController(destinationVC!)
         }
         
         //push onto array used as a stack
-        viewControllers?.append(viewController)
+        viewControllers.append(viewController)
     }
     
     func popViewControllerAnimated(animated : Bool){
-        guard viewControllers != nil && viewControllers?.count > 1 else {
+        guard  viewControllers.count > 1 else {
             print("Tried to pop root viewcontroller")
             return;
         }
         
-        let originVC = viewControllers?[viewControllers!.count - 1] as? NSViewController
-        let destinationVC = viewControllers?[viewControllers!.count - 2] as? NSViewController
+        let originVC = viewControllers[viewControllers.count - 1] as? NSViewController
+        let destinationVC = viewControllers[viewControllers.count - 2] as? NSViewController
         guard(originVC != nil && destinationVC != nil) else {
             return;
         }
         self.transitionFromViewController(originVC!, toViewController: destinationVC!, options:NSViewControllerTransitionOptions.SlideRight, completionHandler: nil)
-        viewControllers?.removeLast()
+        viewControllers.removeLast()
     }
     
+    var once = false
+    
+    func addSubview(insertedView : NSView, fillingAndInsertedIntoView containerView : NSView){
+        containerView.addSubview(insertedView)
+        
+        if(!once){
+            insertedView.translatesAutoresizingMaskIntoConstraints = false
+            
+            viewConstraints[insertedView.description] = []
+            viewConstraints[insertedView.description]?.append(NSLayoutConstraint.constraintsWithVisualFormat("H:|[insertedView]|", options: NSLayoutFormatOptions(rawValue:0) , metrics: nil, views: ["insertedView" : insertedView] ))
+            viewConstraints[insertedView.description]?.append(NSLayoutConstraint.constraintsWithVisualFormat("V:|[insertedView]|", options: NSLayoutFormatOptions(rawValue:0), metrics: nil, views: ["insertedView" : insertedView] ))
+            containerView.addConstraints(viewConstraints[insertedView.description]!.first!)
+            containerView.addConstraints(viewConstraints[insertedView.description]!.last!)
+            containerView.layoutSubtreeIfNeeded()
+            once = true
+        }
+    }
+    
+//    func removeSubview(removedView : NSView, fromView containerView : NSView){
+//        removedView.removeFromSuperview()
+//    }
+    
+    
+    
     @IBAction func add(sender : AnyObject){
-        if let currentVC = viewControllers?.last as? EEBBaseTableViewController {
+        if let currentVC = viewControllers.last as? EEBBaseTableViewController {
             currentVC.add(self)
         }
     }
     
     @IBAction func remove(sender : AnyObject){
-        if let currentVC = viewControllers?.last as? EEBBaseTableViewController {
+        if let currentVC = viewControllers.last as? EEBBaseTableViewController {
             currentVC.remove(self)
         }
     }
     @IBAction func run(sender : AnyObject){
-        if let currentVC = viewControllers?.last as? EEBBaseTableViewController {
+        if let currentVC = viewControllers.last as? EEBBaseTableViewController {
             currentVC.run(sender)
         }
         
