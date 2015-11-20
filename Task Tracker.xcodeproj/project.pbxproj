@@ -11,6 +11,7 @@
 		032A88D41BE69856005AC234 /* arrow-right-black-48.png in Resources */ = {isa = PBXBuildFile; fileRef = 032A88D31BE69856005AC234 /* arrow-right-black-48.png */; };
 		032A88D61BE6AFB8005AC234 /* delete.png in Resources */ = {isa = PBXBuildFile; fileRef = 032A88D51BE6AFB8005AC234 /* delete.png */; };
 		032A88D81BE6B0DA005AC234 /* EEBOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032A88D71BE6B0DA005AC234 /* EEBOverlayView.swift */; };
+		033FB2861BFD8565001020A3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 033FB2841BFD8565001020A3 /* Main.storyboard */; };
 		034DA68C1BFAB7CA004ECFD4 /* EEBInvoiceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 034DA68B1BFAB7CA004ECFD4 /* EEBInvoiceViewController.swift */; };
 		0378FAF11BE717F100F06307 /* EEBBorderedPictureButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0378FAF01BE717F100F06307 /* EEBBorderedPictureButton.swift */; };
 		0378FAF31BE71B8900F06307 /* arrow-left-black-48.png in Resources */ = {isa = PBXBuildFile; fileRef = 0378FAF21BE71B8900F06307 /* arrow-left-black-48.png */; };
@@ -42,7 +43,6 @@
 		03C269A41BDF2ABB00DAA4E7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03C269A31BDF2ABB00DAA4E7 /* AppDelegate.swift */; };
 		03C269A61BDF2ABB00DAA4E7 /* EEBClientViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03C269A51BDF2ABB00DAA4E7 /* EEBClientViewController.swift */; };
 		03C269A81BDF2ABB00DAA4E7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 03C269A71BDF2ABB00DAA4E7 /* Assets.xcassets */; };
-		03C269AB1BDF2ABB00DAA4E7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 03C269A91BDF2ABB00DAA4E7 /* Main.storyboard */; };
 		03C269B61BDF2ABB00DAA4E7 /* Task_TrackerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03C269B51BDF2ABB00DAA4E7 /* Task_TrackerTests.swift */; };
 		03C269C11BDF2B7700DAA4E7 /* MainWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03C269C01BDF2B7700DAA4E7 /* MainWindowController.swift */; };
 /* End PBXBuildFile section */
@@ -62,6 +62,7 @@
 		032A88D31BE69856005AC234 /* arrow-right-black-48.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow-right-black-48.png"; sourceTree = "<group>"; };
 		032A88D51BE6AFB8005AC234 /* delete.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = delete.png; sourceTree = "<group>"; };
 		032A88D71BE6B0DA005AC234 /* EEBOverlayView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EEBOverlayView.swift; sourceTree = "<group>"; };
+		033FB2851BFD8565001020A3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = "Task Tracker/Base.lproj/Main.storyboard"; sourceTree = "<group>"; };
 		034DA68B1BFAB7CA004ECFD4 /* EEBInvoiceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EEBInvoiceViewController.swift; sourceTree = "<group>"; };
 		0378FAF01BE717F100F06307 /* EEBBorderedPictureButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EEBBorderedPictureButton.swift; sourceTree = "<group>"; };
 		0378FAF21BE71B8900F06307 /* arrow-left-black-48.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow-left-black-48.png"; sourceTree = "<group>"; };
@@ -94,7 +95,6 @@
 		03C269A31BDF2ABB00DAA4E7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		03C269A51BDF2ABB00DAA4E7 /* EEBClientViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EEBClientViewController.swift; sourceTree = "<group>"; };
 		03C269A71BDF2ABB00DAA4E7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		03C269AA1BDF2ABB00DAA4E7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		03C269AC1BDF2ABB00DAA4E7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		03C269B11BDF2ABB00DAA4E7 /* Task TrackerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Task TrackerTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		03C269B51BDF2ABB00DAA4E7 /* Task_TrackerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Task_TrackerTests.swift; sourceTree = "<group>"; };
@@ -248,8 +248,8 @@
 				03B67CFB1BDFCB59005CD45E /* ViewControllers */,
 				03C269A31BDF2ABB00DAA4E7 /* AppDelegate.swift */,
 				03C269C01BDF2B7700DAA4E7 /* MainWindowController.swift */,
+				033FB2841BFD8565001020A3 /* Main.storyboard */,
 				03C269A71BDF2ABB00DAA4E7 /* Assets.xcassets */,
-				03C269A91BDF2ABB00DAA4E7 /* Main.storyboard */,
 				03C269AC1BDF2ABB00DAA4E7 /* Info.plist */,
 			);
 			path = "Task Tracker";
@@ -352,12 +352,12 @@
 				03B67D1E1BE26FA0005CD45E /* suitcase32.png in Resources */,
 				03B67D221BE27475005CD45E /* play32.png in Resources */,
 				03B67D201BE273F4005CD45E /* receipt-us32.png in Resources */,
+				033FB2861BFD8565001020A3 /* Main.storyboard in Resources */,
 				0382E6C51BF407DD002CABF5 /* stop32.png in Resources */,
 				0378FAF31BE71B8900F06307 /* arrow-left-black-48.png in Resources */,
 				032A88D41BE69856005AC234 /* arrow-right-black-48.png in Resources */,
 				0378FAF51BE7B5F000F06307 /* settings-48.png in Resources */,
 				03C269A81BDF2ABB00DAA4E7 /* Assets.xcassets in Resources */,
-				03C269AB1BDF2ABB00DAA4E7 /* Main.storyboard in Resources */,
 				03B67D151BE117BA005CD45E /* client128.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -421,12 +421,13 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		03C269A91BDF2ABB00DAA4E7 /* Main.storyboard */ = {
+		033FB2841BFD8565001020A3 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				03C269AA1BDF2ABB00DAA4E7 /* Base */,
+				033FB2851BFD8565001020A3 /* Base */,
 			);
 			name = Main.storyboard;
+			path = ..;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -519,8 +520,10 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = "Task Tracker/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.barefootsystems.Task-Tracker";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx10.11;
 			};
 			name = Debug;
 		};
@@ -531,8 +534,10 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = "Task Tracker/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.barefootsystems.Task-Tracker";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx10.11;
 			};
 			name = Release;
 		};

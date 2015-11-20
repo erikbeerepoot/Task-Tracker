@@ -24,7 +24,8 @@ class EEBClientViewController: EEBBaseTableViewController,EEBSimpleTableCellView
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        view.wantsLayer = true
+
         assert(sm != nil, "Persistent store manager nil in ClientVieController \(self)")
         timer = EEBTimer(storeManager:sm!)
     }

@@ -23,17 +23,31 @@ class EEBNavigationController : NSViewController {
     
     override func viewDidLoad() {
         viewControllers = [NavigableViewController]()
+        view.wantsLayer = true;
+        view.layerContentsRedrawPolicy = NSViewLayerContentsRedrawPolicy.OnSetNeedsDisplay
+        self.view.translatesAutoresizingMaskIntoConstraints = false
         
-        let vc = self.storyboard?.instantiateControllerWithIdentifier("clientViewController") as? EEBBaseTableViewController
+     
         
-        assert(vc != nil)
-        vc!.sm = storeManager
-        vc!.navigationController = self;
-        pushViewController(vc!, false)
     }
     
     override func viewWillAppear() {
+        let vc = self.storyboard?.instantiateControllerWithIdentifier("clientViewController") as? EEBBaseTableViewController
+        assert(vc != nil)
+        vc!.sm = storeManager
+        vc!.navigationController = self;
+
+        addChildViewController(vc!)
+        view.addSubview(vc!.view)
+        viewControllers.append(vc!)
         
+        //Set view properties & constraints
+        vc!.view.translatesAutoresizingMaskIntoConstraints = false
+        vc!.view.leadingAnchor.constraintEqualToAnchor(self.view.leadingAnchor).active = true
+        vc!.view.trailingAnchor.constraintEqualToAnchor(self.view.trailingAnchor).active = true
+        vc!.view.topAnchor.constraintEqualToAnchor(self.view.topAnchor).active = true
+        vc!.view.bottomAnchor.constraintEqualToAnchor(self.view.bottomAnchor).active = true
+
     }
     
     override func viewWillDisappear() {
@@ -47,6 +61,17 @@ class EEBNavigationController : NSViewController {
         storeManager.save()
     }
     
+//    override func updateViewConstraints(){
+//        super.updateViewConstraints()
+//        
+//        if(self.view.superview != nil){
+//            self.view.frame = self.view.superview!.bounds
+//        }
+//    }
+//    
+    
+
+    var constraints : [NSLayoutConstraint]  = []
     func pushViewController(viewController : NavigableViewController, _ animated : Bool) {
         let destinationVC = viewController as? NSViewController
         let originVC = viewControllers.last as? NSViewController
@@ -55,10 +80,6 @@ class EEBNavigationController : NSViewController {
             return
         }
         
-        //add the view hierarchy
-        addSubview(viewController.view, fillingAndInsertedIntoView: view)
-        //self.view.addSubview(viewController.view)
-        
         //we can only transition *to* a ViewController is we have a source *and* a destination VC
         if(originVC != nil){
             let options = (animated ? NSViewControllerTransitionOptions.SlideLeft : NSViewControllerTransitionOptions.None)
@@ -66,11 +87,19 @@ class EEBNavigationController : NSViewController {
             //Note that we only add the destination VC as a child VC - the origin VC was added last time
             self.addChildViewController(destinationVC!)            
 
+            //Add the subview to the right of the current view
+            destinationVC!.view.frame = self.view.frame
+            destinationVC!.view.frame.origin.x = self.view.frame.width
+
             //animate the transition
-            self.transitionFromViewController(viewControllers.last as! NSViewController, toViewController: viewController as! NSViewController, options: options, completionHandler: nil)
-        } else {
-            //special case for the first VC pushed onto the stack
-            self.addChildViewController(destinationVC!)
+            self.view.addSubview(destinationVC!.view)
+            self.transitionFromViewController(originVC!, toViewController: destinationVC!, options: options, completionHandler:
+            { () -> Void in
+            
+            })
+
+            
+            
         }
         
         //push onto array used as a stack
@@ -88,33 +117,65 @@ class EEBNavigationController : NSViewController {
         guard(originVC != nil && destinationVC != nil) else {
             return;
         }
-        self.transitionFromViewController(originVC!, toViewController: destinationVC!, options:NSViewControllerTransitionOptions.SlideRight, completionHandler: nil)
+
+        //Add the subview to the right of the current view
+        destinationVC!.view.frame = self.view.frame
+        destinationVC!.view.frame.origin.x = -1*self.view.frame.width
+        
+        
+        self.transitionFromViewController(originVC!, toViewController: destinationVC!, options:NSViewControllerTransitionOptions.SlideRight,completionHandler:
+            { () -> Void in
+                originVC?.view.removeFromSuperview()
+            })
+
         viewControllers.removeLast()
     }
     
-    var once = false
     
-    func addSubview(insertedView : NSView, fillingAndInsertedIntoView containerView : NSView){
-        containerView.addSubview(insertedView)
+    override func transitionFromViewController(fromViewController: NSViewController, toViewController: NSViewController, options: NSViewControllerTransitionOptions, completionHandler completion: (() -> Void)?) {
         
-        if(!once){
-            insertedView.translatesAutoresizingMaskIntoConstraints = false
-            
-            viewConstraints[insertedView.description] = []
-            viewConstraints[insertedView.description]?.append(NSLayoutConstraint.constraintsWithVisualFormat("H:|[insertedView]|", options: NSLayoutFormatOptions(rawValue:0) , metrics: nil, views: ["insertedView" : insertedView] ))
-            viewConstraints[insertedView.description]?.append(NSLayoutConstraint.constraintsWithVisualFormat("V:|[insertedView]|", options: NSLayoutFormatOptions(rawValue:0), metrics: nil, views: ["insertedView" : insertedView] ))
-            containerView.addConstraints(viewConstraints[insertedView.description]!.first!)
-            containerView.addConstraints(viewConstraints[insertedView.description]!.last!)
-            containerView.layoutSubtreeIfNeeded()
-            once = true
+        //make sure that the views are both part of the hierarchy
+        guard fromViewController.view.superview == self.view else {
+            return
         }
+
+  //      toViewController.view.removeConstraints(toViewController.view.constraints)
+//        fromViewController.view.removeConstraints(fromViewController.view.constraints)
+        
+        //We must set the bounds to the containerViews frame, so that when we slide in the view from the right, it looks correct
+//        toViewController.view.bounds = view.frame
+ //       toViewController.view.frame = view.frame
+            
+
+        
+        NSAnimationContext.runAnimationGroup({ (context) -> Void in
+            switch(options){
+                case NSViewControllerTransitionOptions.SlideRight:
+                    fromViewController.view.animator().frame.origin.x += fromViewController.view.bounds.size.width
+                    toViewController.view.animator().frame.origin.x = 0
+                    break;
+                case NSViewControllerTransitionOptions.SlideLeft:
+                    fromViewController.view.animator().frame.origin.x -= fromViewController.view.bounds.size.width
+                    toViewController.view.animator().frame.origin.x = 0
+                    break;
+                default:
+                    context.duration = 0
+                    
+                }
+            }, completionHandler: { () -> Void in
+                completion?()
+                
+                toViewController.view.translatesAutoresizingMaskIntoConstraints = false
+                toViewController.view.leadingAnchor.constraintEqualToAnchor(self.view.leadingAnchor).active = true
+                toViewController.view.trailingAnchor.constraintEqualToAnchor(self.view.trailingAnchor).active = true
+                toViewController.view.topAnchor.constraintEqualToAnchor(self.view.topAnchor).active = true
+                toViewController.view.bottomAnchor.constraintEqualToAnchor(self.view.bottomAnchor).active = true
+
+                
+               
+        })
+        
     }
-    
-//    func removeSubview(removedView : NSView, fromView containerView : NSView){
-//        removedView.removeFromSuperview()
-//    }
-    
-    
     
     @IBAction func add(sender : AnyObject){
         if let currentVC = viewControllers.last as? EEBBaseTableViewController {
