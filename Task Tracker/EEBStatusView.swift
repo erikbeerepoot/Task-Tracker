@@ -88,15 +88,15 @@ class EEBStatusView : NSView {
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
-    override func layoutSublayersOfLayer(layer: CALayer) {
-        if let lay = layer.sublayers?.first {
-            lay.frame.size.width = layer.frame.size.width - 2.0
-            
-            //update position of progress indicator and text
-            progressIndicator?.frame = CGRectMake(self.frame.size.width - kContentItemSize - kPadding, self.bounds.origin.y + ((self.frame.size.height-kContentItemSize)/2), kContentItemSize, kContentItemSize)
-            rightTextView!.frame.origin.x = (progressIndicator!.frame.origin.x) - (rightTextView!.bounds.size.width)
-        }
-    }
+//    override func layoutSublayersOfLayer(layer: CALayer) {
+//        if let lay = layer.sublayers?.first {
+//            lay.frame.size.width = layer.frame.size.width - 2.0
+//            
+//            //update position of progress indicator and text
+//            progressIndicator?.frame = CGRectMake(self.frame.size.width - kContentItemSize - kPadding, self.bounds.origin.y + ((self.frame.size.height-kContentItemSize)/2), kContentItemSize, kContentItemSize)
+//            rightTextView!.frame.origin.x = (progressIndicator!.frame.origin.x) - (rightTextView!.bounds.size.width)
+//        }
+//    }
     
     func updateDetailsText(notification : NSNotification){
         if let job = notification.object as? Job {
@@ -150,7 +150,7 @@ class EEBStatusView : NSView {
          * than the foreground layer. This creates an outline.
          */
         backgroundLayer.frame = frame;
-        backgroundLayer.delegate = self
+
         
         var newFrame = frame
         newFrame.size = CGSizeMake(frame.size.width-2, frame.size.height-2)
@@ -169,6 +169,7 @@ class EEBStatusView : NSView {
         let startColour = CGColorCreateGenericRGB(kVeryLightGrayValue,kVeryLightGrayValue,kVeryLightGrayValue, 1)
         let endColour = CGColorCreateGenericRGB(kVeryLighterGrayValue, kVeryLighterGrayValue, kVeryLighterGrayValue, 1)
         gradientLayer.colors = [startColour,endColour]
+        gradientLayer.autoresizingMask = .LayerWidthSizable
         
         //Finally, round the corners
         gradientLayer.cornerRadius = kCornerRadius

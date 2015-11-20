@@ -75,9 +75,6 @@ class EEBOverlayView : NSView {
         self.layer = CAGradientLayer()
         (self.layer as! CAGradientLayer).colors  = [CGColorCreateGenericRGB(kGradientStartColour.red, kGradientStartColour.green, kGradientStartColour.blue, kContentOpacity),
                                                     CGColorCreateGenericRGB(kGradientEndColour.red, kGradientEndColour.green, kGradientEndColour.blue, kContentOpacity)]
-        
-        
-        
         if(debugViews){
             self.layer?.backgroundColor = NSColor.blackColor().CGColor
         }
@@ -145,12 +142,7 @@ class EEBOverlayView : NSView {
         }
         self.addSubview(rightItemsView!)
 
-        let verticalPadding = 0.5*(self.frame.size.height - kElementSize)
-        rightItemsView?.autoresizingMask = .ViewMinXMargin
-        //rightItemsView!.translatesAutoresizingMaskIntoConstraints = false
-//        rightItemsView!.trailingAnchor.constraintEqualToAnchor(self.trailingAnchor,constant:-(2*kElementSize + kElementPadding + kRightPadding)).active = true
-//        rightItemsView!.bottomAnchor.constraintEqualToAnchor(self.bottomAnchor,constant:-verticalPadding).active = true
-        
+        rightItemsView?.autoresizingMask = .ViewMinXMargin        
     }
     
     func configureDefaultButtons() {

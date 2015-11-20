@@ -68,6 +68,7 @@ class EEBClientViewController: EEBBaseTableViewController,EEBSimpleTableCellView
                 let clientRateRect = CGRectMake(frame.size.width - kRateFieldWidth, companyNameRect.origin.y, kRateFieldWidth,25.0)
                 let clientRateView = NSTextField(frame: clientRateRect)
                 clientRateView.font = NSFont(name: "Helvetica Neue Light", size: 15.0)
+                clientRateView.alignment = .Right
                 clientRateView.editable = true
                 clientRateView.selectable = true
                 clientRateView.bordered = false
@@ -84,6 +85,12 @@ class EEBClientViewController: EEBBaseTableViewController,EEBSimpleTableCellView
                 simpleCellView.contentView?.addSubview(companyNameView)
                 simpleCellView.contentView?.addSubview(clientNameView)
                 simpleCellView.contentView?.addSubview(clientRateView)
+
+                clientRateView.translatesAutoresizingMaskIntoConstraints = false
+                clientRateView.leadingAnchor.constraintEqualToAnchor(companyNameView.trailingAnchor).active = true
+                clientRateView.topAnchor.constraintEqualToAnchor(companyNameView.topAnchor).active = true
+                clientRateView.bottomAnchor.constraintEqualToAnchor(companyNameView.bottomAnchor).active = true
+                clientRateView.trailingAnchor.constraintEqualToAnchor(simpleCellView.contentView!.trailingAnchor).active = true
                 return simpleCellView
             }
 

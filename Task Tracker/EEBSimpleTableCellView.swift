@@ -101,6 +101,23 @@ class EEBSimpleTableCellView : NSTableCellView,EEBSimpleTableCellViewDelegate {
         initializeContentView()
         initializeAccessoryView(accessoryType)
         
+        contentView!.translatesAutoresizingMaskIntoConstraints = false
+        contentView!.leadingAnchor.constraintEqualToAnchor(headerView?.leadingAnchor,constant:headerFrame.size.width + kAccessoryPadding).active = true
+        contentView!.topAnchor.constraintEqualToAnchor(headerView?.topAnchor).active = true
+        contentView!.bottomAnchor.constraintEqualToAnchor(headerView?.bottomAnchor).active = true
+        contentView!.trailingAnchor.constraintEqualToAnchor(accessoryView?.leadingAnchor,constant: -kAccessoryPadding).active = true
+
+        let distance = (((contentView?.bounds.size.height)! / 2) - (self.accessoryFrame.height/2))
+        accessoryView!.translatesAutoresizingMaskIntoConstraints = false
+        accessoryView!.leadingAnchor.constraintEqualToAnchor(self.trailingAnchor,constant:-1*(accessoryFrame.size.width + kAccessoryPadding)).active = true
+        accessoryView!.topAnchor.constraintEqualToAnchor(contentView!.topAnchor,constant:distance).active = true
+        accessoryView!.bottomAnchor.constraintEqualToAnchor(contentView!.bottomAnchor,constant:-distance).active = true
+        accessoryView!.trailingAnchor.constraintEqualToAnchor(self.trailingAnchor,constant: -kAccessoryPadding).active = true
+        
+
+        
+        
+        
         self.layer = CALayer()
         
         if(debugViews){
@@ -159,8 +176,8 @@ class EEBSimpleTableCellView : NSTableCellView,EEBSimpleTableCellViewDelegate {
         if(debugViews){
             contentView?.layer?.backgroundColor = NSColor.yellowColor().CGColor
         }
-        
         self.addSubview(contentView!)
+        
     }
     
     func initializeAccessoryView(accessoryType : EEBSimpleTableCellViewAccessoryType){
@@ -182,7 +199,6 @@ class EEBSimpleTableCellView : NSTableCellView,EEBSimpleTableCellViewDelegate {
             backgroundLayer.backgroundColor = CGColorCreateGenericRGB(kBackgroundColourComponents.red,kBackgroundColourComponents.green,kBackgroundColourComponents.blue,1.0)
             backgroundLayer.cornerRadius = kCornerRadius
             accessoryView!.layer!.addSublayer(backgroundLayer)
-            
             createDisclosureButton(backgroundLayer.frame)
             
             
@@ -209,6 +225,7 @@ class EEBSimpleTableCellView : NSTableCellView,EEBSimpleTableCellViewDelegate {
         imageLayer.contents = getTintedImage(NSImage(named: kDisclosureImageName)!,tint: NSColor(CGColor: (accessoryView?.layer?.backgroundColor!)!)!)
         accessoryView!.addSubview(disclosureButton)
         accessoryView!.layer!.addSublayer(imageLayer)
+//        accessoryView!.layer!.autoresizingMask = .LayerMinXMargin
     }
     
     func getTintedImage(image:NSImage, tint:NSColor) -> NSImage {
