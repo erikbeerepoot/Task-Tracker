@@ -146,9 +146,10 @@ class EEBOverlayView : NSView {
         self.addSubview(rightItemsView!)
 
         let verticalPadding = 0.5*(self.frame.size.height - kElementSize)
-        rightItemsView!.translatesAutoresizingMaskIntoConstraints = false
-        rightItemsView!.trailingAnchor.constraintEqualToAnchor(self.trailingAnchor,constant:-(2*kElementSize + kElementPadding + kRightPadding)).active = true
-        rightItemsView!.bottomAnchor.constraintEqualToAnchor(self.bottomAnchor,constant:-verticalPadding).active = true
+        rightItemsView?.autoresizingMask = .ViewMinXMargin
+        //rightItemsView!.translatesAutoresizingMaskIntoConstraints = false
+//        rightItemsView!.trailingAnchor.constraintEqualToAnchor(self.trailingAnchor,constant:-(2*kElementSize + kElementPadding + kRightPadding)).active = true
+//        rightItemsView!.bottomAnchor.constraintEqualToAnchor(self.bottomAnchor,constant:-verticalPadding).active = true
         
     }
     
