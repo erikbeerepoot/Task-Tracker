@@ -26,9 +26,6 @@ class EEBNavigationController : NSViewController {
         view.wantsLayer = true;
         view.layerContentsRedrawPolicy = NSViewLayerContentsRedrawPolicy.OnSetNeedsDisplay
         self.view.translatesAutoresizingMaskIntoConstraints = false
-        
-     
-        
     }
     
     override func viewWillAppear() {
@@ -61,16 +58,6 @@ class EEBNavigationController : NSViewController {
         storeManager.save()
     }
     
-//    override func updateViewConstraints(){
-//        super.updateViewConstraints()
-//        
-//        if(self.view.superview != nil){
-//            self.view.frame = self.view.superview!.bounds
-//        }
-//    }
-//    
-    
-
     var constraints : [NSLayoutConstraint]  = []
     func pushViewController(viewController : NavigableViewController, _ animated : Bool) {
         let destinationVC = viewController as? NSViewController
@@ -93,13 +80,7 @@ class EEBNavigationController : NSViewController {
 
             //animate the transition
             self.view.addSubview(destinationVC!.view)
-            self.transitionFromViewController(originVC!, toViewController: destinationVC!, options: options, completionHandler:
-            { () -> Void in
-            
-            })
-
-            
-            
+            self.transitionFromViewController(originVC!, toViewController: destinationVC!, options: options, completionHandler:nil)
         }
         
         //push onto array used as a stack
@@ -139,15 +120,6 @@ class EEBNavigationController : NSViewController {
             return
         }
 
-  //      toViewController.view.removeConstraints(toViewController.view.constraints)
-//        fromViewController.view.removeConstraints(fromViewController.view.constraints)
-        
-        //We must set the bounds to the containerViews frame, so that when we slide in the view from the right, it looks correct
-//        toViewController.view.bounds = view.frame
- //       toViewController.view.frame = view.frame
-            
-
-        
         NSAnimationContext.runAnimationGroup({ (context) -> Void in
             switch(options){
                 case NSViewControllerTransitionOptions.SlideRight:
@@ -170,9 +142,6 @@ class EEBNavigationController : NSViewController {
                 toViewController.view.trailingAnchor.constraintEqualToAnchor(self.view.trailingAnchor).active = true
                 toViewController.view.topAnchor.constraintEqualToAnchor(self.view.topAnchor).active = true
                 toViewController.view.bottomAnchor.constraintEqualToAnchor(self.view.bottomAnchor).active = true
-
-                
-               
         })
         
     }

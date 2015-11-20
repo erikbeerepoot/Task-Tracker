@@ -12,20 +12,21 @@ import AppKit
 class EEBStatusToolbarItem : NSToolbarItem {
 
     let kRegularItemHeight : CGFloat = 28.0
-    let kStatusViewWidth : CGFloat = 310.0
+    let kStatusViewMinWidth : CGFloat = 310.0
     
     override init(itemIdentifier: String){
         super.init(itemIdentifier: itemIdentifier)
     }
     
     override func awakeFromNib() {
-        let frame = CGRectMake(0, 0, kStatusViewWidth,kRegularItemHeight)
+        let frame = CGRectMake(0, 0, kStatusViewMinWidth,kRegularItemHeight)
         
         self.view = EEBStatusView(frame:frame)
         self.view?.frame = frame
         
         self.minSize = (self.view?.frame.size)!
         self.maxSize = (self.view?.frame.size)!
+        self.maxSize.width = 1000
     }
     
     override func validate() {
@@ -42,7 +43,7 @@ class EEBStatusView : NSView {
     let kCornerRadius : CGFloat = 3.0;
     let kInset : CGFloat = 2.0
     let kPadding : CGFloat = 5
-    let kTimeFieldWidth : CGFloat = 70.0
+    let kTimeFieldWidth : CGFloat = 60.0
     let kContentItemSize : CGFloat = 16.0
     
     var leftJustifiedText : String = NSLocalizedString("Timer Stopped", comment: "Timer Stopped")
@@ -68,8 +69,7 @@ class EEBStatusView : NSView {
         }
         configureLeftJustifiedTextView(frame)
         configureRightJustifiedTextView(frame)
-        
-        
+                
         leftTextView?.stringValue = leftJustifiedText
         rightTextView?.stringValue = rightJustifiedText
         
@@ -79,12 +79,23 @@ class EEBStatusView : NSView {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("updateDetailsText:"), name: kClientDidUpdateNotification, object: nil)
     }
     
+    
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
     
     override func viewDidHide() {
         NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
+    
+    override func layoutSublayersOfLayer(layer: CALayer) {
+        if let lay = layer.sublayers?.first {
+            lay.frame.size.width = layer.frame.size.width - 2.0
+            
+            //update position of progress indicator and text
+            progressIndicator?.frame = CGRectMake(self.frame.size.width - kContentItemSize - kPadding, self.bounds.origin.y + ((self.frame.size.height-kContentItemSize)/2), kContentItemSize, kContentItemSize)
+            rightTextView!.frame.origin.x = (progressIndicator!.frame.origin.x) - (rightTextView!.bounds.size.width)
+        }
     }
     
     func updateDetailsText(notification : NSNotification){
@@ -139,20 +150,21 @@ class EEBStatusView : NSView {
          * than the foreground layer. This creates an outline.
          */
         backgroundLayer.frame = frame;
+        backgroundLayer.delegate = self
+        
         var newFrame = frame
         newFrame.size = CGSizeMake(frame.size.width-2, frame.size.height-2)
         newFrame.origin = CGPointMake(frame.origin.x+1,frame.origin.y+1)
         gradientLayer.frame = newFrame;
-        
         
         /*
          * To create the appearance of an outline, but stay visually consistent with 
          * the toolbar gradient, we use two grey gradients. One is dark, which creates 
          * the outline, the other is very light grey 
          */
-        let outlineSColour = CGColorCreateGenericRGB(kOutlineStartColour,kOutlineStartColour,kOutlineStartColour, 1)
-        let outlineEColour = CGColorCreateGenericRGB(kOutlineEndColour,kOutlineEndColour,kOutlineEndColour, 1)
-        backgroundLayer.colors = [outlineSColour,outlineEColour]
+        let outlineStartColour = CGColorCreateGenericRGB(kOutlineStartColour,kOutlineStartColour,kOutlineStartColour, 1)
+        let outlineEndColour = CGColorCreateGenericRGB(kOutlineEndColour,kOutlineEndColour,kOutlineEndColour, 1)
+        backgroundLayer.colors = [outlineStartColour,outlineEndColour]
         
         let startColour = CGColorCreateGenericRGB(kVeryLightGrayValue,kVeryLightGrayValue,kVeryLightGrayValue, 1)
         let endColour = CGColorCreateGenericRGB(kVeryLighterGrayValue, kVeryLighterGrayValue, kVeryLighterGrayValue, 1)
@@ -170,6 +182,7 @@ class EEBStatusView : NSView {
         backgroundLayer.addSublayer(gradientLayer)
         self.layer = backgroundLayer
         self.wantsLayer = true;
+        
     }
     
     //TODO: These methods are really ugly. Fixme

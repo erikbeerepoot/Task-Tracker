@@ -665,7 +665,7 @@
                                 <toolbarItem implicitItemIdentifier="NSToolbarPrintItem" id="nnu-5e-mmr"/>
                                 <toolbarItem implicitItemIdentifier="NSToolbarSpaceItem" id="M6z-RN-aMp"/>
                                 <toolbarItem implicitItemIdentifier="NSToolbarFlexibleSpaceItem" id="LEU-UP-Z6G"/>
-                                <toolbarItem implicitItemIdentifier="14E7566E-257D-47EC-81BD-809F1E122F9C" label="To" paletteLabel="To" tag="-1" autovalidates="NO" id="FpC-u3-cVB" customClass="EEBStatusToolbarItem" customModule="Task_Tracker" customModuleProvider="target">
+                                <toolbarItem implicitItemIdentifier="14E7566E-257D-47EC-81BD-809F1E122F9C" label="StatusView" paletteLabel="StatusView" tag="-1" autovalidates="NO" id="FpC-u3-cVB" customClass="EEBStatusToolbarItem" customModule="Task_Tracker" customModuleProvider="target">
                                     <size key="maxSize" width="0.0" height="100"/>
                                 </toolbarItem>
                                 <toolbarItem implicitItemIdentifier="F652998F-812E-4B4C-B5ED-B5A5796DB70D" explicitItemIdentifier="runToolbarItem" label="" paletteLabel="" image="play32" id="H8W-Xp-Vx8">
