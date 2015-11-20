@@ -33,7 +33,6 @@ class EEBOverlayView : NSView {
         }
     }
     
-    
     var leftItemsView : NSView? = nil;
     var contentView : NSView? = nil;
     var rightItemsView : NSView? = nil;
@@ -72,7 +71,6 @@ class EEBOverlayView : NSView {
         configureLeftItemsView()
         configureContentView()
         configureRightItemsView()
-        //configureDefaultButtons()
         
         self.layer = CAGradientLayer()
         (self.layer as! CAGradientLayer).colors  = [CGColorCreateGenericRGB(kGradientStartColour.red, kGradientStartColour.green, kGradientStartColour.blue, kContentOpacity),
@@ -141,10 +139,17 @@ class EEBOverlayView : NSView {
         rightItemsView = NSView(frame:rightItemsFrame)
         rightItemsView?.layer = CALayer()
         rightItemsView?.wantsLayer = true
+        
         if(debugViews){
             rightItemsView?.layer?.backgroundColor = NSColor.greenColor().CGColor
         }
         self.addSubview(rightItemsView!)
+
+        let verticalPadding = 0.5*(self.frame.size.height - kElementSize)
+        rightItemsView!.translatesAutoresizingMaskIntoConstraints = false
+        rightItemsView!.trailingAnchor.constraintEqualToAnchor(self.trailingAnchor,constant:-(2*kElementSize + kElementPadding + kRightPadding)).active = true
+        rightItemsView!.bottomAnchor.constraintEqualToAnchor(self.bottomAnchor,constant:-verticalPadding).active = true
+        
     }
     
     func configureDefaultButtons() {
@@ -179,8 +184,6 @@ class EEBOverlayView : NSView {
     func layoutRightButtonItems(){
         let firstButton = _rightBarButtonItems?.first!
         let secondButton = _rightBarButtonItems?.last!
-        
-
         
         secondButton?.frame.origin.x = firstButton!.frame.origin.x + kElementSize + kElementPadding
         self.rightItemsView!.addSubview(firstButton!)
