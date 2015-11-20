@@ -12,6 +12,7 @@ import AppKit
 class EEBJobViewController: EEBBaseTableViewController {
     
     @IBOutlet weak var overlayView : EEBOverlayView!
+    @IBOutlet weak var customSpacerView : NSView!
     
     let kDefaultIconImageName = "suitcase32.png"    
     let kTimeColumnIdentifier = "time"
@@ -45,12 +46,18 @@ class EEBJobViewController: EEBBaseTableViewController {
         
         overlayView.leftBarButtonItems = [leftButton]
         overlayView.rightBarButtonItems = [settingsButton,invoicesButton]
+        customSpacerView.layer? = CALayer()
         
         if(timer != nil && timer!.running){
             lastSelectedRowIndex = client!.jobs.indexOfObject(timer!.job!)
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(kUpdateFrequency * Double(NSEC_PER_SEC))), dispatch_get_main_queue(),updateRow)
         }
     }
+    
+    override func viewDidAppear() {
+        customSpacerView.layer?.backgroundColor = CGColorCreateGenericRGB(overlayView.kGradientStartColour.red, overlayView.kGradientStartColour.green, overlayView.kGradientStartColour.blue, 1.0)
+    }
+    
     
     
     func tableView(tableView: NSTableView, objectValueForTableColumn tableColumn: NSTableColumn?, row: Int) -> AnyObject? {

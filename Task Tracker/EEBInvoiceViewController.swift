@@ -11,6 +11,7 @@ import AppKit
 
 class EEBInvoiceViewController : NSViewController,NavigableViewController {
     @IBOutlet weak var overlayView : EEBOverlayView!
+    @IBOutlet weak var customSpacerView : NSView!
     
     var navigationController : EEBNavigationController? = nil
     var storeManager : PersistentStoreManager? = nil
@@ -29,6 +30,12 @@ class EEBInvoiceViewController : NSViewController,NavigableViewController {
         
         overlayView.leftBarButtonItems = [leftButton]
         overlayView.rightBarButtonItems = [shareButton]
+        
+        customSpacerView.layer = CALayer()
+    }
+    
+    override func viewDidAppear() {
+         customSpacerView.layer?.backgroundColor = CGColorCreateGenericRGB(overlayView.kGradientStartColour.red, overlayView.kGradientStartColour.green, overlayView.kGradientStartColour.blue, 1.0)
     }
     
     //MARK: Overlay actions

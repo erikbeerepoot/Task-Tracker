@@ -754,7 +754,7 @@
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="75" y="784.5"/>
+            <point key="canvasLocation" x="68" y="783"/>
         </scene>
         <!--Job View Controller-->
         <scene sceneID="RCx-H0-I6R">
@@ -1001,6 +1001,7 @@
                         <animations/>
                     </view>
                     <connections>
+                        <outlet property="customSpacerView" destination="4by-bU-kHV" id="ExD-pL-6ez"/>
                         <outlet property="overlayView" destination="FyD-c7-EIg" id="nQq-v6-cSi"/>
                         <outlet property="tableView" destination="FU4-Vw-Qtl" id="mt6-tl-thv"/>
                     </connections>
@@ -1061,6 +1062,7 @@
                         <animations/>
                     </view>
                     <connections>
+                        <outlet property="customSpacerView" destination="P6h-05-CDD" id="HhT-WF-Hki"/>
                         <outlet property="overlayView" destination="Ukz-yd-IV0" id="Jwh-nT-zL6"/>
                     </connections>
                 </viewController>
