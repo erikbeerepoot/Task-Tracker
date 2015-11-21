@@ -183,6 +183,7 @@ class EEBStatusView : NSView {
         progressIndicator?.controlSize = NSControlSize.SmallControlSize
         progressIndicator?.style = NSProgressIndicatorStyle.SpinningStyle
         progressIndicator?.hidden = true
+        progressIndicator?.autoresizingMask = .ViewMinXMargin
         self.addSubview(progressIndicator!)
     }
     
@@ -212,6 +213,7 @@ class EEBStatusView : NSView {
         leftTextView?.bordered = false
         leftTextView?.backgroundColor = NSColor.clearColor()
         leftTextView?.font = NSFont(name: "Helvetica Neue Light", size: 12)
+        leftTextView?.autoresizingMask = .ViewWidthSizable
         self.addSubview(leftTextView!)
     }
     
@@ -228,6 +230,7 @@ class EEBStatusView : NSView {
         rightTextView?.backgroundColor = NSColor.clearColor()
         rightTextView?.font = NSFont(name: "Helvetica Neue Light", size: 12)
         rightTextView?.hidden = true
+        rightTextView?.autoresizingMask = .ViewMinXMargin
         self.addSubview(rightTextView!)
     }
     
