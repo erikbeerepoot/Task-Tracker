@@ -788,7 +788,7 @@
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
                                                 <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" headerView="PZZ-PI-HFP" viewBased="YES" id="FU4-Vw-Qtl">
-                                                    <rect key="frame" x="0.0" y="0.0" width="641" height="333"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="641" height="0.0"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <animations/>
                                                     <size key="intercellSpacing" width="3" height="2"/>
@@ -809,7 +809,7 @@
                                                             <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                             <prototypeCellViews>
                                                                 <tableCellView identifier="nameCell" id="4Xe-Yb-TGU">
-                                                                    <rect key="frame" x="1" y="1" width="124.5" height="17"/>
+                                                                    <rect key="frame" x="1" y="1" width="125" height="17"/>
                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                     <subviews>
                                                                         <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="jcb-QM-g7p">
@@ -887,7 +887,7 @@
                                                             <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                             <prototypeCellViews>
                                                                 <tableCellView id="0Pf-ua-0JF">
-                                                                    <rect key="frame" x="234.5" y="1" width="101.5" height="17"/>
+                                                                    <rect key="frame" x="234.5" y="1" width="102" height="17"/>
                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                     <subviews>
                                                                         <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="K4g-PL-P7I">
@@ -1086,7 +1086,7 @@
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <tableView focusRingType="none" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" selectionHighlightStyle="none" multipleSelection="NO" emptySelection="NO" autosaveColumns="NO" rowHeight="128" viewBased="YES" id="g74-pK-c93">
-                                            <rect key="frame" x="0.0" y="0.0" width="550" height="450"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="550" height="0.0"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <animations/>
                                             <size key="intercellSpacing" width="1" height="2"/>

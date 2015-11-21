@@ -167,12 +167,13 @@ class EEBJobViewController: EEBBaseTableViewController {
      *          to which that job belongs. This method takes care of that
      */
     func updateRow(){
-        guard (tableView.numberOfRows > 0) && (lastSelectedRowIndex < tableView.numberOfRows) && (lastSelectedRowIndex != -1) else {
+        guard (tableView.numberOfRows > 0) && (lastSelectedRowIndex < tableView.numberOfRows) &&
+            (lastSelectedRowIndex < client?.jobs.count) else {
             return
         }
         
         
-        if let currentJob = client?.jobs[tableView.selectedRow] as? Job {
+        if let currentJob = client?.jobs[lastSelectedRowIndex] as? Job {
             let timeCellView = tableView(tableView, viewForTableColumn: NSTableColumn(identifier:kTimeColumnIdentifier), row: lastSelectedRowIndex) as? NSTableCellView
             let costCellView = tableView(tableView, viewForTableColumn: NSTableColumn(identifier: kCostColumnIdentifier), row: lastSelectedRowIndex) as? NSTableCellView
             timeCellView?.textField?.stringValue = currentJob.totalTimeString()
