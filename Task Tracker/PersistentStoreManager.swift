@@ -87,7 +87,7 @@ class PersistentStoreManager : NSObject {
      * @brief   Removes an object from the managed object context
      **/
     func removeObject(managedObject : NSManagedObject){
-        self.managedObjectContext?.deleteObject(managedObject)
+        self.managedObjectContext!.deleteObject(managedObject)
     }
     
     /**
@@ -105,5 +105,6 @@ class PersistentStoreManager : NSObject {
             print("Unable to fetch all objects of type: \(type) ");
         }
         return nil;
-    }
+    }    
+    
 }

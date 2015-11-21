@@ -12,6 +12,9 @@ import CoreData
 
 class Job: NSManagedObject {
 
+    /************************************************************
+     *                      Timing Logic                        *
+     ************************************************************/
     func addTimingSession(session : TimingSession) {
         let ses = self.mutableOrderedSetValueForKey("sessions")
         ses.addObject(session)
@@ -44,12 +47,6 @@ class Job: NSManagedObject {
         return Job.timeIntervalToString(totalTime())
     }
     
-    func cost() -> String {
-        let formatter = NSNumberFormatter()
-        formatter.numberStyle = NSNumberFormatterStyle.CurrencyStyle
-        let cost = formatter.stringFromNumber(computeCost())
-        return (cost == nil) ? "" : cost!
-    }
     
     private class func timeIntervalToString(timeInterval : NSTimeInterval) -> String {
         let formatter = NSDateComponentsFormatter()
@@ -59,13 +56,21 @@ class Job: NSManagedObject {
         return (string == nil) ? "" : string!
     }
     
+    /************************************************************
+     *                      Cost Logic                        *
+     ************************************************************/
+    
+    func cost() -> String {
+        let formatter = NSNumberFormatter()
+        formatter.numberStyle = NSNumberFormatterStyle.CurrencyStyle
+        let cost = formatter.stringFromNumber(computeCost())
+        return (cost == nil) ? "" : cost!
+    }
+    
     private func computeCost() -> Double {
         let time = totalTime() as Double
         let r : Double = (rate == nil) ? client.hourlyRate.doubleValue : rate!.doubleValue
         return (r*(time/3600))
-    }
-    
-    
-        
+    }            
     
 }

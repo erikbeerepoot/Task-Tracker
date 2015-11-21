@@ -55,9 +55,9 @@ class EEBJobViewController: EEBBaseTableViewController {
     }
     
     override func viewDidAppear() {
+                updateToolbarItems()
         customSpacerView.layer?.backgroundColor = CGColorCreateGenericRGB(overlayView.kGradientStartColour.red, overlayView.kGradientStartColour.green, overlayView.kGradientStartColour.blue, 1.0)
     }
-    
     
     
     func tableView(tableView: NSTableView, objectValueForTableColumn tableColumn: NSTableColumn?, row: Int) -> AnyObject? {
@@ -71,7 +71,7 @@ class EEBJobViewController: EEBBaseTableViewController {
         }
         
         //Get the object of which we wish to display the properties
-        let currentJob = Array(client!.jobs)[row] as! Job
+        let currentJob = client?.jobs[row] as! Job
         let view = NSTextField()
         
         switch(tableColumn!.identifier){
@@ -129,11 +129,16 @@ class EEBJobViewController: EEBBaseTableViewController {
         if(tableView.selectedRow != -1){
             lastSelectedRowIndex = tableView.selectedRow
         }
+        updateToolbarItems()
 
+    }
+    
+    func updateToolbarItems(){
         let items = self.view.window?.toolbar?.items.filter({$0.itemIdentifier == kToolbarItemIdentifierRun})
-        if(items?.count > 0){
-            items?.first?.enabled = (tableView.selectedRow != -1) || ((items?.first?.view as! NSButton).state == NSOnState)
-        }
+        items?.first?.enabled = (tableView.selectedRow != -1) || ((items?.first?.view as! NSButton).state == NSOnState)
+        
+        let deleteItems = self.view.window?.toolbar?.items.filter({$0.itemIdentifier == kToolbarItemIdentifierDelete})
+        deleteItems?.first?.enabled = (tableView.selectedRow != -1) || ((deleteItems?.first?.view as! NSButton).state == NSOnState)
     }
     
     /**
@@ -142,10 +147,11 @@ class EEBJobViewController: EEBBaseTableViewController {
      */
 
     override func textfieldEdited(sender: NSTextField) {
-        super.textfieldEdited(sender)
         
-        if let currentJob = Array(client!.jobs)[tableView.selectedRow] as? Job {
-            sm?.save()
+        
+        if let currentJob = client?.jobs[tableView.selectedRow] as? Job {
+            currentJob.setValue(sender.stringValue, forKey: sender.identifier!)
+            sm!.save()
             
             if(timer!.running){
                 NSNotificationCenter.defaultCenter().postNotificationName(kJobDidUpdateNotification, object: currentJob)
@@ -166,12 +172,11 @@ class EEBJobViewController: EEBBaseTableViewController {
         }
         
         
-        if let currentJob = Array(client!.jobs)[lastSelectedRowIndex] as? Job {
+        if let currentJob = client?.jobs[tableView.selectedRow] as? Job {
             let timeCellView = tableView(tableView, viewForTableColumn: NSTableColumn(identifier:kTimeColumnIdentifier), row: lastSelectedRowIndex) as? NSTableCellView
             let costCellView = tableView(tableView, viewForTableColumn: NSTableColumn(identifier: kCostColumnIdentifier), row: lastSelectedRowIndex) as? NSTableCellView
             timeCellView?.textField?.stringValue = currentJob.totalTimeString()
             costCellView?.textField?.stringValue = currentJob.cost()
-            
             
             let idxSet = NSMutableIndexSet(index: tableView.columnWithIdentifier(kTimeColumnIdentifier))
             idxSet.addIndex(tableView.columnWithIdentifier(kCostColumnIdentifier))
@@ -190,17 +195,17 @@ class EEBJobViewController: EEBBaseTableViewController {
     //MARK: IBActions
     
     //Remove the selected job from the DB
-    @IBAction override func remove(sender : AnyObject){
-        //code
+    override func remove(sender : AnyObject){
         let rowIdx = self.tableView.selectedRow
-        if let currentObject = sm!.allObjectsOfType(self.kTVObjectType)?[rowIdx] as? Job {
-            sm!.removeObject(currentObject)
+        if let job = client?.jobs[rowIdx] as? Job {
+            sm!.removeObject(job)
+            sm!.save()
         }
         self.tableView.reloadData()
     }
     
     //Add a new item of type Job to the DB
-    @IBAction override func add(sender : AnyObject){
+    override func add(sender : AnyObject){
         if let createdObject = sm!.createObjectOfType(self.kTVObjectType) as? Job {
             createdObject.name = "Untitled Job"
             createdObject.client = client!
@@ -231,8 +236,8 @@ class EEBJobViewController: EEBBaseTableViewController {
      * @name run
      * @brief Method called when the run button is pressed. Note that part of the 
      * run functionality is in the ClientViewController class
-     */
-    @IBAction override func run(sender : AnyObject){
+      */
+    override func run(sender : AnyObject){
         guard(timer != nil) else {
             return
         }
@@ -249,13 +254,14 @@ class EEBJobViewController: EEBBaseTableViewController {
                 return
             }
             
-            let currentJob = Array(client!.jobs)[tableView.selectedRow] as! Job
-            let result = (timer?.startTimingSession(currentJob))!
-            if(result){
-                (sender as! NSButton).state = NSOnState
-                //Periodically update the appropriate row
-                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(kUpdateFrequency * Double(NSEC_PER_SEC))), dispatch_get_main_queue(),updateRow)
-                
+            if let currentJob = client?.jobs[tableView.selectedRow] as? Job {
+                let result = (timer?.startTimingSession(currentJob))!
+                if(result){
+                    (sender as! NSButton).state = NSOnState
+                    //Periodically update the appropriate row
+                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(kUpdateFrequency * Double(NSEC_PER_SEC))), dispatch_get_main_queue(),updateRow)
+                    
+                }
             }
         }
     }

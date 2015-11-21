@@ -17,17 +17,21 @@ class EEBClientViewController: EEBBaseTableViewController,EEBSimpleTableCellView
     
     override func awakeFromNib() {
         super.awakeFromNib()
-    
+        
         kRowHeight = 114.0
         kTVObjectType = "Client"
     }
-    
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         view.wantsLayer = true
 
         assert(sm != nil, "Persistent store manager nil in ClientVieController \(self)")
         timer = EEBTimer(storeManager:sm!)
+    }
+    
+    override func becomeFirstResponder() -> Bool {
+        return false
     }
             
     func tableView(tableView: NSTableView, viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView? {
@@ -131,24 +135,25 @@ class EEBClientViewController: EEBBaseTableViewController,EEBSimpleTableCellView
     }
  
     //MARK: IBActions
-    @IBAction override func remove(sender : AnyObject){
+    override func remove(sender : AnyObject){
         //code
         let rowIdx = self.tableView.selectedRow
         if let currentObject = sm!.allObjectsOfType(kTVObjectType)?[rowIdx] as? Client {
             sm!.removeObject(currentObject)
+            sm!.save()
         }
         self.tableView.reloadData()
     }
     
-    @IBAction override func add(sender : AnyObject){
+    override func add(sender : AnyObject){
         if let createdObject = sm!.createObjectOfType(kTVObjectType) as? Client {
             createdObject.name = "Jane Doe"
             createdObject.hourlyRate = 90.0
+            sm!.save()
         }
         self.tableView.reloadData()
     }
-        
-    @IBAction override func run(sender : AnyObject){
+    override func run(sender : AnyObject){
         guard timer != nil else {
             return
         }

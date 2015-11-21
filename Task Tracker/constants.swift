@@ -14,5 +14,6 @@ let kJobDidUpdateNotification = "JobDidUpdateNotification"
 let kClientDidUpdateNotification = "ClientDidUpdateNotification"
 
 let kToolbarItemIdentifierRun = "runToolbarItem"
+let kToolbarItemIdentifierDelete = "deleteToolbarItem"
 
 let kUpdateFrequency : NSTimeInterval = 1.0

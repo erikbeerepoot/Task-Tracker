@@ -26,8 +26,10 @@ class EEBNavigationController : NSViewController {
         view.wantsLayer = true;
         view.layerContentsRedrawPolicy = NSViewLayerContentsRedrawPolicy.OnSetNeedsDisplay
         self.view.translatesAutoresizingMaskIntoConstraints = false
+        
+
     }
-    
+        
     override func viewWillAppear() {
         let vc = self.storyboard?.instantiateControllerWithIdentifier("clientViewController") as? EEBBaseTableViewController
         assert(vc != nil)
@@ -45,6 +47,10 @@ class EEBNavigationController : NSViewController {
         vc!.view.topAnchor.constraintEqualToAnchor(self.view.topAnchor).active = true
         vc!.view.bottomAnchor.constraintEqualToAnchor(self.view.bottomAnchor).active = true
 
+        //We want all the action messages to go to us
+        self.view.window?.toolbar?.items.forEach({ (item) -> () in
+            item.target = self
+        })
     }
     
     override func viewWillDisappear() {
