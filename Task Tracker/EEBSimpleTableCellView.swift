@@ -38,16 +38,21 @@ class EEBSimpleTableCellView : NSTableCellView,EEBSimpleTableCellViewDelegate {
     var accessoryView : NSView? = nil;
     
     //Subview content settings
-    var _headerImage : NSImage? = nil;
-    var headerImage : NSImage?  {
-        get {
-            return _headerImage
-        }
-        set {
-            _headerImage = newValue
-
+    var headerImage : NSImage = NSImage(named: "client128.png")! {
+        didSet {
             drawHeaderOutline()
-            headerView?.layer?.sublayers![0].contents = _headerImage
+            headerView?.layer?.sublayers![0].contents = headerImage
+        }
+    }
+    
+    var selected : Bool = false {
+        didSet {
+            //draw selection
+            outlineView?.layer?.backgroundColor = NSColor.whiteColor().CGColor
+            if(selected){
+                outlineView?.layer?.backgroundColor = NSColor(calibratedRed: kOutlineColourComponents.red, green: kOutlineColourComponents.green, blue: kOutlineColourComponents.blue, alpha: 1.0).CGColor
+            }
+
         }
     }
     
@@ -61,6 +66,7 @@ class EEBSimpleTableCellView : NSTableCellView,EEBSimpleTableCellViewDelegate {
     
     //MARK: Appearance constants
     //layout
+    let kSelectionOutlineThickness : CGFloat = 2.0
     let kHeaderPadding : CGFloat = 50.0
     let kHeaderSize  : CGFloat = 128.0
     let kAccessoryPadding : CGFloat = 30.0
@@ -97,6 +103,12 @@ class EEBSimpleTableCellView : NSTableCellView,EEBSimpleTableCellViewDelegate {
         
         super.init(coder: coder)
         initializeFrames(frame)
+        
+        
+        outlineView = NSView(frame: self.bounds)
+        outlineView?.layer = CALayer()
+
+        initializeOutline()
         initializeHeaderView()
         initializeContentView()
         initializeAccessoryView(accessoryType)
@@ -113,10 +125,6 @@ class EEBSimpleTableCellView : NSTableCellView,EEBSimpleTableCellViewDelegate {
         accessoryView!.topAnchor.constraintEqualToAnchor(contentView!.topAnchor,constant:distance).active = true
         accessoryView!.bottomAnchor.constraintEqualToAnchor(contentView!.bottomAnchor,constant:-distance).active = true
         accessoryView!.trailingAnchor.constraintEqualToAnchor(self.trailingAnchor,constant: -kAccessoryPadding).active = true
-        
-
-        
-        
         
         self.layer = CALayer()
         
@@ -147,6 +155,29 @@ class EEBSimpleTableCellView : NSTableCellView,EEBSimpleTableCellViewDelegate {
 
     }
     
+    func initializeOutline(){
+        let insetFrame =  NSMakeRect(outlineView!.frame.origin.x + kSelectionOutlineThickness,outlineView!.frame.origin.y + kSelectionOutlineThickness,outlineView!.frame.size.width - 2*kSelectionOutlineThickness,outlineView!.frame.size.height-2*kSelectionOutlineThickness
+        )
+        let insetView = NSView(frame: insetFrame)
+        insetView.layer = CALayer()
+        insetView.layer?.backgroundColor = NSColor.whiteColor().CGColor
+        outlineView!.addSubview(insetView)
+        self.addSubview(outlineView!)
+        
+        outlineView!.translatesAutoresizingMaskIntoConstraints = false
+        outlineView!.leadingAnchor.constraintEqualToAnchor(self.leadingAnchor).active = true
+        outlineView!.topAnchor.constraintEqualToAnchor(self.topAnchor).active = true
+        outlineView!.bottomAnchor.constraintEqualToAnchor(self.bottomAnchor).active = true
+        outlineView!.trailingAnchor.constraintEqualToAnchor(self.trailingAnchor).active = true
+        
+        insetView.translatesAutoresizingMaskIntoConstraints = false
+        insetView.leadingAnchor.constraintEqualToAnchor(self.outlineView!.leadingAnchor,constant: kSelectionOutlineThickness).active = true
+        insetView.topAnchor.constraintEqualToAnchor(self.outlineView!.topAnchor, constant: kSelectionOutlineThickness).active = true
+        insetView.bottomAnchor.constraintEqualToAnchor(self.outlineView!.bottomAnchor , constant: -kSelectionOutlineThickness).active = true
+        insetView.trailingAnchor.constraintEqualToAnchor(self.outlineView!.trailingAnchor,constant: -kSelectionOutlineThickness).active = true
+
+    }
+    
     func initializeHeaderView(){
         headerView = NSView(frame: headerFrame)
         
@@ -158,6 +189,9 @@ class EEBSimpleTableCellView : NSTableCellView,EEBSimpleTableCellViewDelegate {
         }
         
         self.addSubview(headerView!)
+        
+        drawHeaderOutline()
+        headerView?.layer?.sublayers![0].contents = headerImage
     }
     
     func drawHeaderOutline(){
@@ -225,7 +259,6 @@ class EEBSimpleTableCellView : NSTableCellView,EEBSimpleTableCellViewDelegate {
         imageLayer.contents = getTintedImage(NSImage(named: kDisclosureImageName)!,tint: NSColor(CGColor: (accessoryView?.layer?.backgroundColor!)!)!)
         accessoryView!.addSubview(disclosureButton)
         accessoryView!.layer!.addSublayer(imageLayer)
-//        accessoryView!.layer!.autoresizingMask = .LayerMinXMargin
     }
     
     func getTintedImage(image:NSImage, tint:NSColor) -> NSImage {

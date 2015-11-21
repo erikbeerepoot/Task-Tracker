@@ -46,6 +46,7 @@ class EEBJobViewController: EEBBaseTableViewController {
         
         overlayView.leftBarButtonItems = [leftButton]
         overlayView.rightBarButtonItems = [settingsButton,invoicesButton]
+        overlayView.text = client!.name!
         customSpacerView.layer? = CALayer()
         
         if(timer != nil && timer!.running){

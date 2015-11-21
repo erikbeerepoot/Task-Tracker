@@ -3,12 +3,13 @@
     <entity name="Client" representedClassName=".Client" syncable="YES">
         <attribute name="address" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="company" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="creationDate" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="email" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="hourlyRate" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
         <attribute name="identifier" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="invoices" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Invoice" inverseName="client" inverseEntity="Invoice" syncable="YES"/>
-        <relationship name="jobs" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Job" inverseName="client" inverseEntity="Job" syncable="YES"/>
+        <relationship name="jobs" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="Job" inverseName="client" inverseEntity="Job" syncable="YES"/>
     </entity>
     <entity name="Invoice" representedClassName=".Invoice" syncable="YES">
         <attribute name="dueDate" optional="YES" attributeType="Date" syncable="YES"/>
@@ -29,7 +30,7 @@
         <relationship name="job" maxCount="1" deletionRule="Nullify" destinationEntity="Job" inverseName="sessions" inverseEntity="Job" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Client" positionX="-63" positionY="-18" width="128" height="165"/>
+        <element name="Client" positionX="-63" positionY="-18" width="128" height="180"/>
         <element name="Invoice" positionX="171" positionY="81" width="128" height="105"/>
         <element name="Job" positionX="25" positionY="306" width="128" height="120"/>
         <element name="TimingSession" positionX="252" positionY="357" width="128" height="90"/>

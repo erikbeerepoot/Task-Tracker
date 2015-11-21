@@ -33,9 +33,17 @@ class EEBOverlayView : NSView {
         }
     }
     
+    var text : String = "" {
+        didSet {
+            overlayTextField?.stringValue = text
+        }
+        
+    }
+    
     var leftItemsView : NSView? = nil;
     var contentView : NSView? = nil;
     var rightItemsView : NSView? = nil;
+    var overlayTextField : NSTextField? = nil;
     
     //MARK: View frames
     var leftItemsFrame : CGRect = CGRectMake(0,0,0,0)
@@ -72,6 +80,19 @@ class EEBOverlayView : NSView {
         configureContentView()
         configureRightItemsView()
         
+        contentView!.translatesAutoresizingMaskIntoConstraints = false
+        contentView!.leadingAnchor.constraintEqualToAnchor(leftItemsView?.trailingAnchor,constant: kLeftPadding).active = true
+        contentView!.topAnchor.constraintEqualToAnchor(leftItemsView?.topAnchor).active = true
+        contentView!.bottomAnchor.constraintEqualToAnchor(leftItemsView?.bottomAnchor).active = true
+        contentView!.trailingAnchor.constraintEqualToAnchor(rightItemsView?.leadingAnchor,constant: -kLeftPadding).active = true
+        
+        overlayTextField!.translatesAutoresizingMaskIntoConstraints = false
+        overlayTextField!.leadingAnchor.constraintEqualToAnchor(contentView?.leadingAnchor).active = true
+        overlayTextField!.topAnchor.constraintEqualToAnchor(contentView?.topAnchor).active = true
+        overlayTextField!.bottomAnchor.constraintEqualToAnchor(contentView?.bottomAnchor).active = true
+        overlayTextField!.trailingAnchor.constraintEqualToAnchor(contentView?.trailingAnchor).active = true
+
+        
         self.layer = CAGradientLayer()
         (self.layer as! CAGradientLayer).colors  = [CGColorCreateGenericRGB(kGradientStartColour.red, kGradientStartColour.green, kGradientStartColour.blue, kContentOpacity),
                                                     CGColorCreateGenericRGB(kGradientEndColour.red, kGradientEndColour.green, kGradientEndColour.blue, kContentOpacity)]
@@ -90,6 +111,9 @@ class EEBOverlayView : NSView {
         NSLog("back")
     }
 
+    
+    
+    
     
     /**
      * @name    initializeFrames
@@ -130,6 +154,16 @@ class EEBOverlayView : NSView {
             contentView?.layer?.backgroundColor = NSColor.yellowColor().CGColor
         }
         self.addSubview(contentView!)
+        
+        overlayTextField = NSTextField(frame: contentView!.frame)
+        overlayTextField!.font = NSFont(name: "Helvetica Neue Light", size: 25.0)
+        overlayTextField!.alignment = .Center
+        overlayTextField!.backgroundColor = NSColor.clearColor()
+        overlayTextField!.bordered = false
+        overlayTextField!.focusRingType = .None
+//        overlayTextField!.selectable = false
+//        overlayTextField!.editable = false
+        self.addSubview(overlayTextField!)
     }
 
     func configureRightItemsView(){
@@ -142,7 +176,7 @@ class EEBOverlayView : NSView {
         }
         self.addSubview(rightItemsView!)
 
-        rightItemsView?.autoresizingMask = .ViewMinXMargin        
+        rightItemsView?.autoresizingMask = .ViewMinXMargin
     }
     
     func configureDefaultButtons() {

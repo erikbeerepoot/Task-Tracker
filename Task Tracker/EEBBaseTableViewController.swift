@@ -71,6 +71,7 @@ class EEBBaseTableViewController : NSViewController, NSTableViewDataSource, NSTa
         if(rowIdx != -1){
             let obj = sm?.allObjectsOfType(self.kTVObjectType)?[rowIdx]
             obj?.setValue(sender.stringValue, forKey: sender.identifier!)
+            sm?.save()
         }
     }
     

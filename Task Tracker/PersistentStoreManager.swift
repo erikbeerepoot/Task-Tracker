@@ -14,10 +14,13 @@ class PersistentStoreManager : NSObject {
     
     var managedObjectContext: NSManagedObjectContext? = nil;
     var persistentStorePresent = false
+    var sortDescriptors : Array<NSSortDescriptor> = []
     
     override init(){
         super.init()
         
+        let sortDescriptor = NSSortDescriptor(key: "creationDate", ascending: true)
+        sortDescriptors.append(sortDescriptor)
         
         if(self.configureBackingStore() == false){
             print("Could not CoreData store for AppData!");
@@ -98,6 +101,7 @@ class PersistentStoreManager : NSObject {
         guard persistentStorePresent != false else { return nil }
         
         let fetchRequest = NSFetchRequest(entityName: type);
+        fetchRequest.sortDescriptors = sortDescriptors
         do {
             let fetchedObjects = try self.managedObjectContext?.executeFetchRequest(fetchRequest)
             return fetchedObjects

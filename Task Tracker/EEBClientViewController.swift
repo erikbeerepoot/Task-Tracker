@@ -9,11 +9,19 @@
 import Cocoa
 import AppKit
 
-class EEBClientViewController: EEBBaseTableViewController,EEBSimpleTableCellViewDelegate {
+class EEBClientViewController: EEBBaseTableViewController,EEBSimpleTableCellViewDelegate, NSTextFieldDelegate {
     
     let kDefaultIconImageName = "client128.png"
     let kRateFieldWidth = CGFloat(60)
     let kPadding = CGFloat(10)
+    
+    var clients : [Client] = []
+    func fetchClients(){
+        assert(sm != nil, "Persistent store manager nil in ClientVieController \(self)")
+        if let fetchedClients = (self.sm!.allObjectsOfType(self.kTVObjectType) as? [Client]){
+            clients = fetchedClients
+        }
+    }
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -26,9 +34,18 @@ class EEBClientViewController: EEBBaseTableViewController,EEBSimpleTableCellView
         super.viewDidLoad()
         view.wantsLayer = true
 
-        assert(sm != nil, "Persistent store manager nil in ClientVieController \(self)")
+
         timer = EEBTimer(storeManager:sm!)
+        
+        fetchClients()
     }
+    
+    override func viewWillAppear() {
+        updateSelection()
+        fetchClients()
+        tableView.reloadData()
+    }
+    
     
     override func becomeFirstResponder() -> Bool {
         return false
@@ -36,68 +53,74 @@ class EEBClientViewController: EEBBaseTableViewController,EEBSimpleTableCellView
             
     func tableView(tableView: NSTableView, viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView? {
         //Get the object of which we wish to display the properties
-        if let currentObject = self.sm!.allObjectsOfType(self.kTVObjectType)?[row] as? Client {
+        let currentObject = clients[row]
 
-            if let simpleCellView = tableView.makeViewWithIdentifier("simpleCellView", owner: nil) as? EEBSimpleTableCellView {
-                simpleCellView.headerImage = NSImage(named: "client128")
-                simpleCellView.delegate = self;
-                
-                //setup textfields in contentview
-                let frame = simpleCellView.contentFrame
-                let companyNameRect = CGRectMake(0.0, 5.0, frame.size.width - (kRateFieldWidth + kPadding),25.0)
-                let companyNameView = NSTextField(frame: companyNameRect)
-                companyNameView.font = NSFont(name: "Helvetica Neue Light", size: 15.0)
-                companyNameView.stringValue = currentObject.company == nil ? "" : currentObject.company!
-                companyNameView.textColor = NSColor.lightGrayColor()
-                companyNameView.editable = true
-                companyNameView.selectable = true
-                companyNameView.bordered = false
-                companyNameView.focusRingType = .None
-                companyNameView.target = self
-                companyNameView.identifier = "company"
-                companyNameView.action = Selector("textfieldEdited:")
-                
-                let clientNameRect = CGRectMake(0.0, 30.0, frame.size.width ,25.0)
-                let clientNameView = NSTextField(frame: clientNameRect)
-                clientNameView.stringValue = currentObject.name!
-                clientNameView.font = NSFont(name: "Helvetica Neue Light", size: 22.0)
-                clientNameView.editable = true
-                clientNameView.selectable = true
-                clientNameView.bordered = false
-                clientNameView.focusRingType = .None
-                clientNameView.target = self
-                clientNameView.identifier = "name"
-                clientNameView.action = Selector("textfieldEdited:")
-                
-                let clientRateRect = CGRectMake(frame.size.width - kRateFieldWidth, companyNameRect.origin.y, kRateFieldWidth,25.0)
-                let clientRateView = NSTextField(frame: clientRateRect)
-                clientRateView.font = NSFont(name: "Helvetica Neue Light", size: 15.0)
-                clientRateView.alignment = .Right
-                clientRateView.editable = true
-                clientRateView.selectable = true
-                clientRateView.bordered = false
-                clientRateView.focusRingType = .None
-                clientRateView.target = self
-                clientRateView.identifier = "rateString"
-                clientRateView.action = Selector("textfieldEdited:")
-                
-                let nf = NSNumberFormatter()
-                nf.numberStyle = NSNumberFormatterStyle.CurrencyStyle
-                clientRateView.formatter = nf
-                clientRateView.stringValue = currentObject.rateString
-                
-                simpleCellView.contentView?.addSubview(companyNameView)
-                simpleCellView.contentView?.addSubview(clientNameView)
-                simpleCellView.contentView?.addSubview(clientRateView)
+        if let simpleCellView = tableView.makeViewWithIdentifier("simpleCellView", owner: nil) as? EEBSimpleTableCellView {
+            simpleCellView.delegate = self;
+            
+            //setup textfields in contentview
+            let frame = simpleCellView.contentFrame
+            let companyNameRect = CGRectMake(0.0, 5.0, frame.size.width - (kRateFieldWidth + kPadding),25.0)
+            let companyNameView = NSTextField(frame: companyNameRect)
+            companyNameView.font = NSFont(name: "Helvetica Neue Light", size: 15.0)
+            companyNameView.stringValue = currentObject.company == nil ? "" : currentObject.company!
+            companyNameView.textColor = NSColor.lightGrayColor()
+            companyNameView.editable = true
+            companyNameView.selectable = true
+            companyNameView.bordered = false
+            companyNameView.focusRingType = .None
+            companyNameView.target = self
+            companyNameView.identifier = "company"
+            companyNameView.delegate = self
+            companyNameView.action = Selector("textfieldEdited:")
+            
+            let clientNameRect = CGRectMake(0.0, 30.0, frame.size.width ,25.0)
+            let clientNameView = NSTextField(frame: clientNameRect)
+            clientNameView.stringValue = currentObject.name!
+            clientNameView.font = NSFont(name: "Helvetica Neue Light", size: 22.0)
+            clientNameView.editable = true
+            clientNameView.selectable = true
+            clientNameView.bordered = false
+            clientNameView.focusRingType = .None
+            clientNameView.target = self
+            clientNameView.delegate = self
+            clientNameView.identifier = "name"
+            clientNameView.action = Selector("textfieldEdited:")
+            
+            let clientRateRect = CGRectMake(frame.size.width - kRateFieldWidth, companyNameRect.origin.y, kRateFieldWidth,25.0)
+            let clientRateView = NSTextField(frame: clientRateRect)
+            clientRateView.font = NSFont(name: "Helvetica Neue Light", size: 15.0)
+            clientRateView.alignment = .Right
+            clientRateView.editable = true
+            clientRateView.selectable = true
+            clientRateView.bordered = false
+            clientRateView.focusRingType = .None
+            clientRateView.target = self
+            clientRateView.delegate = self
+            clientRateView.identifier = "rateString"
+            clientRateView.action = Selector("textfieldEdited:")
+            
+            let nf = NSNumberFormatter()
+            nf.numberStyle = NSNumberFormatterStyle.CurrencyStyle
+            clientRateView.formatter = nf
+            clientRateView.stringValue = currentObject.rateString
+            
+            simpleCellView.contentView?.addSubview(companyNameView)
+            simpleCellView.contentView?.addSubview(clientNameView)
+            simpleCellView.contentView?.addSubview(clientRateView)
 
-                clientRateView.translatesAutoresizingMaskIntoConstraints = false
-                clientRateView.leadingAnchor.constraintEqualToAnchor(companyNameView.trailingAnchor).active = true
-                clientRateView.topAnchor.constraintEqualToAnchor(companyNameView.topAnchor).active = true
-                clientRateView.bottomAnchor.constraintEqualToAnchor(companyNameView.bottomAnchor).active = true
-                clientRateView.trailingAnchor.constraintEqualToAnchor(simpleCellView.contentView!.trailingAnchor).active = true
-                return simpleCellView
+            clientRateView.translatesAutoresizingMaskIntoConstraints = false
+            clientRateView.leadingAnchor.constraintEqualToAnchor(companyNameView.trailingAnchor).active = true
+            clientRateView.topAnchor.constraintEqualToAnchor(companyNameView.topAnchor).active = true
+            clientRateView.bottomAnchor.constraintEqualToAnchor(companyNameView.bottomAnchor).active = true
+            clientRateView.trailingAnchor.constraintEqualToAnchor(simpleCellView.contentView!.trailingAnchor).active = true
+            
+            simpleCellView.selected = false
+            if(row==tableView.selectedRow){
+                simpleCellView.selected = true
             }
-
+            
+            return simpleCellView
         }
         return nil;
     }
@@ -111,9 +134,35 @@ class EEBClientViewController: EEBBaseTableViewController,EEBSimpleTableCellView
     }
     
     func tableViewSelectionDidChange(notification: NSNotification) {
-        let items = self.view.window?.toolbar?.items.filter({$0.itemIdentifier == kToolbarItemIdentifierRun})
-        if(items?.count > 0){
-            items?.first?.enabled = false
+        let items = self.view.window?.toolbar?.items.filter({$0.itemIdentifier == kToolbarItemIdentifierDelete})
+        items?.first?.enabled = (tableView.selectedRow > -1)
+        
+        let runItems = self.view.window?.toolbar?.items.filter({$0.itemIdentifier == kToolbarItemIdentifierRun})
+        runItems?.first?.enabled = self.timer!.running
+        
+        updateSelection()
+    }
+    
+    
+    func updateSelection(){
+        
+        for (var idx = 0; idx < tableView.numberOfRows; idx++){
+            if let view = tableView.rowViewAtRow(idx, makeIfNecessary: false)?.viewAtColumn(0) as? EEBSimpleTableCellView {
+                view.selected = false
+            }
+        }
+        
+        if tableView.selectedRow > -1 {
+            if let view = tableView.rowViewAtRow(tableView.selectedRow, makeIfNecessary: false)?.viewAtColumn(0) as? EEBSimpleTableCellView {
+                view.selected = true
+            }
+        }
+
+    }
+    
+    override func controlTextDidEndEditing(notification: NSNotification) {
+        if let textField = notification.object as? NSTextField {
+            self.textfieldEdited(textField)
         }
     }
     
@@ -121,36 +170,54 @@ class EEBClientViewController: EEBBaseTableViewController,EEBSimpleTableCellView
         super.textfieldEdited(sender)
         
         let rowIndex = tableView.rowForView(sender)
-        if let client = self.sm!.allObjectsOfType(self.kTVObjectType)?[rowIndex] as? Client {
-            if let jobsSet = client.jobs.set as? Set<Job>{
-                let newJobs = jobsSet.map({
-                    (let job) -> Job  in
-                    job.client = client
-                    return job
-                })
-                client.jobs = NSMutableOrderedSet(array: newJobs)
-            }
+        guard (rowIndex > 0 ) else {
+            return
         }
         
+        
+        let client = clients[rowIndex]
+        
+        if let jobsSet = client.jobs.set as? Set<Job>{
+            let newJobs = jobsSet.map({
+                (let job) -> Job  in
+                job.client = client
+                return job
+            })
+            client.jobs = NSMutableOrderedSet(array: newJobs)
+        }
+    
     }
  
     //MARK: IBActions
     override func remove(sender : AnyObject){
+        guard(tableView.selectedRow > -1) else {
+            return
+        }
+        
         //code
-        let rowIdx = self.tableView.selectedRow
-        if let currentObject = sm!.allObjectsOfType(kTVObjectType)?[rowIdx] as? Client {
-            sm!.removeObject(currentObject)
+        let rowIdx = tableView.selectedRow
+        if(rowIdx > -1 && rowIdx < clients.count){
+            sm!.removeObject(clients[rowIdx])
             sm!.save()
         }
+        
+        for (var idx = 0; idx < tableView.numberOfRows; idx++){
+            if let view = tableView.rowViewAtRow(idx, makeIfNecessary: false)?.viewAtColumn(0) as? EEBSimpleTableCellView {
+                view.selected = false
+            }
+        }
+        fetchClients()
         self.tableView.reloadData()
+        
     }
     
     override func add(sender : AnyObject){
         if let createdObject = sm!.createObjectOfType(kTVObjectType) as? Client {
-            createdObject.name = "Jane Doe"
+            createdObject.name = "Jane Doe \(tableView.selectedRow)"
             createdObject.hourlyRate = 90.0
             sm!.save()
         }
+        fetchClients()
         self.tableView.reloadData()
     }
     override func run(sender : AnyObject){
@@ -175,10 +242,17 @@ class EEBClientViewController: EEBBaseTableViewController,EEBSimpleTableCellView
             //This method is invoked with the calling object as sender, which is the parent TableCellView
             if let view = sender as? NSView {
                 let rowIdx = tableView.rowForView(view)
-                vc.client = self.sm!.allObjectsOfType(self.kTVObjectType)?[rowIdx] as? Client
+                vc.client = clients[rowIdx]
             }
 
             self.navigationController?.pushViewController(vc, true)
+            
+            //deselect all rows
+            for (var idx = 0; idx < tableView.numberOfRows; idx++){
+                if let view = tableView.rowViewAtRow(idx, makeIfNecessary: false)?.viewAtColumn(0) as? EEBSimpleTableCellView {
+                    view.selected = false
+                }
+            }
         }
     }
 }
