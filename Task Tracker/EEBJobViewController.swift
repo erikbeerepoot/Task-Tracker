@@ -9,7 +9,7 @@
 import Cocoa
 import AppKit
 
-class EEBJobViewController: EEBBaseTableViewController {
+class EEBJobViewController: EEBBaseTableViewController, NSTextFieldDelegate, EEBTimingSessionsViewControllerDelegate {
     
     @IBOutlet weak var overlayView : EEBOverlayView!
     @IBOutlet weak var customSpacerView : NSView!
@@ -28,6 +28,9 @@ class EEBJobViewController: EEBBaseTableViewController {
     }
     
     override func viewDidLoad() {
+        tableView.doubleAction = Selector("doubleClicked:")
+        tableView.target = self
+        
         //Set overlay buttons
         let leftButton = EEBBorderedPictureButton(frame: CGRectMake(0,0,32,32))
         leftButton.image = NSImage(named:"arrow-left-black-48")
@@ -98,10 +101,9 @@ class EEBJobViewController: EEBBaseTableViewController {
                 }
                 break;
             case kTimeColumnIdentifier:
-                if let cellView = tableView.makeViewWithIdentifier("nameCell", owner: self) as? NSTableCellView{
+                if let cellView = tableView.makeViewWithIdentifier("nameCell", owner: self) as? NSTableCellView {
                     cellView.textField?.stringValue = currentJob.totalTimeString()
                     cellView.textField?.editable = false
-                    
                     return cellView
                 }
                 break;
@@ -162,7 +164,30 @@ class EEBJobViewController: EEBBaseTableViewController {
         }
     }
     
-    
+    func doubleClicked(sender : AnyObject){
+        if(sender.clickedColumn == tableView.columnWithIdentifier(kTimeColumnIdentifier)){
+            let currentJob = client?.jobs[sender.clickedRow] as? Job
+            if let vc = self.storyboard?.instantiateControllerWithIdentifier("timingViewController") as? EEBTimingSessionsViewController {
+                vc.job = currentJob
+                vc.delegate = self
+                vc.sm = sm
+                
+                let popover = NSPopover()
+                popover.delegate = vc
+                popover.behavior = .Transient
+                popover.contentViewController = vc
+                popover.contentSize = vc.view.bounds.size
+                popover.showRelativeToRect(NSMakeRect(0, 0, 50, 50), ofView: tableView.viewAtColumn(sender.clickedColumn, row: sender.clickedRow, makeIfNecessary: false)!, preferredEdge: NSRectEdge.MinY)
+                vc.popover = popover
+                
+            }
+            
+        }
+    }
+
+    func doneEditing() {
+        tableView.reloadData()
+    }
     
     /**
      * @name    updateRow
@@ -203,7 +228,6 @@ class EEBJobViewController: EEBBaseTableViewController {
             return
         }
         
-
         let jobsToRemove = tableView.selectedRowIndexes.map() {client?.jobs[$0] }
         jobsToRemove.forEach() { sm!.removeObject($0 as! Job)}
 

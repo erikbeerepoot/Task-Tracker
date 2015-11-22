@@ -45,17 +45,8 @@ class Job: NSManagedObject {
     
     //Since this swift class is objective-c interop, can't just overload on the return type :(
     func totalTimeString() -> String {
-        return Job.timeIntervalToString(totalTime())
-    }
-    
-    
-    private class func timeIntervalToString(timeInterval : NSTimeInterval) -> String {
-        let formatter = NSDateComponentsFormatter()
-        formatter.zeroFormattingBehavior = .Pad
-        formatter.allowedUnits = [NSCalendarUnit.Hour , NSCalendarUnit.Minute, NSCalendarUnit.Second]
-        let string = formatter.stringFromTimeInterval(timeInterval)
-        return (string == nil) ? "" : string!
-    }
+        return NSTimeInterval.timeIntervalToString(totalTime())
+    }            
     
     /************************************************************
      *                      Cost Logic                        *

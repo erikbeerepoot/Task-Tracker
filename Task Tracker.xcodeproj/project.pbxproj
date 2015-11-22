@@ -23,6 +23,8 @@
 		0382E6C71BF4086B002CABF5 /* pause32.png in Resources */ = {isa = PBXBuildFile; fileRef = 0382E6C61BF4086B002CABF5 /* pause32.png */; };
 		039A836F1BFADC4B00BD64C7 /* share-48.png in Resources */ = {isa = PBXBuildFile; fileRef = 039A836E1BFADC4B00BD64C7 /* share-48.png */; };
 		03A9F5CD1C0234680041A954 /* NSToolbar+findItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03A9F5CC1C0234680041A954 /* NSToolbar+findItems.swift */; };
+		03A9F5CF1C0240890041A954 /* EEBTimingSessionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03A9F5CE1C0240890041A954 /* EEBTimingSessionsViewController.swift */; };
+		03A9F5D11C0253C50041A954 /* NSTimerInterval+String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03A9F5D01C0253C50041A954 /* NSTimerInterval+String.swift */; };
 		03B67CFF1BDFD03B005CD45E /* AppData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 03B67CFD1BDFD03B005CD45E /* AppData.xcdatamodeld */; };
 		03B67D011BE084D8005CD45E /* PersistentStoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B67D001BE084D8005CD45E /* PersistentStoreManager.swift */; };
 		03B67D0A1BE08709005CD45E /* TimingSession+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B67D021BE08709005CD45E /* TimingSession+CoreDataProperties.swift */; };
@@ -75,6 +77,8 @@
 		0382E6C61BF4086B002CABF5 /* pause32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pause32.png; sourceTree = "<group>"; };
 		039A836E1BFADC4B00BD64C7 /* share-48.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "share-48.png"; sourceTree = "<group>"; };
 		03A9F5CC1C0234680041A954 /* NSToolbar+findItems.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSToolbar+findItems.swift"; sourceTree = "<group>"; };
+		03A9F5CE1C0240890041A954 /* EEBTimingSessionsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EEBTimingSessionsViewController.swift; sourceTree = "<group>"; };
+		03A9F5D01C0253C50041A954 /* NSTimerInterval+String.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSTimerInterval+String.swift"; sourceTree = "<group>"; };
 		03B67CFE1BDFD03B005CD45E /* AppData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = AppData.xcdatamodel; sourceTree = "<group>"; };
 		03B67D001BE084D8005CD45E /* PersistentStoreManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersistentStoreManager.swift; sourceTree = "<group>"; };
 		03B67D021BE08709005CD45E /* TimingSession+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "TimingSession+CoreDataProperties.swift"; path = "../CoreData Generated/TimingSession+CoreDataProperties.swift"; sourceTree = "<group>"; };
@@ -155,6 +159,7 @@
 			isa = PBXGroup;
 			children = (
 				03A9F5CC1C0234680041A954 /* NSToolbar+findItems.swift */,
+				03A9F5D01C0253C50041A954 /* NSTimerInterval+String.swift */,
 			);
 			name = Categories;
 			sourceTree = "<group>";
@@ -167,6 +172,7 @@
 				034DA68B1BFAB7CA004ECFD4 /* EEBInvoiceViewController.swift */,
 				03B67D171BE12D0B005CD45E /* EEBJobViewController.swift */,
 				03B67D191BE13A0C005CD45E /* EEBNavigationController.swift */,
+				03A9F5CE1C0240890041A954 /* EEBTimingSessionsViewController.swift */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -404,6 +410,8 @@
 				03B67D181BE12D0B005CD45E /* EEBJobViewController.swift in Sources */,
 				03B67D1C1BE16498005CD45E /* EEBBaseTableViewController.swift in Sources */,
 				03C269C11BDF2B7700DAA4E7 /* MainWindowController.swift in Sources */,
+				03A9F5CF1C0240890041A954 /* EEBTimingSessionsViewController.swift in Sources */,
+				03A9F5D11C0253C50041A954 /* NSTimerInterval+String.swift in Sources */,
 				0382E6C31BF3ED29002CABF5 /* constants.swift in Sources */,
 				032A88D81BE6B0DA005AC234 /* EEBOverlayView.swift in Sources */,
 				03B67D101BE08709005CD45E /* Client+CoreDataProperties.swift in Sources */,
