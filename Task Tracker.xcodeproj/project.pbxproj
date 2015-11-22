@@ -22,6 +22,7 @@
 		0382E6C51BF407DD002CABF5 /* stop32.png in Resources */ = {isa = PBXBuildFile; fileRef = 0382E6C41BF407DD002CABF5 /* stop32.png */; };
 		0382E6C71BF4086B002CABF5 /* pause32.png in Resources */ = {isa = PBXBuildFile; fileRef = 0382E6C61BF4086B002CABF5 /* pause32.png */; };
 		039A836F1BFADC4B00BD64C7 /* share-48.png in Resources */ = {isa = PBXBuildFile; fileRef = 039A836E1BFADC4B00BD64C7 /* share-48.png */; };
+		03A9F5CD1C0234680041A954 /* NSToolbar+findItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03A9F5CC1C0234680041A954 /* NSToolbar+findItems.swift */; };
 		03B67CFF1BDFD03B005CD45E /* AppData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 03B67CFD1BDFD03B005CD45E /* AppData.xcdatamodeld */; };
 		03B67D011BE084D8005CD45E /* PersistentStoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B67D001BE084D8005CD45E /* PersistentStoreManager.swift */; };
 		03B67D0A1BE08709005CD45E /* TimingSession+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B67D021BE08709005CD45E /* TimingSession+CoreDataProperties.swift */; };
@@ -73,6 +74,7 @@
 		0382E6C41BF407DD002CABF5 /* stop32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = stop32.png; sourceTree = "<group>"; };
 		0382E6C61BF4086B002CABF5 /* pause32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pause32.png; sourceTree = "<group>"; };
 		039A836E1BFADC4B00BD64C7 /* share-48.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "share-48.png"; sourceTree = "<group>"; };
+		03A9F5CC1C0234680041A954 /* NSToolbar+findItems.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSToolbar+findItems.swift"; sourceTree = "<group>"; };
 		03B67CFE1BDFD03B005CD45E /* AppData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = AppData.xcdatamodel; sourceTree = "<group>"; };
 		03B67D001BE084D8005CD45E /* PersistentStoreManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersistentStoreManager.swift; sourceTree = "<group>"; };
 		03B67D021BE08709005CD45E /* TimingSession+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "TimingSession+CoreDataProperties.swift"; path = "../CoreData Generated/TimingSession+CoreDataProperties.swift"; sourceTree = "<group>"; };
@@ -143,9 +145,18 @@
 		0382E6C11BF3ED20002CABF5 /* Helper */ = {
 			isa = PBXGroup;
 			children = (
+				03A9F5CB1C0234470041A954 /* Categories */,
 				0382E6C21BF3ED29002CABF5 /* constants.swift */,
 			);
 			name = Helper;
+			sourceTree = "<group>";
+		};
+		03A9F5CB1C0234470041A954 /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				03A9F5CC1C0234680041A954 /* NSToolbar+findItems.swift */,
+			);
+			name = Categories;
 			sourceTree = "<group>";
 		};
 		03B67CFB1BDFCB59005CD45E /* ViewControllers */ = {
@@ -382,6 +393,7 @@
 				03B67D0A1BE08709005CD45E /* TimingSession+CoreDataProperties.swift in Sources */,
 				034DA68C1BFAB7CA004ECFD4 /* EEBInvoiceViewController.swift in Sources */,
 				0378FAF11BE717F100F06307 /* EEBBorderedPictureButton.swift in Sources */,
+				03A9F5CD1C0234680041A954 /* NSToolbar+findItems.swift in Sources */,
 				03B67CFF1BDFD03B005CD45E /* AppData.xcdatamodeld in Sources */,
 				03B67D0D1BE08709005CD45E /* Job.swift in Sources */,
 				032A88D11BE56D74005AC234 /* EEBSimpleTableCellView.swift in Sources */,

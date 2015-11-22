@@ -148,7 +148,9 @@ class EEBJobViewController: EEBBaseTableViewController {
      */
 
     override func textfieldEdited(sender: NSTextField) {
-        
+        guard tableView.selectedRow != -1  else {
+            return 
+        }
         
         if let currentJob = client?.jobs[tableView.selectedRow] as? Job {
             currentJob.setValue(sender.stringValue, forKey: sender.identifier!)
@@ -168,15 +170,14 @@ class EEBJobViewController: EEBBaseTableViewController {
      *          to which that job belongs. This method takes care of that
      */
     func updateRow(){
-        guard (tableView.numberOfRows > 0) && (lastSelectedRowIndex < tableView.numberOfRows) &&
-            (lastSelectedRowIndex < client?.jobs.count) else {
+        guard timer != nil && timer!.job != nil else {
             return
         }
         
-        
-        if let currentJob = client?.jobs[lastSelectedRowIndex] as? Job {
-            let timeCellView = tableView(tableView, viewForTableColumn: NSTableColumn(identifier:kTimeColumnIdentifier), row: lastSelectedRowIndex) as? NSTableCellView
-            let costCellView = tableView(tableView, viewForTableColumn: NSTableColumn(identifier: kCostColumnIdentifier), row: lastSelectedRowIndex) as? NSTableCellView
+        if let currentJob = timer?.job, jobIdx = client?.jobs.indexOfObject(timer!.job!) {
+            
+            let timeCellView = tableView(tableView, viewForTableColumn: NSTableColumn(identifier:kTimeColumnIdentifier), row: jobIdx) as? NSTableCellView
+            let costCellView = tableView(tableView, viewForTableColumn: NSTableColumn(identifier: kCostColumnIdentifier), row: jobIdx) as? NSTableCellView
             timeCellView?.textField?.stringValue = currentJob.totalTimeString()
             costCellView?.textField?.stringValue = currentJob.cost()
             
@@ -184,7 +185,7 @@ class EEBJobViewController: EEBBaseTableViewController {
             idxSet.addIndex(tableView.columnWithIdentifier(kCostColumnIdentifier))
             
             tableView.beginUpdates()
-            tableView.reloadDataForRowIndexes(NSIndexSet(index:lastSelectedRowIndex), columnIndexes: idxSet)
+            tableView.reloadDataForRowIndexes(NSIndexSet(index:jobIdx), columnIndexes: idxSet)
             tableView.endUpdates()
         }
         
@@ -198,11 +199,15 @@ class EEBJobViewController: EEBBaseTableViewController {
     
     //Remove the selected job from the DB
     override func remove(sender : AnyObject){
-        let rowIdx = self.tableView.selectedRow
-        if let job = client?.jobs[rowIdx] as? Job {
-            sm!.removeObject(job)
-            sm!.save()
+        guard tableView.selectedRowIndexes.count > 0  else {
+            return
         }
+        
+
+        let jobsToRemove = tableView.selectedRowIndexes.map() {client?.jobs[$0] }
+        jobsToRemove.forEach() { sm!.removeObject($0 as! Job)}
+
+        sm!.save()
         self.tableView.reloadData()
     }
     

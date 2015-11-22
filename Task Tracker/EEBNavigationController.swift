@@ -170,21 +170,19 @@ class EEBNavigationController : NSViewController {
     }
     
     override func keyUp(theEvent: NSEvent) {
+        let currentVC = viewControllers.last as? EEBBaseTableViewController
+        guard( currentVC != nil) else {
+            return
+        }
+        
         let chars = theEvent.charactersIgnoringModifiers
         if(chars == " "){
-            if let currentVC = viewControllers.last as? EEBBaseTableViewController {
-                if let runItems = self.view.window?.toolbar?.items.filter({$0.itemIdentifier == kToolbarItemIdentifierRun}){
-                    if(runItems.first!.enabled){
-                        currentVC.run(runItems.first!.view!)
-                    }
-                }
+            if let runItem = self.view.window?.toolbar?.itemWithIdentifier(kToolbarItemIdentifierRun){
+                currentVC!.run(runItem.view!)
             }
-        } else if(chars! == "\r"){
-            if let currentVC = viewControllers.last as? EEBBaseTableViewController {
-                if let addItems = self.view.window?.toolbar?.items.filter({$0.itemIdentifier == kToolbarItemIdentifierAdd}){
-                    currentVC.add(addItems.first!.view!)
-                }
-               
+        } else if(chars! == "\r" && currentVC is EEBJobViewController){
+            if let addItem = self.view.window?.toolbar?.itemWithIdentifier(kToolbarItemIdentifierAdd) {
+                currentVC!.add(addItem.view!)
             }
         }
 

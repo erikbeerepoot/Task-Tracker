@@ -231,7 +231,7 @@ class EEBClientViewController: EEBBaseTableViewController,EEBSimpleTableCellView
     
     override func add(sender : AnyObject){
         if let createdObject = sm!.createObjectOfType(kTVObjectType) as? Client {
-            createdObject.name = "Jane Doe \(tableView.selectedRow)"
+            createdObject.name = "New Client"
             createdObject.hourlyRate = 90.0
             sm!.save()
         }

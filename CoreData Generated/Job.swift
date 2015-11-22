@@ -11,7 +11,8 @@ import CoreData
 
 
 class Job: NSManagedObject {
-
+    var running = false
+    
     /************************************************************
      *                      Timing Logic                        *
      ************************************************************/
