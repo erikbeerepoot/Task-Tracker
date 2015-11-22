@@ -55,74 +55,92 @@ class EEBClientViewController: EEBBaseTableViewController,EEBSimpleTableCellView
         //Get the object of which we wish to display the properties
         let currentObject = clients[row]
 
-        if let simpleCellView = tableView.makeViewWithIdentifier("simpleCellView", owner: nil) as? EEBSimpleTableCellView {
-            simpleCellView.delegate = self;
+        if let simpleCellView = tableView.makeViewWithIdentifier("simpleCellView", owner: self) as? EEBSimpleTableCellView {
+            if let companyNameView = simpleCellView.viewWithTag(200) as? NSTextField{
+                companyNameView.stringValue = currentObject.company == nil ? "" : currentObject.company!
+            } else {
+                let companyNameRect = CGRectMake(0.0, 5.0, simpleCellView.contentFrame.size.width - (kRateFieldWidth + kPadding),25.0)
+                let companyNameView = NSTextField(frame: companyNameRect)
+                companyNameView.font = NSFont(name: "Helvetica Neue Light", size: 15.0)
+                companyNameView.stringValue = currentObject.company == nil ? "" : currentObject.company!
+                companyNameView.textColor = NSColor.lightGrayColor()
+                companyNameView.editable = true
+                companyNameView.selectable = true
+                companyNameView.bordered = false
+                companyNameView.focusRingType = .None
+                companyNameView.target = self
+                companyNameView.identifier = "company"
+                companyNameView.tag = 200
+                companyNameView.delegate = self
+                companyNameView.action = Selector("textfieldEdited:")
+                
+                simpleCellView.contentView?.addSubview(companyNameView)
+            }
             
-            //setup textfields in contentview
-            let frame = simpleCellView.contentFrame
-            let companyNameRect = CGRectMake(0.0, 5.0, frame.size.width - (kRateFieldWidth + kPadding),25.0)
-            let companyNameView = NSTextField(frame: companyNameRect)
-            companyNameView.font = NSFont(name: "Helvetica Neue Light", size: 15.0)
-            companyNameView.stringValue = currentObject.company == nil ? "" : currentObject.company!
-            companyNameView.textColor = NSColor.lightGrayColor()
-            companyNameView.editable = true
-            companyNameView.selectable = true
-            companyNameView.bordered = false
-            companyNameView.focusRingType = .None
-            companyNameView.target = self
-            companyNameView.identifier = "company"
-            companyNameView.delegate = self
-            companyNameView.action = Selector("textfieldEdited:")
             
-            let clientNameRect = CGRectMake(0.0, 30.0, frame.size.width ,25.0)
-            let clientNameView = NSTextField(frame: clientNameRect)
-            clientNameView.stringValue = currentObject.name!
-            clientNameView.font = NSFont(name: "Helvetica Neue Light", size: 22.0)
-            clientNameView.editable = true
-            clientNameView.selectable = true
-            clientNameView.bordered = false
-            clientNameView.focusRingType = .None
-            clientNameView.target = self
-            clientNameView.delegate = self
-            clientNameView.identifier = "name"
-            clientNameView.action = Selector("textfieldEdited:")
-            
-            let clientRateRect = CGRectMake(frame.size.width - kRateFieldWidth, companyNameRect.origin.y, kRateFieldWidth,25.0)
-            let clientRateView = NSTextField(frame: clientRateRect)
-            clientRateView.font = NSFont(name: "Helvetica Neue Light", size: 15.0)
-            clientRateView.alignment = .Right
-            clientRateView.editable = true
-            clientRateView.selectable = true
-            clientRateView.bordered = false
-            clientRateView.focusRingType = .None
-            clientRateView.target = self
-            clientRateView.delegate = self
-            clientRateView.identifier = "rateString"
-            clientRateView.action = Selector("textfieldEdited:")
-            
-            let nf = NSNumberFormatter()
-            nf.numberStyle = NSNumberFormatterStyle.CurrencyStyle
-            clientRateView.formatter = nf
-            clientRateView.stringValue = currentObject.rateString
-            
-            simpleCellView.contentView?.addSubview(companyNameView)
-            simpleCellView.contentView?.addSubview(clientNameView)
-            simpleCellView.contentView?.addSubview(clientRateView)
+            if let clientNameView = simpleCellView.viewWithTag(201) as? NSTextField {
+                clientNameView.stringValue = currentObject.name!
+            } else {
+                let clientNameRect = CGRectMake(0.0, 30.0, simpleCellView.contentFrame.size.width ,25.0)
+                let clientNameView = NSTextField(frame: clientNameRect)
+                clientNameView.stringValue = currentObject.name!
+                clientNameView.font = NSFont(name: "Helvetica Neue Light", size: 22.0)
+                clientNameView.editable = true
+                clientNameView.selectable = true
+                clientNameView.bordered = false
+                clientNameView.focusRingType = .None
+                clientNameView.target = self
+                clientNameView.delegate = self
+                clientNameView.identifier = "name"
+                clientNameView.tag = 201
+                clientNameView.action = Selector("textfieldEdited:")
 
-            clientRateView.translatesAutoresizingMaskIntoConstraints = false
-            clientRateView.leadingAnchor.constraintEqualToAnchor(companyNameView.trailingAnchor).active = true
-            clientRateView.topAnchor.constraintEqualToAnchor(companyNameView.topAnchor).active = true
-            clientRateView.bottomAnchor.constraintEqualToAnchor(companyNameView.bottomAnchor).active = true
-            clientRateView.trailingAnchor.constraintEqualToAnchor(simpleCellView.contentView!.trailingAnchor).active = true
+                simpleCellView.contentView?.addSubview(clientNameView)
+
+            }
             
+            if let clientRateView = simpleCellView.viewWithTag(202) as? NSTextField {
+                clientRateView.stringValue = currentObject.rateString
+            } else {
+                let companyNameRect = CGRectMake(0.0, 5.0, simpleCellView.contentFrame.size.width - (kRateFieldWidth + kPadding),25.0)
+                let clientRateRect = CGRectMake(simpleCellView.contentFrame.size.width - kRateFieldWidth, companyNameRect.origin.y, kRateFieldWidth,25.0)
+                let clientRateView = NSTextField(frame: clientRateRect)
+                clientRateView.font = NSFont(name: "Helvetica Neue Light", size: 15.0)
+                clientRateView.alignment = .Right
+                clientRateView.editable = true
+                clientRateView.selectable = true
+                clientRateView.bordered = false
+                clientRateView.focusRingType = .None
+                clientRateView.target = self
+                clientRateView.delegate = self
+                clientRateView.identifier = "rateString"
+                clientRateView.tag = 202
+                clientRateView.action = Selector("textfieldEdited:")
+                
+                simpleCellView.contentView?.addSubview(clientRateView)
+
+                let companyNameView = simpleCellView.viewWithTag(200) as! NSTextField
+                clientRateView.translatesAutoresizingMaskIntoConstraints = false
+                clientRateView.leadingAnchor.constraintEqualToAnchor(companyNameView.trailingAnchor).active = true
+                clientRateView.topAnchor.constraintEqualToAnchor(companyNameView.topAnchor).active = true
+                clientRateView.bottomAnchor.constraintEqualToAnchor(companyNameView.bottomAnchor).active = true
+                clientRateView.trailingAnchor.constraintEqualToAnchor(simpleCellView.contentView!.trailingAnchor).active = true
+                    
+                let nf = NSNumberFormatter()
+                nf.numberStyle = NSNumberFormatterStyle.CurrencyStyle
+                clientRateView.formatter = nf
+                clientRateView.stringValue = currentObject.rateString
+            }
+            
+            simpleCellView.delegate = self
             simpleCellView.selected = false
             if(row==tableView.selectedRow){
                 simpleCellView.selected = true
             }
-            
+
             return simpleCellView
         }
-        return nil;
+        return nil
     }
     
     

@@ -170,8 +170,8 @@ class EEBNavigationController : NSViewController {
     }
     
     override func keyUp(theEvent: NSEvent) {
-        
-        if(theEvent.characters == " "){
+        let chars = theEvent.charactersIgnoringModifiers
+        if(chars == " "){
             if let currentVC = viewControllers.last as? EEBBaseTableViewController {
                 if let runItems = self.view.window?.toolbar?.items.filter({$0.itemIdentifier == kToolbarItemIdentifierRun}){
                     if(runItems.first!.enabled){
@@ -179,6 +179,14 @@ class EEBNavigationController : NSViewController {
                     }
                 }
             }
+        } else if(chars! == "\r"){
+            if let currentVC = viewControllers.last as? EEBBaseTableViewController {
+                if let addItems = self.view.window?.toolbar?.items.filter({$0.itemIdentifier == kToolbarItemIdentifierAdd}){
+                    currentVC.add(addItems.first!.view!)
+                }
+               
+            }
         }
+
     }
 }

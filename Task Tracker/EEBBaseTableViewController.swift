@@ -12,7 +12,6 @@ import AppKit
 class EEBBaseTableViewController : NSViewController, NSTableViewDataSource, NSTableViewDelegate, NavigableViewController {
     //MARK: IBOutlets
     @IBOutlet weak var tableView : NSTableView!
-    @IBOutlet weak var backgroundView : NSView!
     @IBOutlet weak var titleLabel : NSTextField!
     
     //MARK: Appearance

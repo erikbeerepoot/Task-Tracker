@@ -788,7 +788,7 @@
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
                                                 <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" headerView="PZZ-PI-HFP" viewBased="YES" id="FU4-Vw-Qtl">
-                                                    <rect key="frame" x="0.0" y="0.0" width="642" height="0.0"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="641" height="0.0"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <animations/>
                                                     <size key="intercellSpacing" width="3" height="2"/>
@@ -848,7 +848,7 @@
                                                             <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                             <prototypeCellViews>
                                                                 <tableCellView id="BBJ-HZ-7AM">
-                                                                    <rect key="frame" x="128.5" y="1" width="103" height="17"/>
+                                                                    <rect key="frame" x="129" y="1" width="103" height="17"/>
                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                     <subviews>
                                                                         <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="nRb-w9-qBQ">
@@ -926,7 +926,7 @@
                                                             <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                             <prototypeCellViews>
                                                                 <tableCellView id="5Np-nc-f1U">
-                                                                    <rect key="frame" x="339" y="1" width="300" height="17"/>
+                                                                    <rect key="frame" x="340" y="1" width="300" height="17"/>
                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                     <subviews>
                                                                         <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="IaC-tP-FPj">
@@ -1082,7 +1082,7 @@
                             <scrollView autoresizesSubviews="NO" borderType="none" autohidesScrollers="YES" horizontalLineScroll="130" horizontalPageScroll="10" verticalLineScroll="130" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="as8-Wz-RYO">
                                 <rect key="frame" x="0.0" y="0.0" width="550" height="450"/>
                                 <clipView key="contentView" drawsBackground="NO" id="HVy-xk-60C">
-                                    <rect key="frame" x="0.0" y="0.0" width="550" height="450"/>
+                                    <rect key="frame" x="0.5" y="0.0" width="550" height="450"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <tableView focusRingType="exterior" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" selectionHighlightStyle="none" multipleSelection="NO" emptySelection="NO" autosaveColumns="NO" rowHeight="128" viewBased="YES" id="g74-pK-c93">
@@ -1146,8 +1146,8 @@
                         <animations/>
                     </view>
                     <connections>
-                        <outlet property="tableView" destination="g74-pK-c93" id="3UZ-kJ-OsY"/>
-                        <outlet property="view" destination="VU4-JS-wln" id="ir8-Bc-YvV"/>
+                        <outlet property="tableView" destination="g74-pK-c93" id="OIE-MU-3GK"/>
+                        <outlet property="view" destination="VU4-JS-wln" id="2S4-WK-jBF"/>
                     </connections>
                 </viewController>
             </objects>
