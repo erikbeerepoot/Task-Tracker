@@ -12,7 +12,7 @@ import AppKit
 class EEBClientViewController: EEBBaseTableViewController,EEBSimpleTableCellViewDelegate, NSTextFieldDelegate {
     
     let kDefaultIconImageName = "client128.png"
-    let kRateFieldWidth = CGFloat(60)
+    let kRateFieldWidth = CGFloat(70)
     let kPadding = CGFloat(10)
     
     var clients : [Client] = []

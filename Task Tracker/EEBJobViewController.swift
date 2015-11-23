@@ -15,6 +15,8 @@ class EEBJobViewController: EEBBaseTableViewController, NSTextFieldDelegate, EEB
     @IBOutlet weak var customSpacerView : NSView!
     
     let kDefaultIconImageName = "suitcase32.png"    
+    let kNameColumnIdentifier = "name"
+    let kDescriptionColumnIdentifier = "description"
     let kTimeColumnIdentifier = "time"
     let kCostColumnIdentifier = "cost"
 
@@ -79,7 +81,7 @@ class EEBJobViewController: EEBBaseTableViewController, NSTextFieldDelegate, EEB
         let view = NSTextField()
         
         switch(tableColumn!.identifier){
-            case "name":
+            case kNameColumnIdentifier:
                 if let cellView = tableView.makeViewWithIdentifier("nameCell", owner: self) as? NSTableCellView{
                     cellView.textField?.stringValue = currentJob.name
                     cellView.textField?.editable = true
@@ -90,7 +92,7 @@ class EEBJobViewController: EEBBaseTableViewController, NSTextFieldDelegate, EEB
                 }
                 
                 break;
-            case "description":
+            case kDescriptionColumnIdentifier:
                 if let cellView = tableView.makeViewWithIdentifier("nameCell", owner: self) as? NSTableCellView{
                     cellView.textField?.stringValue = (currentJob.jobDescription == nil) ? "" : currentJob.jobDescription!
                     cellView.textField?.editable = true
@@ -104,6 +106,15 @@ class EEBJobViewController: EEBBaseTableViewController, NSTextFieldDelegate, EEB
                 if let cellView = tableView.makeViewWithIdentifier("nameCell", owner: self) as? NSTableCellView {
                     cellView.textField?.stringValue = currentJob.totalTimeString()
                     cellView.textField?.editable = false
+                    
+                    //embed recessed button
+//                    let quickAdd = NSButton(frame: CGRectMake(cellView.frame.size.width - tableView.rowHeight ,0,tableView.rowHeight,tableView.rowHeight))
+//                    quickAdd.bezelStyle = .InlineBezelStyle
+//                    quickAdd.stringValue = ""
+//                    quickAdd.image = NSImage(named: NSImageNameAddTemplate)
+//                    quickAdd.setButtonType(.MomentaryPushInButton)
+//                    cellView.addSubview(quickAdd)
+                    
                     return cellView
                 }
                 break;

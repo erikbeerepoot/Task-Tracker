@@ -47,7 +47,8 @@ class EEBTimingSessionsViewController : NSViewController, NSPopoverDelegate, NST
             }
             
             if let cellView = tableView.makeViewWithIdentifier("date", owner: self) as? NSTableCellView {
-                cellView.textField?.stringValue = "No sessions"
+                cellView.textField?.stringValue = NSLocalizedString("No sessions", comment: "No sessions")
+                cellView.textField?.textColor = NSColor.grayColor()
                 cellView.textField?.editable = false
                 return cellView
             }
@@ -65,6 +66,7 @@ class EEBTimingSessionsViewController : NSViewController, NSPopoverDelegate, NST
                     cellView.textField?.target = self
                     cellView.textField?.action = Selector("textfieldEdited:")
                     cellView.textField?.stringValue = formatter.stringFromDate(currentSession!.startDate)
+                    cellView.textField?.textColor = NSColor.blackColor()
                     cellView.layer?.backgroundColor = NSColor.redColor().CGColor
                     return cellView
                 }
@@ -106,7 +108,17 @@ class EEBTimingSessionsViewController : NSViewController, NSPopoverDelegate, NST
             formatter.dateStyle = .ShortStyle
             formatter.locale = NSLocale.currentLocale()
             if let date = formatter.dateFromString(sender.stringValue) {
-                session?.startDate = date
+                let cal = NSCalendar(calendarIdentifier: NSCalendarIdentifierGregorian)!
+                let dateComponents = cal.components([.Day , .Month, .Year ], fromDate: date)
+                let timeComponents = cal.components([.Hour,.Minute,.Second], fromDate: session!.startDate)
+
+                if let newDate = cal.dateFromComponents(dateComponents) {
+                    if let finalDate = cal.dateByAddingComponents(timeComponents, toDate: newDate, options: NSCalendarOptions(rawValue:0)){
+                        session?.startDate = finalDate
+                    }
+                }
+            
+
             }
             sm?.save()
             return

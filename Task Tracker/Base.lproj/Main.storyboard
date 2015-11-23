@@ -1075,17 +1075,17 @@
             <objects>
                 <viewController identifier="timingViewController" storyboardIdentifier="timingViewController" id="Bbm-BF-0pT" customClass="EEBTimingSessionsViewController" customModule="Task_Tracker" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="u5L-JQ-fAB">
-                        <rect key="frame" x="0.0" y="0.0" width="232" height="200"/>
+                        <rect key="frame" x="0.0" y="0.0" width="232" height="213"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <scrollView fixedFrame="YES" borderType="none" autohidesScrollers="YES" horizontalLineScroll="22" horizontalPageScroll="10" verticalLineScroll="22" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ne0-K9-fsS">
-                                <rect key="frame" x="20" y="38" width="192" height="133"/>
+                                <rect key="frame" x="20" y="34" width="192" height="125"/>
                                 <clipView key="contentView" ambiguous="YES" drawsBackground="NO" copiesOnScroll="NO" id="SdN-d8-eJf">
-                                    <rect key="frame" x="0.0" y="0.0" width="192" height="133"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="192" height="125"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnSelection="YES" autosaveColumns="NO" rowHeight="20" rowSizeStyle="automatic" viewBased="YES" id="YA3-Hd-Uxv">
-                                            <rect key="frame" x="0.0" y="0.0" width="192" height="133"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="192" height="125"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <animations/>
                                             <size key="intercellSpacing" width="3" height="2"/>
@@ -1182,8 +1182,19 @@
                                     <animations/>
                                 </scroller>
                             </scrollView>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="RwL-Y5-c9H">
+                                <rect key="frame" x="168" y="3" width="53" height="25"/>
+                                <animations/>
+                                <buttonCell key="cell" type="roundTextured" title="Done" bezelStyle="texturedRounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="pF6-sW-sQ1">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="done:" target="Bbm-BF-0pT" id="Tqv-L7-yE4"/>
+                                </connections>
+                            </button>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ZpS-eq-jHF">
-                                <rect key="frame" x="20" y="10" width="27" height="22"/>
+                                <rect key="frame" x="20" y="8" width="27" height="22"/>
                                 <animations/>
                                 <buttonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" image="NSRemoveTemplate" imagePosition="overlaps" alignment="center" imageScaling="proportionallyDown" inset="2" id="Rgy-n5-dLC">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -1194,7 +1205,7 @@
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="s6g-AX-tfz">
-                                <rect key="frame" x="48" y="8" width="27" height="25"/>
+                                <rect key="frame" x="48" y="6" width="27" height="25"/>
                                 <animations/>
                                 <buttonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" image="NSAddTemplate" imagePosition="overlaps" alignment="center" imageScaling="proportionallyDown" inset="2" id="8N3-NQ-Hy2">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -1205,7 +1216,7 @@
                                 </connections>
                             </button>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sGa-rK-N9f">
-                                <rect key="frame" x="18" y="172" width="37" height="17"/>
+                                <rect key="frame" x="18" y="163" width="37" height="17"/>
                                 <animations/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Date:" id="o6D-m5-Xnh">
                                     <font key="font" metaFont="system"/>
@@ -1214,7 +1225,7 @@
                                 </textFieldCell>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="KgE-xW-lwI">
-                                <rect key="frame" x="154" y="172" width="60" height="17"/>
+                                <rect key="frame" x="154" y="163" width="60" height="17"/>
                                 <animations/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Duration:" id="b2P-9q-f2u">
                                     <font key="font" metaFont="system"/>
@@ -1223,30 +1234,28 @@
                                 </textFieldCell>
                             </textField>
                             <box verticalHuggingPriority="750" fixedFrame="YES" title="Box" boxType="separator" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="qtL-53-0iu">
-                                <rect key="frame" x="20" y="33" width="192" height="5"/>
+                                <rect key="frame" x="20" y="27" width="192" height="5"/>
                                 <animations/>
                                 <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
                                 <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <font key="titleFont" metaFont="system"/>
                             </box>
                             <box verticalHuggingPriority="750" fixedFrame="YES" title="Box" boxType="separator" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="Vg9-vA-yek">
-                                <rect key="frame" x="20" y="167" width="192" height="5"/>
+                                <rect key="frame" x="20" y="160" width="192" height="5"/>
                                 <animations/>
                                 <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
                                 <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <font key="titleFont" metaFont="system"/>
                             </box>
-                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="RwL-Y5-c9H">
-                                <rect key="frame" x="168" y="5" width="53" height="25"/>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ZFm-CZ-rss">
+                                <rect key="frame" x="-2" y="189" width="236" height="17"/>
                                 <animations/>
-                                <buttonCell key="cell" type="roundTextured" title="Done" bezelStyle="texturedRounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="pF6-sW-sQ1">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="done:" target="Bbm-BF-0pT" id="Tqv-L7-yE4"/>
-                                </connections>
-                            </button>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="Timing Sessions" id="F2O-Ls-zkw">
+                                    <font key="font" metaFont="systemSemibold" size="13"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
                         </subviews>
                         <animations/>
                     </view>
@@ -1256,7 +1265,7 @@
                 </viewController>
                 <customObject id="RqW-7l-WjV" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1058" y="1755"/>
+            <point key="canvasLocation" x="1058" y="1761.5"/>
         </scene>
         <!--Client View Controller-->
         <scene sceneID="2eg-9Z-nM4">
