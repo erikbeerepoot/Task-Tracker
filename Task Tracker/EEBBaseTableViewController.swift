@@ -56,7 +56,9 @@ class EEBBaseTableViewController : NSViewController, NSTableViewDataSource, NSTa
     }
     
     override func viewWillDisappear() {
-        sm?.save()
+        if(!timer!.running) {
+            sm?.save()
+        }
     }
     
     override var representedObject: AnyObject? {
@@ -84,15 +86,25 @@ class EEBBaseTableViewController : NSViewController, NSTableViewDataSource, NSTa
     }
     
     @IBAction func add(sender : AnyObject){
-        
+        assert(false,"Run erroneously called on base object!")
     }
     
     @IBAction func remove(sender : AnyObject){
-        
+        assert(false,"Run erroneously called on base object!")
     }
     
     @IBAction func run(sender : AnyObject){
-        
+        assert(false,"Run erroneously called on base object!")
     }
 
+    func redo(sender : AnyObject){
+        sm?.managedObjectContext?.undoManager?.redo()
+        tableView.reloadData()
+    }
+    
+    func undo(sender : AnyObject){
+        sm?.managedObjectContext?.undoManager?.undo()
+        tableView.reloadData()
+    }
+    
 }

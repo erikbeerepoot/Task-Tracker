@@ -8,10 +8,12 @@
 
 import Foundation
 import AppKit
+import Quartz
 
 class EEBInvoiceViewController : NSViewController,NavigableViewController {
     @IBOutlet weak var overlayView : EEBOverlayView!
     @IBOutlet weak var customSpacerView : NSView!
+    @IBOutlet weak var pdfView : PDFView!
     
     var navigationController : EEBNavigationController? = nil
     var storeManager : PersistentStoreManager? = nil
@@ -36,6 +38,10 @@ class EEBInvoiceViewController : NSViewController,NavigableViewController {
     
     override func viewDidAppear() {
          customSpacerView.layer?.backgroundColor = CGColorCreateGenericRGB(overlayView.kGradientStartColour.red, overlayView.kGradientStartColour.green, overlayView.kGradientStartColour.blue, 1.0)
+        
+        let url = NSURL(string: "file:///Users/erik/Documents/Invoice.pdf")
+        let pdfDocument = PDFDocument(URL: url!)
+        pdfView.setDocument(pdfDocument)
     }
     
     //MARK: Overlay actions

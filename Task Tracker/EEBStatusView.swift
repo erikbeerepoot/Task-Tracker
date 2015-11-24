@@ -88,6 +88,17 @@ class EEBStatusView : NSView {
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
+    override func viewDidUnhide() {
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("didStartTimer:"), name: kJobTimingSessionDidStartNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("didStopTimer:"), name: kJobTimingSessionDidStopNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("updateDetailsText:"), name: kJobDidUpdateNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("updateDetailsText:"), name: kClientDidUpdateNotification, object: nil)
+
+        if(timerRunning){
+            progressIndicator?.startAnimation(self)
+        }
+    }
+    
     func updateDetailsText(notification : NSNotification){
         if let job = notification.object as? Job {
             leftTextView?.stringValue = "\(job.name) (\(job.client.name!))"

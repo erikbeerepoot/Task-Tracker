@@ -21,6 +21,7 @@ class EEBJobViewController: EEBBaseTableViewController, NSTextFieldDelegate, EEB
     let kCostColumnIdentifier = "cost"
 
     var client : Client? = nil
+    var editing : Bool = false
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -84,6 +85,7 @@ class EEBJobViewController: EEBBaseTableViewController, NSTextFieldDelegate, EEB
             case kNameColumnIdentifier:
                 if let cellView = tableView.makeViewWithIdentifier("nameCell", owner: self) as? NSTableCellView{
                     cellView.textField?.stringValue = currentJob.name
+                    cellView.textField?.delegate = self
                     cellView.textField?.editable = true
                     cellView.textField?.target = self
                     cellView.textField?.action = Selector("textfieldEdited:")
@@ -96,6 +98,7 @@ class EEBJobViewController: EEBBaseTableViewController, NSTextFieldDelegate, EEB
                 if let cellView = tableView.makeViewWithIdentifier("nameCell", owner: self) as? NSTableCellView{
                     cellView.textField?.stringValue = (currentJob.jobDescription == nil) ? "" : currentJob.jobDescription!
                     cellView.textField?.editable = true
+                    cellView.textField?.delegate = self
                     cellView.textField?.target = self
                     cellView.textField?.action = Selector("textfieldEdited:")
                     cellView.textField?.identifier = "jobDescription"
@@ -175,6 +178,14 @@ class EEBJobViewController: EEBBaseTableViewController, NSTextFieldDelegate, EEB
         }
     }
     
+    override func controlTextDidBeginEditing(obj: NSNotification) {
+        editing = true
+    }
+    
+    override func controlTextDidEndEditing(obj: NSNotification) {
+        editing = false
+    }
+    
     func doubleClicked(sender : AnyObject){
         if(sender.clickedColumn == tableView.columnWithIdentifier(kTimeColumnIdentifier)){
             let currentJob = client?.jobs[sender.clickedRow] as? Job
@@ -193,6 +204,11 @@ class EEBJobViewController: EEBBaseTableViewController, NSTextFieldDelegate, EEB
                 
             }
             
+        } else {
+            let view = tableView.viewAtColumn(sender.clickedColumn, row: sender.clickedRow, makeIfNecessary: false) as? NSTableCellView
+            if view?.textField?.editable == true {
+                view?.window?.makeFirstResponder(view?.textField)
+            }
         }
     }
 
@@ -235,7 +251,7 @@ class EEBJobViewController: EEBBaseTableViewController, NSTextFieldDelegate, EEB
     
     //Remove the selected job from the DB
     override func remove(sender : AnyObject){
-        guard tableView.selectedRowIndexes.count > 0  else {
+        guard tableView.selectedRowIndexes.count > 0 && editing == false  else {
             return
         }
         
@@ -248,6 +264,10 @@ class EEBJobViewController: EEBBaseTableViewController, NSTextFieldDelegate, EEB
     
     //Add a new item of type Job to the DB
     override func add(sender : AnyObject){
+        guard editing == false else {
+            return
+        }
+        
         if let createdObject = sm!.createObjectOfType(self.kTVObjectType) as? Job {
             createdObject.name = "Untitled Job"
             createdObject.client = client!
@@ -271,6 +291,9 @@ class EEBJobViewController: EEBBaseTableViewController, NSTextFieldDelegate, EEB
             vc.navigationController = self.navigationController
             vc.storeManager = sm
             self.navigationController?.pushViewController(vc, true)
+            
+            let invoiceCreator = EEBPDFInvoiceCreator(userinfo: client!, client: client!)
+            invoiceCreator.createPDF(atPath: "/Users/erik/Documents/", withFilename: "Invoice.pdf")
         }
     }
     
@@ -280,7 +303,7 @@ class EEBJobViewController: EEBBaseTableViewController, NSTextFieldDelegate, EEB
      * run functionality is in the ClientViewController class
       */
     override func run(sender : AnyObject){
-        guard(timer != nil) else {
+        guard(timer != nil && editing == false) else {
             return
         }
                 

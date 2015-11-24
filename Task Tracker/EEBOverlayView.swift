@@ -86,6 +86,8 @@ class EEBOverlayView : NSView {
         contentView!.bottomAnchor.constraintEqualToAnchor(leftItemsView?.bottomAnchor).active = true
         contentView!.trailingAnchor.constraintEqualToAnchor(rightItemsView?.leadingAnchor,constant: -kLeftPadding).active = true
         
+        overlayTextField!.setContentHuggingPriority(NSLayoutPriority(1), forOrientation: NSLayoutConstraintOrientation.Horizontal)
+        
         overlayTextField!.translatesAutoresizingMaskIntoConstraints = false
         overlayTextField!.leadingAnchor.constraintEqualToAnchor(contentView?.leadingAnchor).active = true
         overlayTextField!.topAnchor.constraintEqualToAnchor(contentView?.topAnchor).active = true
@@ -161,8 +163,8 @@ class EEBOverlayView : NSView {
         overlayTextField!.backgroundColor = NSColor.clearColor()
         overlayTextField!.bordered = false
         overlayTextField!.focusRingType = .None
-//        overlayTextField!.selectable = false
-//        overlayTextField!.editable = false
+        overlayTextField!.selectable = false
+        overlayTextField!.editable = false
         self.addSubview(overlayTextField!)
     }
 

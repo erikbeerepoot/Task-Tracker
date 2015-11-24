@@ -665,7 +665,7 @@
                                 <toolbarItem implicitItemIdentifier="NSToolbarPrintItem" id="nnu-5e-mmr"/>
                                 <toolbarItem implicitItemIdentifier="NSToolbarSpaceItem" id="M6z-RN-aMp"/>
                                 <toolbarItem implicitItemIdentifier="NSToolbarFlexibleSpaceItem" id="LEU-UP-Z6G"/>
-                                <toolbarItem implicitItemIdentifier="14E7566E-257D-47EC-81BD-809F1E122F9C" label="StatusView" paletteLabel="StatusView" tag="-1" autovalidates="NO" id="FpC-u3-cVB" customClass="EEBStatusToolbarItem" customModule="Task_Tracker" customModuleProvider="target">
+                                <toolbarItem implicitItemIdentifier="14E7566E-257D-47EC-81BD-809F1E122F9C" explicitItemIdentifier="statusView" label="StatusView" paletteLabel="StatusView" tag="-1" autovalidates="NO" id="FpC-u3-cVB" customClass="EEBStatusToolbarItem" customModule="Task_Tracker" customModuleProvider="target">
                                     <size key="minSize" width="300" height="35"/>
                                     <size key="maxSize" width="1000" height="100"/>
                                 </toolbarItem>
@@ -788,7 +788,7 @@
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
                                                 <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnSelection="YES" autosaveColumns="NO" rowSizeStyle="automatic" headerView="PZZ-PI-HFP" viewBased="YES" id="FU4-Vw-Qtl">
-                                                    <rect key="frame" x="0.0" y="0.0" width="641" height="334"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="641" height="0.0"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <animations/>
                                                     <size key="intercellSpacing" width="3" height="2"/>
@@ -1064,6 +1064,7 @@
                     <connections>
                         <outlet property="customSpacerView" destination="P6h-05-CDD" id="HhT-WF-Hki"/>
                         <outlet property="overlayView" destination="Ukz-yd-IV0" id="Jwh-nT-zL6"/>
+                        <outlet property="pdfView" destination="lnb-ea-lCX" id="BS9-sD-1kj"/>
                     </connections>
                 </viewController>
                 <customObject id="Mav-gv-QFf" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
@@ -1172,7 +1173,7 @@
                                 </clipView>
                                 <animations/>
                                 <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="xkU-3F-1le">
-                                    <rect key="frame" x="0.0" y="119" width="192" height="16"/>
+                                    <rect key="frame" x="0.0" y="-16" width="0.0" height="16"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <animations/>
                                 </scroller>
@@ -1194,7 +1195,7 @@
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ZpS-eq-jHF">
-                                <rect key="frame" x="20" y="8" width="27" height="22"/>
+                                <rect key="frame" x="20" y="8" width="27" height="25"/>
                                 <animations/>
                                 <buttonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" image="NSRemoveTemplate" imagePosition="overlaps" alignment="center" imageScaling="proportionallyDown" inset="2" id="Rgy-n5-dLC">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>

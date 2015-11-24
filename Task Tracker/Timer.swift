@@ -7,7 +7,7 @@
 //
 
 import Foundation
-
+import AppKit
 class EEBTimer {
     var currentSession : TimingSession? = nil;
     var sm : PersistentStoreManager
@@ -21,7 +21,7 @@ class EEBTimer {
     }
     
     init(storeManager : PersistentStoreManager){
-        sm = storeManager
+        sm = storeManager     
     }
     
     /**

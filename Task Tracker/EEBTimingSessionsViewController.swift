@@ -167,6 +167,16 @@ class EEBTimingSessionsViewController : NSViewController, NSPopoverDelegate, NST
         popover?.close()
     }
     
+    func undo(sender : AnyObject){
+        sm!.managedObjectContext?.undoManager?.undo()
+        tableView.reloadData()
+    }
+    
+    func redo(sender : AnyObject){
+        sm!.managedObjectContext?.undoManager?.redo()
+        tableView.reloadData()
+    }
+    
     func popoverWillClose(notification: NSNotification) {
         delegate?.doneEditing()
     }

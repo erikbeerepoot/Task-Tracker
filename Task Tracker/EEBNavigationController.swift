@@ -49,17 +49,28 @@ class EEBNavigationController : NSViewController {
         self.view.window?.toolbar?.items.forEach({ (item) -> () in
             item.target = self
         })
+        
+        if let statusview = self.view.window?.toolbar?.itemWithIdentifier("statusView")?.view as? EEBStatusView{
+            if let currentVC = viewControllers.last as? EEBBaseTableViewController {
+                if(currentVC.timer!.running){
+                    statusview.progressIndicator?.startAnimation(self)
+                }
+            }
+        }
 
     }
     
     override func viewWillDisappear() {
+
+    }
+    
+    func applicationWillTerminate(){
         if let currentVC = viewControllers.last as? EEBBaseTableViewController {
             if(currentVC.timer!.running){
                 //TODO: Show confirmation
                 currentVC.timer?.stopTimingSession()
             }
         }
-        
         storeManager.save()
     }
     
@@ -167,6 +178,18 @@ class EEBNavigationController : NSViewController {
             currentVC.run(sender)
         }
         
+    }
+    
+    @IBAction func undo(sender : AnyObject){
+        if let currentVC = viewControllers.last as? EEBBaseTableViewController {
+            currentVC.undo(sender)
+        }
+    }
+    
+    @IBAction func redo(sender : AnyObject){
+        if let currentVC = viewControllers.last as? EEBBaseTableViewController {
+            currentVC.redo(sender)
+        }
     }
     
     override func keyUp(theEvent: NSEvent) {
