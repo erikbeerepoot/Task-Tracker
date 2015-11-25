@@ -53,30 +53,50 @@ class EEBPDFInvoiceCreator {
 
         
         //flip coordinate system
-
-
-        
         CGContextBeginPage(writeContext, &mediaBox)
         CGContextTranslateCTM(writeContext,0,Format_A4_72DPI.height)
         CGContextScaleCTM(writeContext, 1.0,-1.0);
-
+        
+        //Flip coordinate system for text
+        let textTransform = CGAffineTransformMake(1.0, 0.0, 0.0, -1.0, 0.0, 0.0);
+        CGContextSetTextMatrix(writeContext,textTransform)
         
         createInvoiceHeader(writeContext,forClient:user, andUser:client)
         
-//        CGContextMoveToPoint(writeContext, 10, 10)
-//        CGContextAddLineToPoint(writeContext, 50, 50)
-//        CGContextAddLineToPoint(writeContext, 50, 100)
-//        CGContextClosePath(writeContext)
-//        CGContextStrokePath(writeContext)
+
         
         CGContextEndPage(writeContext)
-        
-        
         CGPDFContextClose(writeContext)
-
         return true
     }
 
+    
+    //MARK: Helpers
+    func setupTextBox(x : CGFloat, y : CGFloat, width : CGFloat, height : CGFloat) -> CGMutablePathRef{
+        let origin = CGPoint(x:self.margin_H,y:self.margin_V)
+        let path = CGPathCreateMutable()
+        let bounds = CGRectMake(origin.x + x, origin.y + y, width, height);
+        CGPathAddRect(path,nil,bounds)
+        return path
+    }
+    
+    
+    func drawText(context : CGContextRef,text : String, path : CGMutablePathRef, font : NSFont?){
+        //Create attributed version of the string & draw
+        let attrString = CFAttributedStringCreateMutable(kCFAllocatorDefault, 0);
+        CFAttributedStringReplaceString (attrString, CFRangeMake(0, 0),text);
+        
+        if(font != nil){
+            
+            CFAttributedStringSetAttribute(attrString,CFRangeMake(0, text.characters.count),NSFontAttributeName,font!)
+            
+        }
+        
+        let frameSetter = CTFramesetterCreateWithAttributedString(attrString);
+        let frame = CTFramesetterCreateFrame(frameSetter, CFRangeMake(0, 0), path, nil);
+        CTFrameDraw(frame, context);
+    }
+    
     /**
      * @name    createInvoiceHeader
      * @brief   Creates the header for the invoice (company info, title, etc)
@@ -85,26 +105,12 @@ class EEBPDFInvoiceCreator {
 
 
 
-        CGContextSetTextMatrix(writeContext, CGAffineTransformIdentity);
 
-        func setupTextBox(x : CGFloat, y : CGFloat, width : CGFloat, height : CGFloat) -> CGMutablePathRef{
-            let origin = CGPoint(x:self.margin_H,y:self.margin_V)
-            let path = CGPathCreateMutable()
-            let bounds = CGRectMake(origin.x + x, origin.y + y, width, height);
-            CGPathAddRect(path,nil,bounds)
-            return path
-        }
+
+
+
         
-        func drawText( text : String, path : CGMutablePathRef){
-            //Create attributed version of the string & draw
-            let attrString = CFAttributedStringCreateMutable(kCFAllocatorDefault, 0);
-            CFAttributedStringReplaceString (attrString, CFRangeMake(0, 0),text);
-            let frameSetter = CTFramesetterCreateWithAttributedString(attrString);
-            let frame = CTFramesetterCreateFrame(frameSetter, CFRangeMake(0, 0), path, nil);
-            
-            CTFrameDraw(frame, writeContext);
-
-        }
+       
         
         /***** Draw our company info *****/
         let _ : () = {
@@ -115,7 +121,7 @@ class EEBPDFInvoiceCreator {
             textString += user.name! + "\r"
 //            textString += user.address! + "\r"
 
-            drawText(textString, path: path)
+            drawText(writeContext,text:textString, path: path,font:nil)
         }()
         
         
@@ -123,7 +129,8 @@ class EEBPDFInvoiceCreator {
         let _ = {
             let path = setupTextBox(200, y:0, width: 200, height: 100)
             let text = "Invoice"
-            drawText(text, path: path)
+            let font = NSFont(name: "Helvetica Neue", size: 25.0)
+            drawText(writeContext,text:text, path: path,font:font)
         }()
         
 
