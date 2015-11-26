@@ -12,11 +12,6 @@ class InvoiceTemplate {
     
     var header : CGRect = CGRectZero,body : CGRect = CGRectZero, footer : CGRect = CGRectZero
     
-    
-    
-    
-//    var json : [String : AnyObject] = [String : AnyObject]()
-    
     init(templateName : String ){
         var json : [String : AnyObject] = [String : AnyObject]()
         if let path = NSBundle.mainBundle().pathForResource(templateName, ofType: "json")
@@ -46,17 +41,24 @@ class InvoiceTemplate {
     func validateJSON(json : [String : AnyObject]) -> Bool{
         var valid = true
         
-        if let layoutDict = json["layout"]! as? Dictionary<String,AnyObject>{
-            let keys = ["header","body","footer"]
-            valid = validateKeys(layoutDict,keys:keys)
-            valid = valid && validateKeys(layoutDict[keys[0]] as! [String : AnyObject], keys: ["title","from","to"])
-            valid = valid && validateKeys(layoutDict[keys[1]] as! [String : AnyObject], keys: ["origin","size"])
-            valid = valid && validateKeys(layoutDict[keys[2]] as! [String : AnyObject], keys: ["origin","size"])
+        let layoutDict = json["layout"]! as? Dictionary<String,AnyObject>
+        guard layoutDict != nil else {
+            return false
         }
+        
+        let keys = ["header","body","footer"]
+        valid = validateKeys(layoutDict!,keys:keys)
+        valid = valid && validateKeys(layoutDict![keys[0]] as! [String : AnyObject], keys: ["title","from","to"])
+        valid = valid && validateKeys(layoutDict![keys[1]] as! [String : AnyObject], keys: ["origin","size"])
+        valid = valid && validateKeys(layoutDict![keys[2]] as! [String : AnyObject], keys: ["origin","size"])
+
         
         //A style can be applied to any non-leaf node
         if let styleDict = json["style"]! as? Dictionary<String,AnyObject>{
             //recursively search tree for key
+            for key in styleDict.keys {
+                print(findKey(key, inDict: layoutDict!))
+            }
         }
         
         return valid
@@ -69,6 +71,20 @@ class InvoiceTemplate {
             }
         }
         return true
+    }
+    
+    func findKey(searchKey : String, inDict dict : [String : AnyObject]) -> Bool {
+        var keyFound = false
+        for key in dict.keys {
+            keyFound = (dict[searchKey] != nil)
+            
+            if dict[key] is [String : AnyObject] {
+                keyFound = keyFound || findKey(searchKey, inDict: (dict[key] as? [String : AnyObject])!)
+            } else {
+                return false
+            }
+        }
+        return keyFound
     }
     
     
