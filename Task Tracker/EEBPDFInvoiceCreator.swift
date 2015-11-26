@@ -37,8 +37,10 @@ class EEBPDFInvoiceCreator {
         metadata[String(kCGPDFContextCreator)] = userinfo.name
         
     }
-    
+        
     func createPDF(atPath path : String, withFilename filename : String) -> Bool {
+        
+        let template = InvoiceTemplate(templateName: "Basic")
         
         //Attempt to create PDF context
         let path = CFStringCreateWithCString(nil, path+filename, CFStringBuiltInEncodings.UTF8.rawValue);

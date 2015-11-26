@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		03054E781C06A10D0067CF8C /* Basic.json in Resources */ = {isa = PBXBuildFile; fileRef = 03054E771C06A10D0067CF8C /* Basic.json */; };
+		03054E7A1C06D2880067CF8C /* InvoiceTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03054E791C06D2880067CF8C /* InvoiceTemplate.swift */; };
 		032A88D11BE56D74005AC234 /* EEBSimpleTableCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032A88D01BE56D74005AC234 /* EEBSimpleTableCellView.swift */; };
 		032A88D41BE69856005AC234 /* arrow-right-black-48.png in Resources */ = {isa = PBXBuildFile; fileRef = 032A88D31BE69856005AC234 /* arrow-right-black-48.png */; };
 		032A88D61BE6AFB8005AC234 /* delete.png in Resources */ = {isa = PBXBuildFile; fileRef = 032A88D51BE6AFB8005AC234 /* delete.png */; };
@@ -62,6 +64,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		03054E771C06A10D0067CF8C /* Basic.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Basic.json; sourceTree = "<group>"; };
+		03054E791C06D2880067CF8C /* InvoiceTemplate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InvoiceTemplate.swift; sourceTree = "<group>"; };
 		032A88D01BE56D74005AC234 /* EEBSimpleTableCellView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EEBSimpleTableCellView.swift; sourceTree = "<group>"; };
 		032A88D31BE69856005AC234 /* arrow-right-black-48.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow-right-black-48.png"; sourceTree = "<group>"; };
 		032A88D51BE6AFB8005AC234 /* delete.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = delete.png; sourceTree = "<group>"; };
@@ -128,6 +132,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		03054E761C06A0DC0067CF8C /* Invoice Templates */ = {
+			isa = PBXGroup;
+			children = (
+				03054E771C06A10D0067CF8C /* Basic.json */,
+			);
+			name = "Invoice Templates";
+			sourceTree = "<group>";
+		};
 		032A88D21BE69831005AC234 /* Material design */ = {
 			isa = PBXGroup;
 			children = (
@@ -185,6 +197,7 @@
 				03B67D121BE08716005CD45E /* CoreData Generated */,
 				03B67CFD1BDFD03B005CD45E /* AppData.xcdatamodeld */,
 				03B67D001BE084D8005CD45E /* PersistentStoreManager.swift */,
+				03054E791C06D2880067CF8C /* InvoiceTemplate.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -207,6 +220,7 @@
 		03B67D131BE11793005CD45E /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				03054E761C06A0DC0067CF8C /* Invoice Templates */,
 				032A88D21BE69831005AC234 /* Material design */,
 				03B67D161BE117C7005CD45E /* Images */,
 			);
@@ -377,6 +391,7 @@
 				0378FAF31BE71B8900F06307 /* arrow-left-black-48.png in Resources */,
 				032A88D41BE69856005AC234 /* arrow-right-black-48.png in Resources */,
 				0378FAF51BE7B5F000F06307 /* settings-48.png in Resources */,
+				03054E781C06A10D0067CF8C /* Basic.json in Resources */,
 				03C269A81BDF2ABB00DAA4E7 /* Assets.xcassets in Resources */,
 				03B67D151BE117BA005CD45E /* client128.png in Resources */,
 			);
@@ -405,6 +420,7 @@
 				03A9F5CD1C0234680041A954 /* NSToolbar+findItems.swift in Sources */,
 				03B67CFF1BDFD03B005CD45E /* AppData.xcdatamodeld in Sources */,
 				03B67D0D1BE08709005CD45E /* Job.swift in Sources */,
+				03054E7A1C06D2880067CF8C /* InvoiceTemplate.swift in Sources */,
 				032A88D11BE56D74005AC234 /* EEBSimpleTableCellView.swift in Sources */,
 				03B67D1A1BE13A0C005CD45E /* EEBNavigationController.swift in Sources */,
 				03A9F5D31C03E1600041A954 /* EEBPDFInvoiceCreator.swift in Sources */,
