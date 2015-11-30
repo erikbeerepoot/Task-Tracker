@@ -14,6 +14,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
 
     func applicationDidFinishLaunching(aNotification: NSNotification) {
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("didStartTimer:"), name: kJobTimingSessionDidStartNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("didStopTimer:"), name: kJobTimingSessionDidStopNotification, object: nil)
 
         
         
@@ -25,6 +27,17 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         if let navigationController = NSApplication.sharedApplication().keyWindow?.contentViewController as? EEBNavigationController {
             navigationController.applicationWillTerminate()
         }
+        
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
+    
+
+    func didStartTimer(notification : NSNotification){
+        NSApp.applicationIconImage = NSImage(named:"watch_icon_play")
+    }
+    
+    func didStopTimer(notification : NSNotification){
+        NSApp.applicationIconImage = nil
     }
 
 

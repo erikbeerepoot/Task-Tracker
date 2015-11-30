@@ -10,7 +10,11 @@ import Foundation
 
 class InvoiceTemplate {
     
-    var header : CGRect = CGRectZero,body : CGRect = CGRectZero, footer : CGRect = CGRectZero
+    //Header
+    var toBounds : CGRect = CGRectZero, fromBounds : CGRect = CGRectZero, titleBounds : CGRect = CGRectZero
+    
+    var bodyRect : CGRect = CGRectZero
+    var footerRect : CGRect = CGRectZero
     
     init(templateName : String ){
         var json : [String : AnyObject] = [String : AnyObject]()
@@ -30,49 +34,106 @@ class InvoiceTemplate {
         }
         
         //Parse template object
-        validateJSON(json)
+        if(validateJSON(json)){
+            parseTemplate(json)
+        }
 
     }
     
     func parseTemplate(json : [String : AnyObject]){
-        print(json)
+        
+        /********** Layout Parsing ************/
+        let layoutDict = json["layout"]! as? [String : AnyObject]
+
+        //parse the header layout
+        let headerLayoutJSON = layoutDict!["header"] as? [String : AnyObject]
+        toBounds = parseRect((headerLayoutJSON!["to"]  as? [String : AnyObject])!)
+        fromBounds = parseRect((headerLayoutJSON!["from"]  as? [String : AnyObject])!)
+        titleBounds = parseRect((headerLayoutJSON!["title"] as? [String : AnyObject])!)
+
+        //parse the body layout
+        let bodyLayoutJSON : [String : AnyObject] = (layoutDict!["body"] as? [String : AnyObject])!
+        bodyRect = parseRect(bodyLayoutJSON)
+        
+        //parse the body layout
+        let footerLayoutJSON : [String : AnyObject] = (layoutDict!["footer"] as? [String : AnyObject])!
+        footerRect = parseRect(footerLayoutJSON)
+        
+        /********** Style Parsing ************/
+        //STUB
+        //STUBBY
+        //STUB
     }
     
+    /**
+     * @name    parseRect
+     * @brief   Helper method to parse JSON into a CGRect
+     */
+    func parseRect(rectJSON : [String : AnyObject]) -> CGRect {
+        if(validateKeys(rectJSON, keys: ["origin","size"],exhaustive: false)){
+            return CGRectMake(rectJSON["origin"]!["x"]! as! CGFloat,rectJSON["origin"]!["y"]! as! CGFloat,rectJSON["size"]!["width"]! as! CGFloat,rectJSON["size"]!["height"]! as! CGFloat)
+        } else {
+            print("Invalid rect json: \(rectJSON)")
+            return CGRectZero
+        }
+    }
+    
+    /**
+     * @name    validateJSON
+     * @brief   Checks that the template JSON meets at least the minimum requirements (see README)
+     */
     func validateJSON(json : [String : AnyObject]) -> Bool{
         var valid = true
         
-        let layoutDict = json["layout"]! as? Dictionary<String,AnyObject>
+        let layoutDict = json["layout"]! as? [String : AnyObject]
         guard layoutDict != nil else {
             return false
         }
         
         let keys = ["header","body","footer"]
-        valid = validateKeys(layoutDict!,keys:keys)
-        valid = valid && validateKeys(layoutDict![keys[0]] as! [String : AnyObject], keys: ["title","from","to"])
-        valid = valid && validateKeys(layoutDict![keys[1]] as! [String : AnyObject], keys: ["origin","size"])
-        valid = valid && validateKeys(layoutDict![keys[2]] as! [String : AnyObject], keys: ["origin","size"])
+        valid = validateKeys(layoutDict!,keys:keys,exhaustive: true)
+        valid = valid && validateKeys(layoutDict![keys[0]] as! [String : AnyObject], keys: ["title","from","to"],exhaustive: true)
+        valid = valid && validateKeys(layoutDict![keys[1]] as! [String : AnyObject], keys: ["origin","size"],exhaustive: true)
+        valid = valid && validateKeys(layoutDict![keys[2]] as! [String : AnyObject], keys: ["origin","size"],exhaustive: true)
 
         
         //A style can be applied to any non-leaf node
-        if let styleDict = json["style"]! as? Dictionary<String,AnyObject>{
+        if let styleDict = json["style"]! as? [String : AnyObject]{
             //recursively search tree for key
             for key in styleDict.keys {
                 print(findKey(key, inDict: layoutDict!))
             }
         }
-        
         return valid
     }
     
-    func validateKeys(json : [String : AnyObject], keys : [String]) -> Bool {
-        for key in keys {
-            if(json[key] == nil){
-                return false
+    /**
+     * @name    validateKeys
+     * @brief   Checks that the keys are in the dictionary. Non-exhaustive search just checks the topmost level
+     *          exhaustive does a BFS for each key
+     */
+    func validateKeys(json : [String : AnyObject], keys : [String], exhaustive : Bool) -> Bool {
+        if exhaustive {
+            var present = true
+            for key in keys {
+                present = present && findKey(key, inDict: json)
             }
+            return present
+        } else {
+            //check the first level
+            for key in keys {
+                if(json[key] == nil){
+                    return false
+                }
+            }
+            return true
         }
-        return true
     }
     
+    /**
+     * @name    findKey
+     * @brief   Recursively searches the dictionary for searchKey
+     */
     func findKey(searchKey : String, inDict dict : [String : AnyObject]) -> Bool {
         var keyFound = false
         for key in dict.keys {

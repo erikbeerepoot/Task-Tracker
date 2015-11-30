@@ -63,7 +63,7 @@ class EEBPDFInvoiceCreator {
         let textTransform = CGAffineTransformMake(1.0, 0.0, 0.0, -1.0, 0.0, 0.0);
         CGContextSetTextMatrix(writeContext,textTransform)
         
-        createInvoiceHeader(writeContext,forClient:user, andUser:client)
+        createInvoiceHeader(writeContext,template:template,forClient:user, andUser:client)
         
 
         
@@ -82,6 +82,15 @@ class EEBPDFInvoiceCreator {
         return path
     }
     
+    func setupTextBox(inRect rect : CGRect) -> CGMutablePathRef{
+        let origin = CGPoint(x:self.margin_H,y:self.margin_V)
+        let path = CGPathCreateMutable()
+        let bounds = CGRectMake(origin.x + rect.origin.x, origin.y + rect.origin.y, rect.size.width, rect.size.height);
+        CGPathAddRect(path,nil,bounds)
+        return path
+    }
+    
+    
     
     func drawText(context : CGContextRef,text : String, path : CGMutablePathRef, font : NSFont?){
         //Create attributed version of the string & draw
@@ -89,9 +98,7 @@ class EEBPDFInvoiceCreator {
         CFAttributedStringReplaceString (attrString, CFRangeMake(0, 0),text);
         
         if(font != nil){
-            
             CFAttributedStringSetAttribute(attrString,CFRangeMake(0, text.characters.count),NSFontAttributeName,font!)
-            
         }
         
         let frameSetter = CTFramesetterCreateWithAttributedString(attrString);
@@ -103,17 +110,9 @@ class EEBPDFInvoiceCreator {
      * @name    createInvoiceHeader
      * @brief   Creates the header for the invoice (company info, title, etc)
      */
-    func createInvoiceHeader(writeContext : CGContextRef, forClient client : Client, andUser user : Client){
+    func createInvoiceHeader(writeContext : CGContextRef, template : InvoiceTemplate, forClient client : Client, andUser user : Client){
 
 
-
-
-
-
-
-        
-       
-        
         /***** Draw our company info *****/
         let _ : () = {
             let path = setupTextBox(0, y:0, width:200, height:100)
@@ -129,9 +128,32 @@ class EEBPDFInvoiceCreator {
         
         /***** Draw document title *****/
         let _ = {
-            let path = setupTextBox(200, y:0, width: 200, height: 100)
-            let text = "Invoice"
+            let path = setupTextBox(inRect:template.titleBounds)
+            let text : NSAttributedString = NSAttributedString(string: "Invoiceasf \n asdf")
             let font = NSFont(name: "Helvetica Neue", size: 25.0)
+            
+            CGContextStrokeRect(writeContext, template.titleBounds)
+            
+//            text.drawInRect(template.titleBounds)
+//            drawText(writeContext,text:text, path: path,font:font)
+        }()
+        
+        let _ = {
+            let path = setupTextBox(inRect:template.toBounds)
+            CGContextStrokeRect(writeContext, template.toBounds)
+            let text = "Company 1 \n Address \n Country"
+            let font = NSFont(name: "Helvetica Neue", size: 22.0)
+            drawText(writeContext,text:text, path: path,font:font)
+        }()
+        
+        let _ = {
+            let path = setupTextBox(inRect:template.fromBounds)
+  //          let rectPath = CGPathCreateMutable()
+//            CGPathAddRect(rectPath, nil, )
+            CGContextStrokeRect(writeContext, template.fromBounds)
+            
+            let text = "Company 1"
+            let font = NSFont(name: "Helvetica Neue", size: 22.0)
             drawText(writeContext,text:text, path: path,font:font)
         }()
         
