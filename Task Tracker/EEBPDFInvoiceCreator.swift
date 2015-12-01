@@ -22,11 +22,12 @@ class EEBPDFInvoiceCreator {
     
     
     let user : Client, client : Client;
+    let jobs : [Job]
     
-    init(userinfo : Client, client : Client){
-       self.user = userinfo
-       self.client = client
-        
+    init(userinfo : Client, client : Client, jobs : [Job]){
+        self.user = userinfo
+        self.client = client
+        self.jobs = jobs
         
     }
     
@@ -64,8 +65,8 @@ class EEBPDFInvoiceCreator {
         let textTransform = CGAffineTransformIdentity
         CGContextSetTextMatrix(writeContext,textTransform)
         
-        createInvoiceHeader(writeContext,template:template,forClient:user, andUser:client)
-        
+        drawInvoiceHeader(writeContext,template:template,forClient:user, andUser:client)
+        drawInvoiceBody(writeContext, template:template,withJobs:jobs)
 
         
         CGContextEndPage(writeContext)
@@ -110,7 +111,7 @@ class EEBPDFInvoiceCreator {
      * @name    createInvoiceHeader
      * @brief   Creates the header for the invoice (company info, title, etc)
      */
-    func createInvoiceHeader(writeContext : CGContextRef, template : InvoiceTemplate, forClient client : Client, andUser user : Client){
+    func drawInvoiceHeader(writeContext : CGContextRef, template : InvoiceTemplate, forClient client : Client, andUser user : Client){
 
 
         /***** Draw our company info *****/
@@ -166,7 +167,13 @@ class EEBPDFInvoiceCreator {
         
 
     }
+    
+    func drawInvoiceBody(writeContext : CGContextRef, template : InvoiceTemplate, withJobs jobs : [Job]){
         
+            CGContextStrokeRect(writeContext, template.bodyRect)
+    }
+    
+    
     func createJoblist(){
         
     }

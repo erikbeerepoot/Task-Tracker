@@ -292,7 +292,7 @@ class EEBJobViewController: EEBBaseTableViewController, NSTextFieldDelegate, EEB
             vc.storeManager = sm
             self.navigationController?.pushViewController(vc, true)
             
-            let invoiceCreator = EEBPDFInvoiceCreator(userinfo: client!, client: client!)
+            let invoiceCreator = EEBPDFInvoiceCreator(userinfo: client!, client: client!,jobs: client!.jobs.array as! [Job])
             invoiceCreator.createPDF(atPath: "/Users/erik/Documents/", withFilename: "Invoice.pdf")
         }
     }
