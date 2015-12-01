@@ -10,11 +10,15 @@ import Foundation
 
 class InvoiceTemplate {
     
-    //Header
+    //Layout
     var toBounds : CGRect = CGRectZero, fromBounds : CGRect = CGRectZero, titleBounds : CGRect = CGRectZero
-    
     var bodyRect : CGRect = CGRectZero
     var footerRect : CGRect = CGRectZero
+    
+    //Style
+    var style : [String : AnyObject] = [String:AnyObject]()
+    
+    
     
     init(templateName : String ){
         var json : [String : AnyObject] = [String : AnyObject]()
@@ -60,6 +64,10 @@ class InvoiceTemplate {
         footerRect = parseRect(footerLayoutJSON)
         
         /********** Style Parsing ************/
+        let styleJSON = json["style"]! as? [String : AnyObject]
+        for key in styleJSON!.keys {
+            
+        }
         //STUB
         //STUBBY
         //STUB

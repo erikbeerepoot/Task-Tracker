@@ -56,11 +56,12 @@ class EEBPDFInvoiceCreator {
         
         //flip coordinate system
         CGContextBeginPage(writeContext, &mediaBox)
-        CGContextTranslateCTM(writeContext,0,Format_A4_72DPI.height)
-        CGContextScaleCTM(writeContext, 1.0,-1.0);
+//        CGContextTranslateCTM(writeContext,0,Format_A4_72DPI.height)
+//        CGContextScaleCTM(writeContext, 1.0,-1.0);
         
         //Flip coordinate system for text
-        let textTransform = CGAffineTransformMake(1.0, 0.0, 0.0, -1.0, 0.0, 0.0);
+//        let textTransform = CGAffineTransformMake(1.0, 0.0, 0.0, -1.0, 0.0, 0.0);
+        let textTransform = CGAffineTransformIdentity
         CGContextSetTextMatrix(writeContext,textTransform)
         
         createInvoiceHeader(writeContext,template:template,forClient:user, andUser:client)
@@ -83,9 +84,8 @@ class EEBPDFInvoiceCreator {
     }
     
     func setupTextBox(inRect rect : CGRect) -> CGMutablePathRef{
-        let origin = CGPoint(x:self.margin_H,y:self.margin_V)
         let path = CGPathCreateMutable()
-        let bounds = CGRectMake(origin.x + rect.origin.x, origin.y + rect.origin.y, rect.size.width, rect.size.height);
+        let bounds = CGRectMake(rect.origin.x,rect.origin.y, rect.size.width, rect.size.height);
         CGPathAddRect(path,nil,bounds)
         return path
     }
@@ -115,12 +115,11 @@ class EEBPDFInvoiceCreator {
 
         /***** Draw our company info *****/
         let _ : () = {
-            let path = setupTextBox(0, y:0, width:200, height:100)
+            let path = setupTextBox(0, y:Format_A4_72DPI.height - 250, width:200, height:100)
             
             //Create *our* company info
-            var textString =  user.company! + "\r"
-            textString += user.name! + "\r"
-//            textString += user.address! + "\r"
+            var textString = user.name! + "\r"
+            textString +=  user.company! + "\r"
 
             drawText(writeContext,text:textString, path: path,font:nil)
         }()
@@ -129,29 +128,37 @@ class EEBPDFInvoiceCreator {
         /***** Draw document title *****/
         let _ = {
             let path = setupTextBox(inRect:template.titleBounds)
-            let text : NSAttributedString = NSAttributedString(string: "Invoiceasf \n asdf")
-            let font = NSFont(name: "Helvetica Neue", size: 25.0)
+            let text = "Invoice"
+            let font = NSFont(name: "Helvetica Neue Bold", size: 25.0)
             
-            CGContextStrokeRect(writeContext, template.titleBounds)
-            
-//            text.drawInRect(template.titleBounds)
-//            drawText(writeContext,text:text, path: path,font:font)
+            //CGContextStrokeRect(writeContext, template.titleBounds)
+            drawText(writeContext,text:text, path: path,font:font)
         }()
         
         let _ = {
+            var rectFrame = template.toBounds
+            CGContextStrokeRect(writeContext, rectFrame)
+            rectFrame.origin.y += rectFrame.size.height
+            rectFrame.size.height = 20
+
+            CGContextStrokeRect(writeContext, rectFrame)
+            CGContextFillRect(writeContext, rectFrame)
+            
             let path = setupTextBox(inRect:template.toBounds)
-            CGContextStrokeRect(writeContext, template.toBounds)
             let text = "Company 1 \n Address \n Country"
             let font = NSFont(name: "Helvetica Neue", size: 22.0)
             drawText(writeContext,text:text, path: path,font:font)
         }()
         
         let _ = {
-            let path = setupTextBox(inRect:template.fromBounds)
-  //          let rectPath = CGPathCreateMutable()
-//            CGPathAddRect(rectPath, nil, )
-            CGContextStrokeRect(writeContext, template.fromBounds)
+            var rectFrame = template.fromBounds
+            CGContextStrokeRect(writeContext, rectFrame)
+            rectFrame.origin.y += rectFrame.size.height
+            rectFrame.size.height = 20
+            CGContextStrokeRect(writeContext, rectFrame)
+            CGContextFillRect(writeContext, rectFrame)
             
+            let path = setupTextBox(inRect:template.fromBounds)
             let text = "Company 1"
             let font = NSFont(name: "Helvetica Neue", size: 22.0)
             drawText(writeContext,text:text, path: path,font:font)
@@ -159,7 +166,7 @@ class EEBPDFInvoiceCreator {
         
 
     }
-    
+        
     func createJoblist(){
         
     }
