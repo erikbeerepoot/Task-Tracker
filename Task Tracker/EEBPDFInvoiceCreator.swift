@@ -13,9 +13,15 @@ class EEBPDFInvoiceCreator {
     
     //Size constants
     let Format_A4_72DPI = CGSize(width:595,height:842)
-    
     let margin_H = CGFloat(40.0)
     let margin_V = CGFloat(40.0)
+    
+    //Appearance constants
+    let kHeaderHeight = CGFloat(20)
+    let kRowHeight = CGFloat(20)
+    
+    let columnWidths : [CGFloat] = [200,81.3,81.3,81.3]
+    let columnNames : [String] = ["Job","Quantity","Price","Cost"]
     
     //Metadata for PDF
     var metadata : Dictionary<String,String> = Dictionary<String,String>()
@@ -55,13 +61,9 @@ class EEBPDFInvoiceCreator {
         var mediaBox: CGRect = CGRectMake(0, 0, Format_A4_72DPI.width, Format_A4_72DPI.height)
 
         
-        //flip coordinate system
+
         CGContextBeginPage(writeContext, &mediaBox)
-//        CGContextTranslateCTM(writeContext,0,Format_A4_72DPI.height)
-//        CGContextScaleCTM(writeContext, 1.0,-1.0);
-        
-        //Flip coordinate system for text
-//        let textTransform = CGAffineTransformMake(1.0, 0.0, 0.0, -1.0, 0.0, 0.0);
+
         let textTransform = CGAffineTransformIdentity
         CGContextSetTextMatrix(writeContext,textTransform)
         
@@ -107,6 +109,21 @@ class EEBPDFInvoiceCreator {
         CTFrameDraw(frame, context);
     }
     
+    
+    func drawText(context : CGContextRef,text : String, path : CGMutablePathRef, attributes : [String : AnyObject]?){
+        //Create attributed version of the string & draw
+        let attrString = CFAttributedStringCreateMutable(kCFAllocatorDefault, 0);
+        CFAttributedStringReplaceString (attrString, CFRangeMake(0, 0),text);
+        
+        if(attributes != nil){
+            CFAttributedStringSetAttributes(attrString, CFRangeMake(0, text.characters.count), attributes, true)
+        }
+        
+        let frameSetter = CTFramesetterCreateWithAttributedString(attrString);
+        let frame = CTFramesetterCreateFrame(frameSetter, CFRangeMake(0, 0), path, nil);
+        CTFrameDraw(frame, context);
+    }
+    
     /**
      * @name    createInvoiceHeader
      * @brief   Creates the header for the invoice (company info, title, etc)
@@ -140,7 +157,7 @@ class EEBPDFInvoiceCreator {
             var rectFrame = template.toBounds
             CGContextStrokeRect(writeContext, rectFrame)
             rectFrame.origin.y += rectFrame.size.height
-            rectFrame.size.height = 20
+            rectFrame.size.height = kHeaderHeight
 
             CGContextStrokeRect(writeContext, rectFrame)
             CGContextFillRect(writeContext, rectFrame)
@@ -155,7 +172,7 @@ class EEBPDFInvoiceCreator {
             var rectFrame = template.fromBounds
             CGContextStrokeRect(writeContext, rectFrame)
             rectFrame.origin.y += rectFrame.size.height
-            rectFrame.size.height = 20
+            rectFrame.size.height = kHeaderHeight
             CGContextStrokeRect(writeContext, rectFrame)
             CGContextFillRect(writeContext, rectFrame)
             
@@ -168,9 +185,81 @@ class EEBPDFInvoiceCreator {
 
     }
     
-    func drawInvoiceBody(writeContext : CGContextRef, template : InvoiceTemplate, withJobs jobs : [Job]){
+    func drawInvoiceBody(writeContext : CGContextRef, template : InvoiceTemplate, withJobs jobs : [Job]) -> Int{
+        //draw enclosing rectangle for body
+        var bodyFrame = template.bodyRect
+        CGContextStrokeRect(writeContext, bodyFrame)
+    
+        //draw the header rectangle
+        bodyFrame.origin.y += bodyFrame.size.height - kHeaderHeight
+        bodyFrame.size.height = kHeaderHeight
+        CGContextFillRect(writeContext, bodyFrame)
+    
+        //add text to the header
+        var columnFrame = bodyFrame
+        for var idx = 0;idx<columnWidths.count;idx++ {
+            columnFrame.size.width = columnWidths[idx]
+            
+            let font = NSFont(name: "Helvetica Neue", size: 14.0)
+            var attributes = [String : AnyObject]()
+            attributes[NSFontAttributeName] = font!
+            attributes[NSForegroundColorAttributeName] = NSColor.whiteColor()
+            
+            let path = setupTextBox(inRect: columnFrame)
+            drawText(writeContext, text: columnNames[idx]+":", path: path, attributes: attributes)
+            
+            columnFrame.origin.x += columnWidths[idx]
+        }
         
-            CGContextStrokeRect(writeContext, template.bodyRect)
+        
+        //The max number of jobs that can fit on this page
+        let pageJobCount = Int(((template.bodyRect.size.height - kHeaderHeight) / kRowHeight))
+
+        //If we have more jobs than we can fit, fill this page to start
+        var numJobsToDraw = jobs.count
+        if(jobs.count > pageJobCount){
+            numJobsToDraw = pageJobCount
+        }
+
+
+        
+        var frame = bodyFrame
+        for(var jobIdx=0;jobIdx<numJobsToDraw;jobIdx++){
+            frame = CGRectMake(frame.origin.x,frame.origin.y - kRowHeight,frame.size.width,kRowHeight)
+            
+            //draw text
+            let job = jobs[jobIdx]
+            var path = setupTextBox(inRect:frame)
+            drawText(writeContext, text: " \(job.name)", path: path, font: nil)
+            
+            frame.origin.x += columnWidths[0]
+            path = setupTextBox(inRect:frame)
+            drawText(writeContext, text: " \(job.totalTimeString())", path: path, font: nil)
+            
+            frame.origin.x += columnWidths[1]
+            path = setupTextBox(inRect:frame)
+            var rate = client.hourlyRate
+            if(job.rate != nil && job.rate!.doubleValue > 0.0){
+                rate = job.rate!
+            }
+            
+            let rateString = String(format: "$%02.2f",rate)
+            drawText(writeContext, text: " \(rateString)", path: path, font: nil)
+
+            frame.origin.x += columnWidths[2]
+            path = setupTextBox(inRect:frame)
+            drawText(writeContext, text: " \(job.cost())", path: path, font: nil)
+            
+            
+            //draw dividing line
+            frame.origin.x = bodyFrame.origin.x
+            CGContextSetStrokeColor(writeContext, CGColorGetComponents(NSColor.blackColor().CGColor))
+            CGContextSetLineWidth(writeContext, 0.25)
+            CGContextStrokeLineSegments(writeContext, [CGPointMake(frame.origin.x,frame.origin.y),CGPointMake(frame.origin.x+frame.size.width,frame.origin.y)], 2)
+        }
+        
+        return 0
+        
     }
     
     
