@@ -159,26 +159,43 @@ class EEBPDFInvoiceCreator {
             rectFrame.origin.y += rectFrame.size.height
             rectFrame.size.height = kHeaderHeight
 
+            //fill header box
             CGContextStrokeRect(writeContext, rectFrame)
             CGContextFillRect(writeContext, rectFrame)
             
+            //Set header text
+            let font = NSFont(name: "Helvetica Neue", size: 14.0)
+            var attributes = [String : AnyObject]()
+            attributes[NSFontAttributeName] = font!
+            attributes[NSForegroundColorAttributeName] = NSColor.whiteColor()
+            let headerPath = setupTextBox(inRect: rectFrame)
+            drawText(writeContext, text: "to:", path: headerPath, attributes: attributes)
+            
             let path = setupTextBox(inRect:template.toBounds)
             let text = "Company 1 \n Address \n Country"
-            let font = NSFont(name: "Helvetica Neue", size: 22.0)
             drawText(writeContext,text:text, path: path,font:font)
         }()
         
         let _ = {
+            
             var rectFrame = template.fromBounds
+            CGContextSetStrokeColor(writeContext, CGColorGetComponents(NSColor.blackColor().CGColor))
             CGContextStrokeRect(writeContext, rectFrame)
             rectFrame.origin.y += rectFrame.size.height
             rectFrame.size.height = kHeaderHeight
             CGContextStrokeRect(writeContext, rectFrame)
             CGContextFillRect(writeContext, rectFrame)
             
+            //Set header text
+            let font = NSFont(name: "Helvetica Neue", size: 14.0)
+            var attributes = [String : AnyObject]()
+            attributes[NSFontAttributeName] = font!
+            attributes[NSForegroundColorAttributeName] = NSColor.whiteColor()
+            let headerPath = setupTextBox(inRect: rectFrame)
+            drawText(writeContext, text: "from:", path: headerPath, attributes: attributes)
+            
             let path = setupTextBox(inRect:template.fromBounds)
             let text = "Company 1"
-            let font = NSFont(name: "Helvetica Neue", size: 22.0)
             drawText(writeContext,text:text, path: path,font:font)
         }()
         
@@ -188,6 +205,7 @@ class EEBPDFInvoiceCreator {
     func drawInvoiceBody(writeContext : CGContextRef, template : InvoiceTemplate, withJobs jobs : [Job]) -> Int{
         //draw enclosing rectangle for body
         var bodyFrame = template.bodyRect
+        CGContextSetStrokeColor(writeContext, CGColorGetComponents(NSColor.blackColor().CGColor))
         CGContextStrokeRect(writeContext, bodyFrame)
     
         //draw the header rectangle
