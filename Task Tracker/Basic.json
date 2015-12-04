@@ -62,12 +62,12 @@
             "origin" :
             {
                 "x" : 41,
-                "y" : 150
+                "y" : 30
             },
             "size" :
             {
-                "width" : 500,
-                "height" : 50
+                "width" : 485,
+                "height" : 30
             }
         }
     },

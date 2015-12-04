@@ -69,7 +69,7 @@ class EEBPDFInvoiceCreator {
         
         drawInvoiceHeader(writeContext,template:template,forClient:user, andUser:client)
         drawInvoiceBody(writeContext, template:template,withJobs:jobs)
-
+        drawInvoiceFooter(writeContext,template: template)
         
         CGContextEndPage(writeContext)
         CGPDFContextClose(writeContext)
@@ -131,16 +131,16 @@ class EEBPDFInvoiceCreator {
     func drawInvoiceHeader(writeContext : CGContextRef, template : InvoiceTemplate, forClient client : Client, andUser user : Client){
 
 
-        /***** Draw our company info *****/
-        let _ : () = {
-            let path = setupTextBox(0, y:Format_A4_72DPI.height - 250, width:200, height:100)
-            
-            //Create *our* company info
-            var textString = user.name! + "\r"
-            textString +=  user.company! + "\r"
-
-            drawText(writeContext,text:textString, path: path,font:nil)
-        }()
+//        /***** Draw our company info *****/
+//        let _ : () = {
+//            let path = setupTextBox(0, y:Format_A4_72DPI.height - 250, width:200, height:100)
+//            
+//            //Create *our* company info
+//            var textString = user.name! + "\r"
+//            textString +=  user.company! + "\r"
+//
+//            drawText(writeContext,text:textString, path: path,font:nil)
+//        }()
         
         
         /***** Draw document title *****/
@@ -172,7 +172,7 @@ class EEBPDFInvoiceCreator {
             drawText(writeContext, text: "to:", path: headerPath, attributes: attributes)
             
             let path = setupTextBox(inRect:template.toBounds)
-            let text = "Company 1 \n Address \n Country"
+            let text = client.name! + "\n" + client.company!
             drawText(writeContext,text:text, path: path,font:font)
         }()
         
@@ -195,7 +195,7 @@ class EEBPDFInvoiceCreator {
             drawText(writeContext, text: "from:", path: headerPath, attributes: attributes)
             
             let path = setupTextBox(inRect:template.fromBounds)
-            let text = "Company 1"
+            let text = user.name! + "\n" + user.company!
             drawText(writeContext,text:text, path: path,font:font)
         }()
         
@@ -239,8 +239,6 @@ class EEBPDFInvoiceCreator {
             numJobsToDraw = pageJobCount
         }
 
-
-        
         var frame = bodyFrame
         for(var jobIdx=0;jobIdx<numJobsToDraw;jobIdx++){
             frame = CGRectMake(frame.origin.x,frame.origin.y - kRowHeight,frame.size.width,kRowHeight)
@@ -276,7 +274,34 @@ class EEBPDFInvoiceCreator {
             CGContextStrokeLineSegments(writeContext, [CGPointMake(frame.origin.x,frame.origin.y),CGPointMake(frame.origin.x+frame.size.width,frame.origin.y)], 2)
         }
         
+        CGContextSetLineWidth(writeContext, 1)
+        CGContextSetStrokeColor(writeContext, CGColorGetComponents(NSColor.blackColor().CGColor))
+        
+        //Subtotal
+        var subTotalRect = CGRectMake(template.bodyRect.origin.x + (template.bodyRect.size.width / 2), template.bodyRect.origin.y - kRowHeight, (template.bodyRect.size.width / 2), kRowHeight)
+        CGContextStrokeRect(writeContext, subTotalRect)
+
+        //Tax
+        subTotalRect.origin.y -= kRowHeight
+        CGContextStrokeRect(writeContext, subTotalRect)
+
+        //Total
+        subTotalRect.origin.y -= kRowHeight
+        subTotalRect.origin.y += 2
+        CGContextStrokeRect(writeContext, subTotalRect)
+
+        
+        
         return 0
+    }
+    
+    func drawInvoiceFooter(writeContext : CGContextRef, template : InvoiceTemplate){
+        let frame = template.footerRect
+        
+        
+                CGContextStrokeRect(writeContext, frame)
+        let path = setupTextBox(inRect:frame)
+        drawText(writeContext, text: " Thanks for your business!", path: path, font: nil)
         
     }
     
