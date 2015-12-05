@@ -357,17 +357,8 @@ class EEBPDFInvoiceCreator {
     
     func drawInvoiceFooter(writeContext : CGContextRef, template : InvoiceTemplate){
         let frame = template.footerRect
-        
-        
-                CGContextStrokeRect(writeContext, frame)
         let path = setupTextBox(inRect:frame)
-        drawText(writeContext, text: " Thanks for your business!", path: path, font: nil)
-        
-    }
-    
-    
-    func createJoblist(){
-        
+        drawText(writeContext, text: " Thanks for your business!", path: path, alignment: .Center)
     }
     
     
