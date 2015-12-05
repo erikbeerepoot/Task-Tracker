@@ -76,50 +76,155 @@ class EEBPDFInvoiceCreator {
 
     
     //MARK: Helpers
+    
+    
+    /** 
+     * @name    setupTextBox
+     * @brief   Creates a new path (a text box) from the given rectangle
+     */
     func setupTextBox(x : CGFloat, y : CGFloat, width : CGFloat, height : CGFloat) -> CGMutablePathRef{
         let origin = CGPoint(x:self.margin_H,y:self.margin_V)
         let path = CGPathCreateMutable()
-        let bounds = CGRectMake(origin.x + x, origin.y + y, width, height);
+        let bounds = CGRectMake(origin.x + x + 2*kTextInset, origin.y + y + kTextInset, width - 3*kTextInset, height);
         CGPathAddRect(path,nil,bounds)
         return path
     }
     
     func setupTextBox(inRect rect : CGRect) -> CGMutablePathRef{
         let path = CGPathCreateMutable()
-        let bounds = CGRectMake(rect.origin.x,rect.origin.y, rect.size.width, rect.size.height);
+        let bounds = CGRectMake(rect.origin.x + 2*kTextInset,rect.origin.y - kTextInset, rect.size.width -  3*kTextInset, rect.size.height );
         CGPathAddRect(path,nil,bounds)
         return path
     }
     
     
-    
-    func drawText(context : CGContextRef,text : String, path : CGMutablePathRef, font : NSFont?){
-        //Create attributed version of the string & draw
-        let attrString = CFAttributedStringCreateMutable(kCFAllocatorDefault, 0);
-        CFAttributedStringReplaceString (attrString, CFRangeMake(0, 0),text);
+
+    /**
+     * @name    drawText
+     * @brief   Draws the given string on the given path
+     * @notes   Changes colour settings (stroke,fill) of context
+     */
+    func drawText(context : CGContextRef,text : String, path : CGMutablePathRef, font : NSFont = NSFont.systemFontOfSize(NSFont.systemFontSize()),alignment : CTTextAlignment = .Left){
+       
+        var attributes = [String : AnyObject]()
+        attributes[NSFontAttributeName] = font
         
-        if(font != nil){
-            CFAttributedStringSetAttribute(attrString,CFRangeMake(0, text.characters.count),NSFontAttributeName,font!)
-        }
+        //Set alignment
+        var alignmentVar : CTTextAlignment = alignment
+        let alignmentSetting = [CTParagraphStyleSetting(spec: .Alignment , valueSize: sizeofValue(alignmentVar), value: &alignmentVar)]
+        let paragraphStyle = CTParagraphStyleCreate(alignmentSetting,1)
+        attributes[NSParagraphStyleAttributeName] = paragraphStyle
         
-        let frameSetter = CTFramesetterCreateWithAttributedString(attrString);
-        let frame = CTFramesetterCreateFrame(frameSetter, CFRangeMake(0, 0), path, nil);
-        CTFrameDraw(frame, context);
+        
+        drawText(context, text: text, path: path, attributes: attributes)
     }
     
     
-    func drawText(context : CGContextRef,text : String, path : CGMutablePathRef, attributes : [String : AnyObject]?){
+    func drawText(context : CGContextRef,text : String, path : CGMutablePathRef, attributes : [String : AnyObject]){
+        CGContextSaveGState(context);
+        
         //Create attributed version of the string & draw
         let attrString = CFAttributedStringCreateMutable(kCFAllocatorDefault, 0);
         CFAttributedStringReplaceString (attrString, CFRangeMake(0, 0),text);
         
-        if(attributes != nil){
-            CFAttributedStringSetAttributes(attrString, CFRangeMake(0, text.characters.count), attributes, true)
-        }
+        attributes.forEach({CFAttributedStringSetAttribute(attrString, CFRangeMake(0, CFAttributedStringGetLength(attrString)), $0.0,$0.1)})
         
         let frameSetter = CTFramesetterCreateWithAttributedString(attrString);
         let frame = CTFramesetterCreateFrame(frameSetter, CFRangeMake(0, 0), path, nil);
         CTFrameDraw(frame, context);
+        
+        CGContextRestoreGState(context);
+    }
+    
+    /**
+     * @name    drawTable
+     * @brief   Draws a table inside the given rectangle
+     */
+    func drawTable(context : CGContextRef,
+               inRect rect : CGRect,
+                   numRows : Int,
+                   numCols : Int,
+                rowHeaders : [String] = [],
+                colHeaders : [String] = [],
+           drawRowDividers : Bool = true,
+           drawColDividers : Bool = true,
+                 textColor : NSColor = NSColor.whiteColor(),
+               strokeColor : NSColor = NSColor.blackColor(),
+                 fillColor : NSColor = NSColor.blackColor()){
+                    
+        
+                    
+        guard (rowHeaders.count == 0 || rowHeaders.count == numRows) &&
+            (colHeaders.count == 0 || colHeaders.count == numCols) else {
+                return
+        }
+                    
+        //Before we change any context properties, we save the state
+        CGContextSaveGState(context);
+        CGContextSetStrokeColor(context, CGColorGetComponents(strokeColor.CGColor))
+        CGContextSetFillColor(context, CGColorGetComponents(fillColor.CGColor))
+                    
+        //Create bounding box
+        CGContextStrokeRect(context, rect)
+        
+        //Set header text style
+        let font = NSFont(name: "Helvetica Neue", size: 14.0)
+        var attributes = [String : AnyObject]()
+        attributes[NSFontAttributeName] = font!
+        attributes[NSForegroundColorAttributeName] = textColor
+        
+        var horizontalOffset : CGFloat = 0
+        if(rowHeaders.count > 0){
+            horizontalOffset = kHeaderWidth
+        }
+                    
+                    
+        //If we were given column headers, draw them
+        let headerWidth : CGFloat = ((rect.size.width - horizontalOffset) / CGFloat(numCols))
+        var colHeaderRect = CGRectMake(rect.origin.x + horizontalOffset, rect.origin.y + rect.size.height - kHeaderHeight, headerWidth, kHeaderHeight)
+        for colHeader in colHeaders {
+            //fill the header with the appropriate colour
+            CGContextFillRect(context, colHeaderRect)
+            
+            //Create header text
+            let textPath = setupTextBox(inRect: colHeaderRect)
+            drawText(context, text: colHeader, path: textPath, attributes: attributes)
+            
+            //next header starts where this one ends
+            colHeaderRect.origin.x += headerWidth
+        }
+             
+                    
+        //If we were given row headers, draw them
+        var rowHeaderRect = CGRectMake(rect.origin.x, rect.origin.y + rect.size.height - kHeaderHeight, kHeaderWidth, kRowHeight)
+        for rowHeader in rowHeaders {
+            //fill the header with the appropriate colour
+            CGContextFillRect(context, rowHeaderRect)
+            
+            //Create header text
+            let textPath = setupTextBox(inRect: rowHeaderRect)
+            drawText(context, text: rowHeader, path: textPath, attributes: attributes)
+            
+            //next header starts where this one ends
+            rowHeaderRect.origin.y -= kRowHeight
+        }
+                    
+        //Draw the table inside dividers
+        let origin : CGPoint = CGPointMake(rect.origin.x + horizontalOffset, colHeaderRect.origin.y - (colHeaders.count > 0 ? kHeaderHeight : 0))
+        let xs = origin.x.stride(to: (origin.x + CGFloat(numCols)*headerWidth), by: headerWidth)
+        let ys = origin.y.stride(to: rect.origin.y, by: -kRowHeight)
+                print(ys)
+        CGContextSetLineWidth(context, 0.25)
+
+        if(drawColDividers){
+            xs.forEach(){CGContextStrokeRect(context, CGRectMake($0,colHeaderRect.origin.y,headerWidth,kHeaderHeight-rect.size.height))}
+        }
+                    
+        if(drawRowDividers){
+            ys.forEach(){CGContextStrokeRect(context, CGRectMake(origin.x,$0,rect.size.width-horizontalOffset,kRowHeight))}
+        }
+                    
+        CGContextRestoreGState(context);
     }
     
     /**
@@ -129,104 +234,51 @@ class EEBPDFInvoiceCreator {
     func drawInvoiceHeader(writeContext : CGContextRef, template : InvoiceTemplate, forClient client : Client, andUser user : Client){
 
 
-//        /***** Draw our company info *****/
-//        let _ : () = {
-//            let path = setupTextBox(0, y:Format_A4_72DPI.height - 250, width:200, height:100)
-//            
-//            //Create *our* company info
-//            var textString = user.name! + "\r"
-//            textString +=  user.company! + "\r"
-//
-//            drawText(writeContext,text:textString, path: path,font:nil)
-//        }()
-        
-        
         /***** Draw document title *****/
-        let _ = {
-            let path = setupTextBox(inRect:template.titleBounds)
-            let text = "Invoice"
-            let font = NSFont(name: "Helvetica Neue Bold", size: 25.0)
-            
-            //CGContextStrokeRect(writeContext, template.titleBounds)
-            drawText(writeContext,text:text, path: path,font:font)
-        }()
-        
-        let _ = {
-            var rectFrame = template.toBounds
-            CGContextStrokeRect(writeContext, rectFrame)
-            rectFrame.origin.y += rectFrame.size.height
-            rectFrame.size.height = kHeaderHeight
+        var frame = template.titleBounds
+        var path = setupTextBox(inRect:frame)
+        var text = "Invoice"
+        var font = NSFont(name: "Helvetica Neue Bold", size: 25.0)
+        drawText(writeContext,text:text, path: path,font:font!)
 
-            //fill header box
-            CGContextStrokeRect(writeContext, rectFrame)
-            CGContextFillRect(writeContext, rectFrame)
-            
-            //Set header text
-            let font = NSFont(name: "Helvetica Neue", size: 14.0)
-            var attributes = [String : AnyObject]()
-            attributes[NSFontAttributeName] = font!
-            attributes[NSForegroundColorAttributeName] = NSColor.whiteColor()
-            let headerPath = setupTextBox(inRect: rectFrame)
-            drawText(writeContext, text: "to:", path: headerPath, attributes: attributes)
-            
-            let path = setupTextBox(inRect:template.toBounds)
-            let text = client.name! + "\n" + client.company!
-            drawText(writeContext,text:text, path: path,font:font)
-        }()
         
-        let _ = {
-            
-            var rectFrame = template.fromBounds
-            CGContextSetStrokeColor(writeContext, CGColorGetComponents(NSColor.blackColor().CGColor))
-            CGContextStrokeRect(writeContext, rectFrame)
-            rectFrame.origin.y += rectFrame.size.height
-            rectFrame.size.height = kHeaderHeight
-            CGContextStrokeRect(writeContext, rectFrame)
-            CGContextFillRect(writeContext, rectFrame)
-            
-            //Set header text
-            let font = NSFont(name: "Helvetica Neue", size: 14.0)
-            var attributes = [String : AnyObject]()
-            attributes[NSFontAttributeName] = font!
-            attributes[NSForegroundColorAttributeName] = NSColor.whiteColor()
-            let headerPath = setupTextBox(inRect: rectFrame)
-            drawText(writeContext, text: "from:", path: headerPath, attributes: attributes)
-            
-            let path = setupTextBox(inRect:template.fromBounds)
-            let text = user.name! + "\n" + user.company!
-            drawText(writeContext,text:text, path: path,font:font)
-        }()
-        
+        /************* Dates ***************/
+        let formatter : NSDateFormatter = NSDateFormatter()
+        formatter.dateStyle = .ShortStyle
+        formatter.locale = NSLocale.currentLocale()
 
+        
+        //Invoice date
+        font = NSFont(name: "Helvetica Neue", size: 14.0)
+        frame.origin.y -= 30
+        path = setupTextBox(inRect:frame)
+        text = "Invoice date: \t \(formatter.stringFromDate(NSDate()))"
+        drawText(writeContext,text:text, path: path,font:font!)
+
+        //Due date
+        frame.origin.y -= 20
+        path = setupTextBox(inRect:frame)
+        text = "Due date: \t \t \(formatter.stringFromDate(NSDate().dateByAddingTimeInterval(1210000)))"
+        drawText(writeContext,text:text, path: path,font:font!)            
+        
+        /****** Draw to & from box ******/
+        drawTable(writeContext, inRect:template.toBounds, numRows: 5, numCols: 1,colHeaders:["To:"],drawRowDividers:false)
+        path = setupTextBox(inRect:CGRectMake(template.toBounds.origin.x,template.toBounds.origin.y - kRowHeight,template.toBounds.size.width,template.toBounds.size.height))
+        text = client.name! + "\n" + client.company!
+        drawText(writeContext,text:text, path: path,font:font!)
+
+        
+        drawTable(writeContext, inRect:template.fromBounds, numRows: 5, numCols: 1,colHeaders:["From:"],drawRowDividers:false)
+        path = setupTextBox(inRect:CGRectMake(template.fromBounds.origin.x,template.fromBounds.origin.y - kRowHeight,template.fromBounds.size.width,template.fromBounds.size.height))
+        text = user.name! + "\n" + user.company!
+        drawText(writeContext,text:text, path: path,font:font!)
     }
     
+
+
+    
     func drawInvoiceBody(writeContext : CGContextRef, template : InvoiceTemplate, withJobs jobs : [Job]) -> Int{
-        //draw enclosing rectangle for body
-        var bodyFrame = template.bodyRect
-        CGContextSetStrokeColor(writeContext, CGColorGetComponents(NSColor.blackColor().CGColor))
-        CGContextStrokeRect(writeContext, bodyFrame)
-    
-        //draw the header rectangle
-        bodyFrame.origin.y += bodyFrame.size.height - kHeaderHeight
-        bodyFrame.size.height = kHeaderHeight
-        CGContextFillRect(writeContext, bodyFrame)
-    
-        //add text to the header
-        var columnFrame = bodyFrame
-        for var idx = 0;idx<columnWidths.count;idx++ {
-            columnFrame.size.width = columnWidths[idx]
-            
-            let font = NSFont(name: "Helvetica Neue", size: 14.0)
-            var attributes = [String : AnyObject]()
-            attributes[NSFontAttributeName] = font!
-            attributes[NSForegroundColorAttributeName] = NSColor.whiteColor()
-            
-            let path = setupTextBox(inRect: columnFrame)
-            drawText(writeContext, text: columnNames[idx]+":", path: path, attributes: attributes)
-            
-            columnFrame.origin.x += columnWidths[idx]
-        }
-        
+            let columnNames : [String] = ["Job:","Quantity:","Rate:","Cost:"]
         
         //The max number of jobs that can fit on this page
         let pageJobCount = Int(((template.bodyRect.size.height - kHeaderHeight) / kRowHeight))
@@ -236,58 +288,68 @@ class EEBPDFInvoiceCreator {
         if(jobs.count > pageJobCount){
             numJobsToDraw = pageJobCount
         }
+        
+        drawTable(writeContext, inRect:template.bodyRect,numRows:numJobsToDraw,numCols:columnNames.count,colHeaders:columnNames)
 
-        var frame = bodyFrame
+        let frame = CGRectMake(template.bodyRect.origin.x, template.bodyRect.origin.y + template.bodyRect.size.height - kRowHeight, template.bodyRect.size.width, template.bodyRect.size.height)
+        let columnWidth = template.bodyRect.size.width / CGFloat(columnNames.count)
         for(var jobIdx=0;jobIdx<numJobsToDraw;jobIdx++){
-            frame = CGRectMake(frame.origin.x,frame.origin.y - kRowHeight,frame.size.width,kRowHeight)
+            var currentFrame = CGRectMake(frame.origin.x,frame.origin.y - kRowHeight - CGFloat(jobIdx)*kRowHeight,columnWidth,kRowHeight)
             
             //draw text
             let job = jobs[jobIdx]
-            var path = setupTextBox(inRect:frame)
-            drawText(writeContext, text: " \(job.name)", path: path, font: nil)
             
-            frame.origin.x += columnWidths[0]
-            path = setupTextBox(inRect:frame)
-            drawText(writeContext, text: " \(job.totalTimeString())", path: path, font: nil)
+            var path = setupTextBox(inRect:currentFrame)
+            drawText(writeContext, text: " \(job.name)", path: path)
             
-            frame.origin.x += columnWidths[1]
-            path = setupTextBox(inRect:frame)
+            currentFrame.origin.x += columnWidth
+            path = setupTextBox(inRect:currentFrame)
+            drawText(writeContext, text: " \(job.totalTimeString())", path: path,alignment: .Right)
+            
+            currentFrame.origin.x += columnWidth
+            path = setupTextBox(inRect:currentFrame)
             var rate = client.hourlyRate
             if(job.rate != nil && job.rate!.doubleValue > 0.0){
                 rate = job.rate!
             }
             
-            let rateString = String(format: "$%02.2f",rate)
-            drawText(writeContext, text: " \(rateString)", path: path, font: nil)
+            drawText(writeContext, text: " \(String(format: "$%02.2f",Float(rate)))", path: path,alignment: .Right)
 
-            frame.origin.x += columnWidths[2]
-            path = setupTextBox(inRect:frame)
-            drawText(writeContext, text: " \(job.cost())", path: path, font: nil)
-            
-            
-            //draw dividing line
-            frame.origin.x = bodyFrame.origin.x
-            CGContextSetStrokeColor(writeContext, CGColorGetComponents(NSColor.blackColor().CGColor))
-            CGContextSetLineWidth(writeContext, 0.25)
-            CGContextStrokeLineSegments(writeContext, [CGPointMake(frame.origin.x,frame.origin.y),CGPointMake(frame.origin.x+frame.size.width,frame.origin.y)], 2)
+            currentFrame.origin.x += columnWidth
+            path = setupTextBox(inRect:currentFrame)
+            drawText(writeContext, text: " \(job.cost())", path: path,alignment: .Right)
         }
+    
         
-        CGContextSetLineWidth(writeContext, 1)
-        CGContextSetStrokeColor(writeContext, CGColorGetComponents(NSColor.blackColor().CGColor))
+        
+        //Totals headers
+        var subTotalRect = CGRectMake(template.bodyRect.origin.x + (template.bodyRect.size.width / 2), template.bodyRect.origin.y - 3*kRowHeight , (template.bodyRect.size.width / 2), 3*kRowHeight)
+        drawTable(writeContext,inRect: subTotalRect, numRows:3,numCols:1,rowHeaders: ["Subtotal:","Tax:","Total:"],fillColor:NSColor.darkGrayColor())
+        
+        //Compute totals and display
+        let tax = Double(0.15)
+        let subTotal = jobs.reduce(0, combine: { $0 + $1.computeCost() })
+        let total = subTotal + subTotal*tax
+
+        subTotalRect.origin.x += kHeaderWidth
+        subTotalRect.origin.y += 2*kRowHeight
+        subTotalRect.size.height = kRowHeight
+        subTotalRect.size.width -= kHeaderWidth
         
         //Subtotal
-        var subTotalRect = CGRectMake(template.bodyRect.origin.x + (template.bodyRect.size.width / 2), template.bodyRect.origin.y - kRowHeight, (template.bodyRect.size.width / 2), kRowHeight)
-        CGContextStrokeRect(writeContext, subTotalRect)
-
+        var path = setupTextBox(inRect:subTotalRect)
+        drawText(writeContext, text:" \(String(format: "$%02.2f",Float(subTotal)))", path: path,alignment: .Right)
+        
         //Tax
         subTotalRect.origin.y -= kRowHeight
-        CGContextStrokeRect(writeContext, subTotalRect)
-
+        path = setupTextBox(inRect:subTotalRect)
+        drawText(writeContext, text:" \(String(format: "$%02.2f",Float(tax*subTotal)))", path: path,alignment: .Right)
+        
         //Total
         subTotalRect.origin.y -= kRowHeight
-        subTotalRect.origin.y += 2
-        CGContextStrokeRect(writeContext, subTotalRect)
-
+        path = setupTextBox(inRect:subTotalRect)
+        drawText(writeContext, text:" \(String(format: "$%02.2f",Float(total)))", path: path,alignment: .Right)
+        
         
         
         return 0
