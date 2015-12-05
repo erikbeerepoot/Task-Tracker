@@ -18,10 +18,11 @@ class EEBPDFInvoiceCreator {
     
     //Appearance constants
     let kHeaderHeight = CGFloat(20)
+    let kHeaderWidth = CGFloat(75)
     let kRowHeight = CGFloat(20)
+    let kColWidth = CGFloat(50)
+    let kTextInset = CGFloat(2)
     
-    let columnWidths : [CGFloat] = [200,81.3,81.3,81.3]
-    let columnNames : [String] = ["Job","Quantity","Price","Cost"]
     
     //Metadata for PDF
     var metadata : Dictionary<String,String> = Dictionary<String,String>()
@@ -56,11 +57,8 @@ class EEBPDFInvoiceCreator {
             print("Failed to create PDF context at URL \(url)")
             return false
         }
-        
 
         var mediaBox: CGRect = CGRectMake(0, 0, Format_A4_72DPI.width, Format_A4_72DPI.height)
-
-        
 
         CGContextBeginPage(writeContext, &mediaBox)
 
