@@ -196,6 +196,10 @@
 			children = (
 				03B67D121BE08716005CD45E /* CoreData Generated */,
 				03B67CFD1BDFD03B005CD45E /* AppData.xcdatamodeld */,
+				03B67D031BE08709005CD45E /* TimingSession.swift */,
+				03B67D051BE08709005CD45E /* Job.swift */,
+				03B67D071BE08709005CD45E /* Invoice.swift */,
+				03B67D091BE08709005CD45E /* Client.swift */,
 				03B67D001BE084D8005CD45E /* PersistentStoreManager.swift */,
 				03054E791C06D2880067CF8C /* InvoiceTemplate.swift */,
 			);
@@ -206,13 +210,9 @@
 			isa = PBXGroup;
 			children = (
 				03B67D021BE08709005CD45E /* TimingSession+CoreDataProperties.swift */,
-				03B67D031BE08709005CD45E /* TimingSession.swift */,
 				03B67D041BE08709005CD45E /* Job+CoreDataProperties.swift */,
-				03B67D051BE08709005CD45E /* Job.swift */,
 				03B67D061BE08709005CD45E /* Invoice+CoreDataProperties.swift */,
-				03B67D071BE08709005CD45E /* Invoice.swift */,
 				03B67D081BE08709005CD45E /* Client+CoreDataProperties.swift */,
-				03B67D091BE08709005CD45E /* Client.swift */,
 			);
 			name = "CoreData Generated";
 			sourceTree = "<group>";

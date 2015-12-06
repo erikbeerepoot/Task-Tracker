@@ -10,8 +10,4 @@ import Foundation
 import CoreData
 
 
-class TimingSession: NSManagedObject {
-
-    
-
-}
+class TimingSession: NSManagedObject {}
