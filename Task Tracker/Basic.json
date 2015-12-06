@@ -75,15 +75,63 @@
     {
         "body" :
         {
-            "font" : "Helvetica Neue",
-            "font-size" : "20",
-            "font-style" : "regular"
+            "font" :
+            {
+                "font-name" : "Helvetica Neue",
+                "font-size" : 30,
+                "font-style" : "",
+            },
+            "colors" :
+            {
+                 "text" : "#000000",
+                 "fill" : "#000000",
+                 "stroke" : "#000000",
+            }
         },
         "title" :
         {
-            "font" : "Helvetica Neue",
-            "font-size" : "30",
-            "font-style" : "regular"
+            "font" :
+            {
+                "font-name" : "Helvetica Neue",
+                "font-size" : 30,
+                "font-style" : "Bold",
+            },
+            "colors" :
+            {
+                "text" : "#000000",
+                "fill" : "#000000",
+                "stroke" : "#000000",
+            },
+        },
+        "to" :
+        {
+            "font" :
+            {
+                "font-name" : "Helvetica Neue",
+                "font-size" : 15,
+                "font-style" : "Thin",
+            },
+            "colors" :
+            {
+                "text" : "#000000",
+                "fill" : "#000000",
+                "stroke" : "#000000",
+            }
+        },
+        "from" :
+        {
+            "font" :
+            {
+                "font-name" : "Helvetica Neue",
+                "font-size" : 15,
+                "font-style" : "Thin",
+            },
+            "colors" :
+            {
+                "text" : "#000000",
+                "fill" : "#000000",
+                "stroke" : "#000000",
+            }
         }
     }
 }
