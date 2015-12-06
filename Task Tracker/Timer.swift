@@ -10,7 +10,7 @@ import Foundation
 import AppKit
 class EEBTimer {
     var currentSession : TimingSession? = nil;
-    var sm : PersistentStoreManager
+    var sm : EEBPersistentStoreManager
     
     var running : Bool {
         return (currentSession != nil)
@@ -20,7 +20,7 @@ class EEBTimer {
         return currentSession?.job
     }
     
-    init(storeManager : PersistentStoreManager){
+    init(storeManager : EEBPersistentStoreManager){
         sm = storeManager     
     }
     

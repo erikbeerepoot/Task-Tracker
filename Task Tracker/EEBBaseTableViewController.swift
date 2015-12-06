@@ -18,7 +18,7 @@ class EEBBaseTableViewController : NSViewController, NSTableViewDataSource, NSTa
     var kRowHeight : CGFloat = 64.0
     
     //MARK: Module state
-    var sm : PersistentStoreManager? = nil
+    var sm : EEBPersistentStoreManager? = nil
     var kTVObjectType = ""
     var navigationController : EEBNavigationController? = nil;
     var allowSelection = false;

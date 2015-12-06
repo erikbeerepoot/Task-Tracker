@@ -46,7 +46,7 @@ class EEBPDFInvoiceCreator {
         
     func createPDF(atPath path : String, withFilename filename : String) -> Bool {
         
-        let template = InvoiceTemplate(templateName: "Basic")
+        let template = EEBInvoiceTemplate(templateName: "Basic")
         
         //Attempt to create PDF context
         let path = CFStringCreateWithCString(nil, path+filename, CFStringBuiltInEncodings.UTF8.rawValue);
@@ -229,7 +229,7 @@ class EEBPDFInvoiceCreator {
      * @name    createInvoiceHeader
      * @brief   Creates the header for the invoice (company info, title, etc)
      */
-    func drawInvoiceHeader(writeContext : CGContextRef, template : InvoiceTemplate, forClient client : Client, andUser user : Client){
+    func drawInvoiceHeader(writeContext : CGContextRef, template : EEBInvoiceTemplate, forClient client : Client, andUser user : Client){
 
 
         /***** Draw document title *****/
@@ -277,7 +277,7 @@ class EEBPDFInvoiceCreator {
 
 
     
-    func drawInvoiceBody(writeContext : CGContextRef, template : InvoiceTemplate, withJobs jobs : [Job]) -> Int{
+    func drawInvoiceBody(writeContext : CGContextRef, template : EEBInvoiceTemplate, withJobs jobs : [Job]) -> Int{
             let columnNames : [String] = ["Job:","Quantity:","Rate:","Cost:"]
         
         //The max number of jobs that can fit on this page
@@ -355,7 +355,7 @@ class EEBPDFInvoiceCreator {
         return 0
     }
     
-    func drawInvoiceFooter(writeContext : CGContextRef, template : InvoiceTemplate){
+    func drawInvoiceFooter(writeContext : CGContextRef, template : EEBInvoiceTemplate){
         let frame = template.footerRect
         let path = setupTextBox(inRect:frame)
         drawText(writeContext, text: " Thanks for your business!", path: path, alignment: .Center)

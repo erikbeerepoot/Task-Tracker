@@ -16,7 +16,7 @@ class EEBInvoiceViewController : NSViewController,NavigableViewController {
     @IBOutlet weak var pdfView : PDFView!
     
     var navigationController : EEBNavigationController? = nil
-    var storeManager : PersistentStoreManager? = nil
+    var storeManager : EEBPersistentStoreManager? = nil
 
     override func viewDidLoad(){
         //Set overlay buttons

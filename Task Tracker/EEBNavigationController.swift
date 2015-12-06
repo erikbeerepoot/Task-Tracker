@@ -19,7 +19,7 @@ class EEBNavigationController : NSViewController {
     
     var viewConstraints : [String : [[NSLayoutConstraint]]] = [ String : [[NSLayoutConstraint]]]()
     var viewControllers : [NavigableViewController] = []
-    let storeManager = PersistentStoreManager()
+    let storeManager = EEBPersistentStoreManager()
     
     override func viewDidLoad() {
         viewControllers = [NavigableViewController]()

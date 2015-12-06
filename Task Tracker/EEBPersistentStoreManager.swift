@@ -9,7 +9,7 @@
 import Foundation
 import CoreData
 
-class PersistentStoreManager : NSObject {
+class EEBPersistentStoreManager : NSObject {
     let dataModelName = "AppData";
     
     var managedObjectContext: NSManagedObjectContext? = nil;

@@ -26,7 +26,7 @@ class EEBTimingSessionsViewController : NSViewController, NSPopoverDelegate, NST
     var delegate : EEBTimingSessionsViewControllerDelegate? = nil
     var popover : NSPopover? = nil
     var job : Job? = nil
-    var sm : PersistentStoreManager? = nil
+    var sm : EEBPersistentStoreManager? = nil
     
     override func viewDidLoad() {        
         tableView.backgroundColor = NSColor.clearColor()

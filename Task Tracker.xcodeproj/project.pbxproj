@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		03054E781C06A10D0067CF8C /* Basic.json in Resources */ = {isa = PBXBuildFile; fileRef = 03054E771C06A10D0067CF8C /* Basic.json */; };
-		03054E7A1C06D2880067CF8C /* InvoiceTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03054E791C06D2880067CF8C /* InvoiceTemplate.swift */; };
+		03054E7A1C06D2880067CF8C /* EEBInvoiceTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03054E791C06D2880067CF8C /* EEBInvoiceTemplate.swift */; };
 		032A88D11BE56D74005AC234 /* EEBSimpleTableCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032A88D01BE56D74005AC234 /* EEBSimpleTableCellView.swift */; };
 		032A88D41BE69856005AC234 /* arrow-right-black-48.png in Resources */ = {isa = PBXBuildFile; fileRef = 032A88D31BE69856005AC234 /* arrow-right-black-48.png */; };
 		032A88D61BE6AFB8005AC234 /* delete.png in Resources */ = {isa = PBXBuildFile; fileRef = 032A88D51BE6AFB8005AC234 /* delete.png */; };
@@ -29,7 +29,7 @@
 		03A9F5D11C0253C50041A954 /* NSTimerInterval+String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03A9F5D01C0253C50041A954 /* NSTimerInterval+String.swift */; };
 		03A9F5D31C03E1600041A954 /* EEBPDFInvoiceCreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03A9F5D21C03E1600041A954 /* EEBPDFInvoiceCreator.swift */; };
 		03B67CFF1BDFD03B005CD45E /* AppData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 03B67CFD1BDFD03B005CD45E /* AppData.xcdatamodeld */; };
-		03B67D011BE084D8005CD45E /* PersistentStoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B67D001BE084D8005CD45E /* PersistentStoreManager.swift */; };
+		03B67D011BE084D8005CD45E /* EEBPersistentStoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B67D001BE084D8005CD45E /* EEBPersistentStoreManager.swift */; };
 		03B67D0A1BE08709005CD45E /* TimingSession+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B67D021BE08709005CD45E /* TimingSession+CoreDataProperties.swift */; };
 		03B67D0B1BE08709005CD45E /* TimingSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B67D031BE08709005CD45E /* TimingSession.swift */; };
 		03B67D0C1BE08709005CD45E /* Job+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B67D041BE08709005CD45E /* Job+CoreDataProperties.swift */; };
@@ -65,7 +65,7 @@
 
 /* Begin PBXFileReference section */
 		03054E771C06A10D0067CF8C /* Basic.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Basic.json; sourceTree = "<group>"; };
-		03054E791C06D2880067CF8C /* InvoiceTemplate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InvoiceTemplate.swift; sourceTree = "<group>"; };
+		03054E791C06D2880067CF8C /* EEBInvoiceTemplate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EEBInvoiceTemplate.swift; sourceTree = "<group>"; };
 		032A88D01BE56D74005AC234 /* EEBSimpleTableCellView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EEBSimpleTableCellView.swift; sourceTree = "<group>"; };
 		032A88D31BE69856005AC234 /* arrow-right-black-48.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow-right-black-48.png"; sourceTree = "<group>"; };
 		032A88D51BE6AFB8005AC234 /* delete.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = delete.png; sourceTree = "<group>"; };
@@ -86,7 +86,7 @@
 		03A9F5D01C0253C50041A954 /* NSTimerInterval+String.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSTimerInterval+String.swift"; sourceTree = "<group>"; };
 		03A9F5D21C03E1600041A954 /* EEBPDFInvoiceCreator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EEBPDFInvoiceCreator.swift; sourceTree = "<group>"; };
 		03B67CFE1BDFD03B005CD45E /* AppData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = AppData.xcdatamodel; sourceTree = "<group>"; };
-		03B67D001BE084D8005CD45E /* PersistentStoreManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersistentStoreManager.swift; sourceTree = "<group>"; };
+		03B67D001BE084D8005CD45E /* EEBPersistentStoreManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EEBPersistentStoreManager.swift; sourceTree = "<group>"; };
 		03B67D021BE08709005CD45E /* TimingSession+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "TimingSession+CoreDataProperties.swift"; path = "../CoreData Generated/TimingSession+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		03B67D031BE08709005CD45E /* TimingSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TimingSession.swift; path = "../CoreData Generated/TimingSession.swift"; sourceTree = "<group>"; };
 		03B67D041BE08709005CD45E /* Job+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Job+CoreDataProperties.swift"; path = "../CoreData Generated/Job+CoreDataProperties.swift"; sourceTree = "<group>"; };
@@ -194,14 +194,11 @@
 		03B67CFC1BDFD010005CD45E /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				03E231731C14FBDD00E3B083 /* CoreData Modified */,
 				03B67D121BE08716005CD45E /* CoreData Generated */,
 				03B67CFD1BDFD03B005CD45E /* AppData.xcdatamodeld */,
-				03B67D031BE08709005CD45E /* TimingSession.swift */,
-				03B67D051BE08709005CD45E /* Job.swift */,
-				03B67D071BE08709005CD45E /* Invoice.swift */,
-				03B67D091BE08709005CD45E /* Client.swift */,
-				03B67D001BE084D8005CD45E /* PersistentStoreManager.swift */,
-				03054E791C06D2880067CF8C /* InvoiceTemplate.swift */,
+				03B67D001BE084D8005CD45E /* EEBPersistentStoreManager.swift */,
+				03054E791C06D2880067CF8C /* EEBInvoiceTemplate.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -296,6 +293,17 @@
 				03C269B71BDF2ABB00DAA4E7 /* Info.plist */,
 			);
 			path = "Task TrackerTests";
+			sourceTree = "<group>";
+		};
+		03E231731C14FBDD00E3B083 /* CoreData Modified */ = {
+			isa = PBXGroup;
+			children = (
+				03B67D031BE08709005CD45E /* TimingSession.swift */,
+				03B67D051BE08709005CD45E /* Job.swift */,
+				03B67D071BE08709005CD45E /* Invoice.swift */,
+				03B67D091BE08709005CD45E /* Client.swift */,
+			);
+			name = "CoreData Modified";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -420,11 +428,11 @@
 				03A9F5CD1C0234680041A954 /* NSToolbar+findItems.swift in Sources */,
 				03B67CFF1BDFD03B005CD45E /* AppData.xcdatamodeld in Sources */,
 				03B67D0D1BE08709005CD45E /* Job.swift in Sources */,
-				03054E7A1C06D2880067CF8C /* InvoiceTemplate.swift in Sources */,
+				03054E7A1C06D2880067CF8C /* EEBInvoiceTemplate.swift in Sources */,
 				032A88D11BE56D74005AC234 /* EEBSimpleTableCellView.swift in Sources */,
 				03B67D1A1BE13A0C005CD45E /* EEBNavigationController.swift in Sources */,
 				03A9F5D31C03E1600041A954 /* EEBPDFInvoiceCreator.swift in Sources */,
-				03B67D011BE084D8005CD45E /* PersistentStoreManager.swift in Sources */,
+				03B67D011BE084D8005CD45E /* EEBPersistentStoreManager.swift in Sources */,
 				03B67D111BE08709005CD45E /* Client.swift in Sources */,
 				03B67D0C1BE08709005CD45E /* Job+CoreDataProperties.swift in Sources */,
 				03B67D181BE12D0B005CD45E /* EEBJobViewController.swift in Sources */,

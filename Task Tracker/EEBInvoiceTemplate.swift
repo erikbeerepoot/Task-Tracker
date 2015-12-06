@@ -9,7 +9,7 @@
 import Foundation
 import AppKit
 
-class InvoiceTemplate {
+class EEBInvoiceTemplate {
     
     //Layout
     var toBounds : CGRect = CGRectZero, fromBounds : CGRect = CGRectZero, titleBounds : CGRect = CGRectZero
