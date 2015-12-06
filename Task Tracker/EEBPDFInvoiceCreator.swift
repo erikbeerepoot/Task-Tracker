@@ -39,8 +39,6 @@ class EEBPDFInvoiceCreator {
     }
     
     func setMetadata(userinfo : Client, client : Client){
-        
-        
         metadata[String(kCGPDFContextTitle)] = NSLocalizedString("Invoice",comment: "Invoice")
         metadata[String(kCGPDFContextCreator)] = userinfo.name
         
@@ -238,7 +236,7 @@ class EEBPDFInvoiceCreator {
         var frame = template.titleBounds
         var path = setupTextBox(inRect:frame)
         var text = "Invoice"
-        var font = NSFont(name: "Helvetica Neue Bold", size: 25.0)
+        var font = (template.style["title"]?["font"] as? NSFont) ?? NSFont(name: "Helvetica Neue Bold", size: 25.0)
         drawText(writeContext,text:text, path: path,font:font!)
 
         
@@ -249,7 +247,8 @@ class EEBPDFInvoiceCreator {
 
         
         //Invoice date
-        font = NSFont(name: "Helvetica Neue", size: 14.0)
+        font = (template.style["title-dates"]?["font"] as? NSFont) ?? NSFont(name: "Helvetica Neue", size: 14.0)
+        
         frame.origin.y -= 30
         path = setupTextBox(inRect:frame)
         text = "Invoice date: \t \(formatter.stringFromDate(NSDate()))"
@@ -262,12 +261,13 @@ class EEBPDFInvoiceCreator {
         drawText(writeContext,text:text, path: path,font:font!)            
         
         /****** Draw to & from box ******/
+        font = (template.style["to"]?["font"] as? NSFont) ?? NSFont(name: "Helvetica Neue", size: 14.0)
         drawTable(writeContext, inRect:template.toBounds, numRows: 5, numCols: 1,colHeaders:["To:"],drawRowDividers:false)
         path = setupTextBox(inRect:CGRectMake(template.toBounds.origin.x,template.toBounds.origin.y - kRowHeight,template.toBounds.size.width,template.toBounds.size.height))
         text = client.name! + "\n" + client.company!
         drawText(writeContext,text:text, path: path,font:font!)
 
-        
+        font = (template.style["to"]?["font"] as? NSFont) ?? NSFont(name: "Helvetica Neue", size: 14.0)
         drawTable(writeContext, inRect:template.fromBounds, numRows: 5, numCols: 1,colHeaders:["From:"],drawRowDividers:false)
         path = setupTextBox(inRect:CGRectMake(template.fromBounds.origin.x,template.fromBounds.origin.y - kRowHeight,template.fromBounds.size.width,template.fromBounds.size.height))
         text = user.name! + "\n" + user.company!
