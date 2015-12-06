@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import AppKit
 
 class InvoiceTemplate {
     
@@ -16,7 +17,7 @@ class InvoiceTemplate {
     var footerRect : CGRect = CGRectZero
     
     //Style
-    var style : [String : AnyObject] = [String:AnyObject]()
+    var style : [String : [String : AnyObject]] = [String : [String : AnyObject]]()
     
     
     
@@ -31,7 +32,6 @@ class InvoiceTemplate {
                 if jsonResult is [String : AnyObject] {
                     json = jsonResult as! [String : AnyObject]
                 }
-
             } catch _ {
                 
             }
@@ -40,6 +40,8 @@ class InvoiceTemplate {
         //Parse template object
         if(validateJSON(json)){
             parseTemplate(json)
+        } else {
+            exit(0)
         }
 
     }
@@ -66,11 +68,19 @@ class InvoiceTemplate {
         /********** Style Parsing ************/
         let styleJSON = json["style"]! as? [String : AnyObject]
         for key in styleJSON!.keys {
-            
+            style[key] = [String : AnyObject]()
+            if let sectionStyle = styleJSON![key] as? [String : AnyObject] {
+                if let colorsJSON = sectionStyle["colors"] as? [String : AnyObject] {
+                    style[key]!["colors"] = parseColors(colorsJSON)
+                }
+                
+                if let fontJSON = sectionStyle["font"] as? [String : AnyObject] {
+                    style[key]!["font"] = parseFont(fontJSON)
+                }
+            }
         }
-        //STUB
-        //STUBBY
-        //STUB
+
+        
     }
     
     /**
@@ -86,11 +96,74 @@ class InvoiceTemplate {
         }
     }
     
+    
+    /** 
+     * @name    parseFont
+     * @brief   Helper method to parse JSON into NSFont objects
+     */
+    func parseFont(fontJSON : [String : AnyObject]) -> NSFont {
+        var font = NSFont.systemFontOfSize(NSFont.systemFontSize())
+
+        let valid = validateKeys(fontJSON, keys: ["font-name","font-size","font-style"])
+        guard valid else {
+            return font
+        }
+        
+        
+        if let name = fontJSON["font-name"] as? String,style = fontJSON["font-style"] as? String, size = fontJSON["font-size"] as? Float {
+            let fontName = "\(name) \(style)"
+            font = NSFont(name: fontName, size: CGFloat(size)) ?? NSFont.systemFontOfSize(NSFont.systemFontSize())
+        }
+        return font
+    }
+     
+     
+    /**
+     * @name    parseColors
+     * @brief   Helper method to parse JSON into CGColor objects
+     */
+    func parseColors(colorJSON : [String : AnyObject]) -> [String : CGColor] {
+        let valid = validateKeys(colorJSON, keys: ["text","fill","stroke"])
+        guard valid else {
+            return [String : CGColor]()
+        }
+        var colors = [String : CGColor]()
+        
+        for key in colorJSON.keys {
+            if let colorValue = colorJSON[key] as? String {
+                switch(colorValue[colorValue.startIndex]){
+                    case "#":
+                        //parse hex codes
+                        let hex = colorValue[colorValue.startIndex.successor() ..< colorValue.endIndex]
+                        let r = CGFloat(Int(hex[hex.startIndex ... hex.startIndex.successor()],radix:  16)! / 255)
+                        let g = CGFloat(Int(hex[hex.startIndex.advancedBy(2) ... hex.startIndex.advancedBy(3)],radix:  16)! / 255)
+                        let b = CGFloat(Int(hex[hex.startIndex.advancedBy(4) ... hex.startIndex.advancedBy(5)],radix:  16)! / 255)
+                        let color = CGColorCreate(CGColorSpaceCreateDeviceRGB(),[r,g,b,1.0])
+                        colors[key] = color
+                        break
+                    default:
+                        print("Invalid colour specification in JSON!")
+                        break
+                }
+                
+            }
+        }
+        
+        
+        
+        return colors
+    }
+    
     /**
      * @name    validateJSON
      * @brief   Checks that the template JSON meets at least the minimum requirements (see README)
      */
     func validateJSON(json : [String : AnyObject]) -> Bool{
+        guard json.count > 0 else {
+            print("Invalid template JSON")
+            return false
+        }
+        
         var valid = true
         
         let layoutDict = json["layout"]! as? [String : AnyObject]
@@ -109,7 +182,7 @@ class InvoiceTemplate {
         if let styleDict = json["style"]! as? [String : AnyObject]{
             //recursively search tree for key
             for key in styleDict.keys {
-                print(findKey(key, inDict: layoutDict!))
+                valid = valid && validateKeys(styleDict[key] as! [String : AnyObject], keys:["font","colors"],exhaustive: true)
             }
         }
         return valid
@@ -120,7 +193,7 @@ class InvoiceTemplate {
      * @brief   Checks that the keys are in the dictionary. Non-exhaustive search just checks the topmost level
      *          exhaustive does a BFS for each key
      */
-    func validateKeys(json : [String : AnyObject], keys : [String], exhaustive : Bool) -> Bool {
+    func validateKeys(json : [String : AnyObject], keys : [String], exhaustive : Bool = false) -> Bool {
         if exhaustive {
             var present = true
             for key in keys {
