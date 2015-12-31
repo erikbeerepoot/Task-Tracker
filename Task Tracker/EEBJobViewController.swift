@@ -178,6 +178,7 @@ class EEBJobViewController: EEBBaseTableViewController, NSTextFieldDelegate, EEB
         }
     }
     
+    
     override func controlTextDidBeginEditing(obj: NSNotification) {
         editing = true
     }
@@ -275,6 +276,12 @@ class EEBJobViewController: EEBBaseTableViewController, NSTextFieldDelegate, EEB
             sm!.save()
         }
         self.tableView.reloadData()
+    }
+    
+    func enterPressed(){
+        if(!editing){
+            print("not editing")
+        }
     }
     
     //MARK: Overlay actions

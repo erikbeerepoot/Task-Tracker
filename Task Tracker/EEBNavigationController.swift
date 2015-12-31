@@ -204,9 +204,7 @@ class EEBNavigationController : NSViewController {
                 currentVC!.run(runItem.view!)
             }
         } else if(chars! == "\r" && currentVC is EEBJobViewController){
-            if let addItem = self.view.window?.toolbar?.itemWithIdentifier(kToolbarItemIdentifierAdd) {
-                currentVC!.add(addItem.view!)
-            }
+          //  (currentVC as! EEBJobViewController).enterPressed()
         }
 
     }
