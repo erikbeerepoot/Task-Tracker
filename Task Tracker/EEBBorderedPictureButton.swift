@@ -14,16 +14,13 @@ class EEBBorderedPictureButton : NSButton {
     let kCornerRadius : CGFloat = 3.0
     let kBorderThickness : CGFloat = 0.25
     
-    var _image : NSImage? = nil;
     override var image : NSImage? {
-        get {
-            return _image
-        }
-        set {
-            _image = newValue
-            self.layer?.contents = _image
+        didSet {
+            self.layer?.contents = image
         }
     }
+    
+    
     
     override init(frame frameRect: NSRect) {
         super.init(frame: frameRect)
