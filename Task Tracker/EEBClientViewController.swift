@@ -61,7 +61,7 @@ class EEBClientViewController: EEBBaseTableViewController,EEBSimpleTableCellView
             if let companyNameView = simpleCellView.viewWithTag(200) as? NSTextField{
                 companyNameView.stringValue = currentObject.company == nil ? "" : currentObject.company!
             } else {
-                let companyNameRect = CGRectMake(0.0, 5.0, simpleCellView.contentFrame.size.width - (kRateFieldWidth + kPadding),25.0)
+                let companyNameRect = CGRectMake(0.0, simpleCellView.contentFrame.size.height - 45.0, simpleCellView.contentFrame.size.width - (kRateFieldWidth + kPadding),25.0)
                 let companyNameView = NSTextField(frame: companyNameRect)
                 companyNameView.font = NSFont(name: "Helvetica Neue Light", size: 15.0)
                 companyNameView.stringValue = currentObject.company == nil ? "" : currentObject.company!
@@ -83,7 +83,7 @@ class EEBClientViewController: EEBBaseTableViewController,EEBSimpleTableCellView
             if let clientNameView = simpleCellView.viewWithTag(201) as? NSTextField {
                 clientNameView.stringValue = currentObject.name!
             } else {
-                let clientNameRect = CGRectMake(0.0, 30.0, simpleCellView.contentFrame.size.width ,25.0)
+                let clientNameRect = CGRectMake(0.0, simpleCellView.contentFrame.size.height - 25.0, simpleCellView.contentFrame.size.width ,25.0)
                 let clientNameView = NSTextField(frame: clientNameRect)
                 clientNameView.stringValue = currentObject.name!
                 clientNameView.font = NSFont(name: "Helvetica Neue Light", size: 22.0)
@@ -133,6 +133,29 @@ class EEBClientViewController: EEBBaseTableViewController,EEBSimpleTableCellView
                 clientRateView.formatter = nf
                 clientRateView.stringValue = currentObject.rateString
             }
+            
+            if let outstandingInvoices = simpleCellView.viewWithTag(204) as? NSButton {
+                //stub
+            } else {
+                let numJobsRect = CGRectMake(0, 0, kButtonWidth,kButtonHeight)
+                let numJobsButtonView = EEBBorderedColourButton(frame: numJobsRect)
+                numJobsButtonView.borderColor = kNumJobsButtonBorderColor
+                numJobsButtonView.backgroundColor = kNumJobsButtonBackgroundColor
+                numJobsButtonView.tag = 204
+                
+                simpleCellView.contentView?.addSubview(numJobsButtonView)
+            }
+            
+            if let outstandingInvoices = simpleCellView.viewWithTag(205) as? NSButton {
+                //stub
+            } else {
+                let outstandingInvRect = CGRectMake(kButtonWidth + kPadding, 0, kButtonWidth,kButtonHeight)
+                let outstandingInvButtonView = EEBBorderedColourButton(frame: outstandingInvRect)
+                outstandingInvButtonView.tag = 205
+                
+                simpleCellView.contentView?.addSubview(outstandingInvButtonView)
+            }
+
             
             simpleCellView.delegate = self
             simpleCellView.selected = false
