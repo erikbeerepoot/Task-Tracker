@@ -134,8 +134,14 @@ class EEBClientViewController: EEBBaseTableViewController,EEBSimpleTableCellView
                 clientRateView.stringValue = currentObject.rateString
             }
             
-            if let outstandingInvoices = simpleCellView.viewWithTag(204) as? NSButton {
+            if let numJobsButton = simpleCellView.viewWithTag(204) as? EEBBorderedColourButton {
                 //stub
+                if(currentObject.jobs.count == 0){
+                   numJobsButton.hidden = true
+                } else {
+                    numJobsButton.hidden = false
+                    numJobsButton.text = String(currentObject.jobs.count) + (currentObject.jobs.count == 1 ? " job" : " jobs")
+                }
             } else {
                 let numJobsRect = CGRectMake(0, 0, kButtonWidth,kButtonHeight)
                 let numJobsButtonView = EEBBorderedColourButton(frame: numJobsRect)
@@ -146,11 +152,25 @@ class EEBClientViewController: EEBBaseTableViewController,EEBSimpleTableCellView
                 simpleCellView.contentView?.addSubview(numJobsButtonView)
             }
             
-            if let outstandingInvoices = simpleCellView.viewWithTag(205) as? NSButton {
+            if let outstandingInvoices = simpleCellView.viewWithTag(205) as? EEBBorderedColourButton {
                 //stub
+                let outstandingInvoiceCount = currentObject.invoices.filter({
+                    if let invoice = $0 as? Invoice {
+                        return !invoice.paid
+                    }
+                    return false
+                }).count
+                if(outstandingInvoiceCount == 0){
+                    outstandingInvoices.hidden = true
+                } else {
+                    outstandingInvoices.hidden = false
+                    outstandingInvoices.text = String(outstandingInvoiceCount) + (outstandingInvoiceCount == 1 ? " outstanding invoice" : " outstanding invoices")
+                }
             } else {
                 let outstandingInvRect = CGRectMake(kButtonWidth + kPadding, 0, kButtonWidth,kButtonHeight)
                 let outstandingInvButtonView = EEBBorderedColourButton(frame: outstandingInvRect)
+                outstandingInvButtonView.borderColor = kOutstandingInvoicesButtonBorderColor
+                outstandingInvButtonView.backgroundColor = kOutstandingInvoicesButtonBackgroundColor
                 outstandingInvButtonView.tag = 205
                 
                 simpleCellView.contentView?.addSubview(outstandingInvButtonView)
