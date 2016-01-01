@@ -14,6 +14,8 @@ class EEBClientViewController: EEBBaseTableViewController,EEBSimpleTableCellView
     let kDefaultIconImageName = "client128.png"
     let kRateFieldWidth = CGFloat(70)
     let kPadding = CGFloat(10)
+    let kButtonWidth = CGFloat(75)
+    let kButtonHeight = CGFloat(18)
     
     var clients : [Client] = []
     func fetchClients(){
