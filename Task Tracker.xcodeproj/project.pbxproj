@@ -15,6 +15,7 @@
 		032A88D81BE6B0DA005AC234 /* EEBOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032A88D71BE6B0DA005AC234 /* EEBOverlayView.swift */; };
 		033FB2861BFD8565001020A3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 033FB2841BFD8565001020A3 /* Main.storyboard */; };
 		034DA68C1BFAB7CA004ECFD4 /* EEBInvoiceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 034DA68B1BFAB7CA004ECFD4 /* EEBInvoiceViewController.swift */; };
+		036AAAAB1C35C40700FE5878 /* EEBBorderedColourButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 036AAAAA1C35C40700FE5878 /* EEBBorderedColourButton.swift */; };
 		0378FAF11BE717F100F06307 /* EEBBorderedPictureButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0378FAF01BE717F100F06307 /* EEBBorderedPictureButton.swift */; };
 		0378FAF31BE71B8900F06307 /* arrow-left-black-48.png in Resources */ = {isa = PBXBuildFile; fileRef = 0378FAF21BE71B8900F06307 /* arrow-left-black-48.png */; };
 		0378FAF51BE7B5F000F06307 /* settings-48.png in Resources */ = {isa = PBXBuildFile; fileRef = 0378FAF41BE7B5F000F06307 /* settings-48.png */; };
@@ -72,6 +73,7 @@
 		032A88D71BE6B0DA005AC234 /* EEBOverlayView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EEBOverlayView.swift; sourceTree = "<group>"; };
 		033FB2851BFD8565001020A3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = "Task Tracker/Base.lproj/Main.storyboard"; sourceTree = "<group>"; };
 		034DA68B1BFAB7CA004ECFD4 /* EEBInvoiceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EEBInvoiceViewController.swift; sourceTree = "<group>"; };
+		036AAAAA1C35C40700FE5878 /* EEBBorderedColourButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EEBBorderedColourButton.swift; sourceTree = "<group>"; };
 		0378FAF01BE717F100F06307 /* EEBBorderedPictureButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EEBBorderedPictureButton.swift; sourceTree = "<group>"; };
 		0378FAF21BE71B8900F06307 /* arrow-left-black-48.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow-left-black-48.png"; sourceTree = "<group>"; };
 		0378FAF41BE7B5F000F06307 /* settings-48.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "settings-48.png"; sourceTree = "<group>"; };
@@ -246,6 +248,7 @@
 				032A88D71BE6B0DA005AC234 /* EEBOverlayView.swift */,
 				0378FAF01BE717F100F06307 /* EEBBorderedPictureButton.swift */,
 				03A9F5D21C03E1600041A954 /* EEBPDFInvoiceCreator.swift */,
+				036AAAAA1C35C40700FE5878 /* EEBBorderedColourButton.swift */,
 			);
 			name = VIew;
 			sourceTree = "<group>";
@@ -432,6 +435,7 @@
 				032A88D11BE56D74005AC234 /* EEBSimpleTableCellView.swift in Sources */,
 				03B67D1A1BE13A0C005CD45E /* EEBNavigationController.swift in Sources */,
 				03A9F5D31C03E1600041A954 /* EEBPDFInvoiceCreator.swift in Sources */,
+				036AAAAB1C35C40700FE5878 /* EEBBorderedColourButton.swift in Sources */,
 				03B67D011BE084D8005CD45E /* EEBPersistentStoreManager.swift in Sources */,
 				03B67D111BE08709005CD45E /* Client.swift in Sources */,
 				03B67D0C1BE08709005CD45E /* Job+CoreDataProperties.swift in Sources */,
