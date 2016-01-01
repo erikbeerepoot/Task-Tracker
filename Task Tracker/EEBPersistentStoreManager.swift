@@ -1,10 +1,3 @@
-//
-//  PassController.swift
-//  North Cowichan
-//
-//  Created by Erik Beerepoot on 2015-10-19.
-//  Copyright © 2015 Dactyl Studios. All rights reserved.
-//
 
 import Foundation
 import CoreData
