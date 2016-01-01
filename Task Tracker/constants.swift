@@ -25,4 +25,4 @@ let kOutstandingInvoicesButtonBorderColor = NSColor(calibratedRed:0.816,green:0.
 let kOutstandingInvoicesButtonBackgroundColor = NSColor(calibratedRed:0.988,green:0.835,blue:0.859,alpha:1.0)
 
 let kNumJobsButtonBorderColor = NSColor(calibratedRed:0.608,green:0.608,blue:0.608,alpha:1.0)
-let kNumJobsButtonBackgroundColor = NSColor(calibratedRed:0.608,green:0.608,blue:0.608,alpha:0.14)
+let kNumJobsButtonBackgroundColor = NSColor(calibratedRed:0.945,green:0.945,blue:0.945,alpha:1)
