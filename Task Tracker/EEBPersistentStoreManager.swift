@@ -37,8 +37,8 @@ class EEBPersistentStoreManager : NSObject {
         }
         
         let psc = NSPersistentStoreCoordinator(managedObjectModel: mom)
-        self.managedObjectContext = NSManagedObjectContext(concurrencyType: .MainQueueConcurrencyType)
-        self.managedObjectContext?.persistentStoreCoordinator = psc
+        managedObjectContext = NSManagedObjectContext(concurrencyType: .MainQueueConcurrencyType)
+        managedObjectContext?.persistentStoreCoordinator = psc
         
         //dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)) {
         let urls = NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask)
@@ -46,9 +46,29 @@ class EEBPersistentStoreManager : NSObject {
         
         //find the persistent store
         let storeURL = docURL.URLByAppendingPathComponent(self.dataModelName + ".sqlite")
+        
+        
+        
+        //Check if we need to migrate the model
+        let migrationOptions = [ NSMigratePersistentStoresAutomaticallyOption : true, NSInferMappingModelAutomaticallyOption : true ]
+        var canMigrate = false
+        do {
+            let sourceMetadata = try NSPersistentStoreCoordinator.metadataForPersistentStoreOfType(NSSQLiteStoreType, URL: storeURL, options: migrationOptions)
+            let destinationModel = psc.managedObjectModel
+
+            canMigrate = destinationModel.isConfiguration(nil, compatibleWithStoreMetadata: sourceMetadata)
+        } catch {
+            canMigrate = false
+        }
+        
+        if !canMigrate {
+            print("Unable to migrate persistent store. Backup your data.")
+            return false
+        }
+        
         do {
             //we've found an existing store. Try and migrate (if required)
-            try psc.addPersistentStoreWithType(NSSQLiteStoreType, configuration: nil, URL: storeURL, options: nil)
+            try psc.addPersistentStoreWithType(NSSQLiteStoreType, configuration: nil, URL: storeURL, options: migrationOptions)
             self.persistentStorePresent = true;
         } catch {
             print("Error migrating store: \(error)");
