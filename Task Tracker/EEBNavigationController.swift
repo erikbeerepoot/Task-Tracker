@@ -12,6 +12,8 @@ import AppKit
 protocol NavigableViewController  {
     var navigationController : EEBNavigationController? {get set};
     var view : NSView {get set}
+    
+    func back(sender : AnyObject);
 }
 
 class EEBNavigationController : NSViewController {
