@@ -107,4 +107,8 @@ class EEBBaseTableViewController : NSViewController, NSTableViewDataSource, NSTa
         tableView.reloadData()
     }
     
+    func back(sender : AnyObject){
+        self.navigationController?.popViewControllerAnimated(true)
+    }
+    
 }
