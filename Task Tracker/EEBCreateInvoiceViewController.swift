@@ -43,8 +43,21 @@ class EEBCreateInvoiceViewController : NSViewController, NavigableViewController
     
     var navigationController : EEBNavigationController? = nil;
     var storeManager : EEBPersistentStoreManager? = nil
-        
+    var client : Client? = nil
+    
     override func viewDidLoad(){
+        //Set navbar controls
+        //Set overlay buttons
+        let leftButton = EEBBorderedPictureButton(frame: CGRectMake(0,0,32,32))
+        leftButton.image = NSImage(named:"arrow-left-black-48")
+        leftButton.target = self
+        leftButton.action = Selector("back:")
+        
+        overlayView.leftBarButtonItems = [leftButton]
+        overlayView.rightBarButtonItems = []
+        customSpacerView.layer = CALayer()
+        
+        
         //Set background colour
         let bgGradientLayer = CAGradientLayer()
         bgGradientLayer.colors = [CGColorCreateGenericRGB(kGradientStartColour.red, kGradientStartColour.green, kGradientStartColour.blue, kContentOpacity),
@@ -65,10 +78,24 @@ class EEBCreateInvoiceViewController : NSViewController, NavigableViewController
     }
     
     @IBAction func create(sender : AnyObject){
-        
+        if let vc = self.storyboard?.instantiateControllerWithIdentifier("invoiceViewController") as? EEBInvoiceViewController {
+            vc.navigationController = navigationController
+            vc.storeManager = storeManager
+            self.navigationController?.pushViewController(vc, true)
+            
+            assert(client != nil,"Something is terribly wrong, did not get a client for invoice creation!")
+            let invoiceCreator = EEBPDFInvoiceCreator(userinfo: client!, client: client!,jobs: client!.jobs.array as! [Job])
+            invoiceCreator.createPDF(atPath: "/Users/erik/Documents/", withFilename: "Invoice.pdf")
+        }
     }
 
     @IBAction func open(sender : AnyObject){
-        
+        print("Not implenented yet")
     }
+    
+    //MARK: Overlay actions
+    func back(sender : AnyObject){
+        self.navigationController?.popViewControllerAnimated(true)
+    }
+    
 }
