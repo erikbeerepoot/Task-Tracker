@@ -230,16 +230,17 @@ class EEBClientViewController: EEBBaseTableViewController,EEBSimpleTableCellView
     }
     
     override func textfieldEdited(sender: NSTextField) {
-        super.textfieldEdited(sender)
+        //eesuper.textfieldEdited(sender)
         
         let rowIndex = tableView.rowForView(sender)
-        guard (rowIndex > 0 ) else {
+        guard (rowIndex > -1 ) else {
             return
         }
         
-        
         let client = clients[rowIndex]
-        
+        client.setValue(sender.stringValue, forKey: sender.identifier!)
+        sm?.save()
+
         if let jobsSet = client.jobs.set as? Set<Job>{
             let newJobs = jobsSet.map({
                 (let job) -> Job  in
