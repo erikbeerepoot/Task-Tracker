@@ -285,7 +285,7 @@ class EEBJobViewController: EEBBaseTableViewController, NSTextFieldDelegate, EEB
     }
     
     //MARK: Overlay actions
-    func back(sender : AnyObject){
+    override func back(sender : AnyObject){
         self.navigationController?.popViewControllerAnimated(true)
     }
     
