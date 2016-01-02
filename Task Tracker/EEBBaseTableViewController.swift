@@ -86,7 +86,7 @@ class EEBBaseTableViewController : NSViewController, NSTableViewDataSource, NSTa
     }
     
     @IBAction func add(sender : AnyObject){
-        assert(false,"Run erroneously called on base object!")
+        assert(false,"Add erroneously called on base object!")
     }
     
     @IBAction func remove(sender : AnyObject){
