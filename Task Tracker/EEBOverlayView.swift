@@ -211,6 +211,11 @@ class EEBOverlayView : NSView {
     }
     
     func layoutRightButtonItems(){
+        guard (_rightBarButtonItems?.count > 0) else {
+            NSLog("Skipping right nav bar button layout")
+            return
+        }
+        
         let firstButton = _rightBarButtonItems?.first!
         let secondButton = _rightBarButtonItems?.last!
         
