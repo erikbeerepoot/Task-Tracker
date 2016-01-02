@@ -33,12 +33,35 @@ class EEBCreateInvoiceViewController : NSViewController, NavigableViewController
     @IBOutlet weak var openButton : NSButton!
     @IBOutlet weak var createButton : NSButton!
 
+    //MARK: Appearance constants
+    let kGradientStartColour = (red: CGFloat(0.208), green : CGFloat(0.208), blue : CGFloat(0.208))
+    let kGradientEndColour   = (red: CGFloat(0.356), green : CGFloat(0.356), blue : CGFloat(0.356))
+    let kContentOpacity : CGFloat = 1
+    let kCornerRadius : CGFloat = 16
+    let kBorderWidth : CGFloat = 0.5
+    
     
     var navigationController : EEBNavigationController? = nil;
     var storeManager : EEBPersistentStoreManager? = nil
         
     override func viewDidLoad(){
-        print("Create new invoice")
+        //Set background colour
+        let bgGradientLayer = CAGradientLayer()
+        bgGradientLayer.colors = [CGColorCreateGenericRGB(kGradientStartColour.red, kGradientStartColour.green, kGradientStartColour.blue, kContentOpacity),
+        CGColorCreateGenericRGB(kGradientEndColour.red, kGradientEndColour.green, kGradientEndColour.blue, kContentOpacity)]
+        backgroundView.layer = bgGradientLayer
+        
+        //Create outline of options box
+        createOptionsView.wantsLayer = true
+        createOptionsView.layer?.borderWidth = kBorderWidth
+        createOptionsView.layer?.cornerRadius = kCornerRadius
+        createOptionsView.layer?.borderColor = NSColor.whiteColor().CGColor
+    }
+    
+    override func viewWillAppear() {
+        fromDatePicker.dateValue = NSDate()
+        toDatePicker.dateValue = NSDate()
+        
     }
     
     @IBAction func create(sender : AnyObject){

@@ -95,8 +95,8 @@ class EEBOverlayView : NSView {
         overlayTextField!.trailingAnchor.constraintEqualToAnchor(contentView?.trailingAnchor).active = true
 
         
-        self.layer = CAGradientLayer()
-        (self.layer as! CAGradientLayer).colors  = [CGColorCreateGenericRGB(kGradientStartColour.red, kGradientStartColour.green, kGradientStartColour.blue, kContentOpacity),
+        layer = CAGradientLayer()
+        (layer as! CAGradientLayer).colors  = [CGColorCreateGenericRGB(kGradientStartColour.red, kGradientStartColour.green, kGradientStartColour.blue, kContentOpacity),
                                                     CGColorCreateGenericRGB(kGradientEndColour.red, kGradientEndColour.green, kGradientEndColour.blue, kContentOpacity)]
         if(debugViews){
             self.layer?.backgroundColor = NSColor.blackColor().CGColor
