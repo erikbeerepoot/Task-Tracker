@@ -15,6 +15,7 @@
 		032A88D81BE6B0DA005AC234 /* EEBOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032A88D71BE6B0DA005AC234 /* EEBOverlayView.swift */; };
 		033FB2861BFD8565001020A3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 033FB2841BFD8565001020A3 /* Main.storyboard */; };
 		034DA68C1BFAB7CA004ECFD4 /* EEBInvoiceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 034DA68B1BFAB7CA004ECFD4 /* EEBInvoiceViewController.swift */; };
+		0360C3DD1C38516E0091C6F1 /* EEBCreateInvoiceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0360C3DC1C38516E0091C6F1 /* EEBCreateInvoiceViewController.swift */; };
 		036AAAAB1C35C40700FE5878 /* EEBBorderedColourButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 036AAAAA1C35C40700FE5878 /* EEBBorderedColourButton.swift */; };
 		0378FAF11BE717F100F06307 /* EEBBorderedPictureButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0378FAF01BE717F100F06307 /* EEBBorderedPictureButton.swift */; };
 		0378FAF31BE71B8900F06307 /* arrow-left-black-48.png in Resources */ = {isa = PBXBuildFile; fileRef = 0378FAF21BE71B8900F06307 /* arrow-left-black-48.png */; };
@@ -74,6 +75,7 @@
 		033FB2851BFD8565001020A3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = "Task Tracker/Base.lproj/Main.storyboard"; sourceTree = "<group>"; };
 		034DA68B1BFAB7CA004ECFD4 /* EEBInvoiceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EEBInvoiceViewController.swift; sourceTree = "<group>"; };
 		0360C3DB1C36DAF70091C6F1 /* AppData v0.2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "AppData v0.2.xcdatamodel"; sourceTree = "<group>"; };
+		0360C3DC1C38516E0091C6F1 /* EEBCreateInvoiceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EEBCreateInvoiceViewController.swift; sourceTree = "<group>"; };
 		036AAAAA1C35C40700FE5878 /* EEBBorderedColourButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EEBBorderedColourButton.swift; sourceTree = "<group>"; };
 		0378FAF01BE717F100F06307 /* EEBBorderedPictureButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EEBBorderedPictureButton.swift; sourceTree = "<group>"; };
 		0378FAF21BE71B8900F06307 /* arrow-left-black-48.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow-left-black-48.png"; sourceTree = "<group>"; };
@@ -190,6 +192,7 @@
 				03B67D171BE12D0B005CD45E /* EEBJobViewController.swift */,
 				03B67D191BE13A0C005CD45E /* EEBNavigationController.swift */,
 				03A9F5CE1C0240890041A954 /* EEBTimingSessionsViewController.swift */,
+				0360C3DC1C38516E0091C6F1 /* EEBCreateInvoiceViewController.swift */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -428,6 +431,7 @@
 				03C269A41BDF2ABB00DAA4E7 /* AppDelegate.swift in Sources */,
 				03B67D0A1BE08709005CD45E /* TimingSession+CoreDataProperties.swift in Sources */,
 				034DA68C1BFAB7CA004ECFD4 /* EEBInvoiceViewController.swift in Sources */,
+				0360C3DD1C38516E0091C6F1 /* EEBCreateInvoiceViewController.swift in Sources */,
 				0378FAF11BE717F100F06307 /* EEBBorderedPictureButton.swift in Sources */,
 				03A9F5CD1C0234680041A954 /* NSToolbar+findItems.swift in Sources */,
 				03B67CFF1BDFD03B005CD45E /* AppData.xcdatamodeld in Sources */,
