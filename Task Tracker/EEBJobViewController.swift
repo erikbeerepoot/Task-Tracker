@@ -294,7 +294,7 @@ class EEBJobViewController: EEBBaseTableViewController, NSTextFieldDelegate, EEB
     }
     
     func showInvoices(sender : AnyObject){
-        if let vc = self.storyboard?.instantiateControllerWithIdentifier("invoiceViewController") as? EEBInvoiceViewController {
+        if let vc = self.storyboard?.instantiateControllerWithIdentifier("createInvoiceViewController") as? EEBCreateInvoiceViewController {
             vc.navigationController = self.navigationController
             vc.storeManager = sm
             self.navigationController?.pushViewController(vc, true)
