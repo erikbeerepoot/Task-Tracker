@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="9525" systemVersion="15D9c" minimumToolsVersion="Xcode 7.0">
+    <entity name="Client" representedClassName=".Client" syncable="YES">
+        <attribute name="address" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="company" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="creationDate" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="email" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="hourlyRate" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="identifier" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="invoices" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Invoice" inverseName="client" inverseEntity="Invoice" syncable="YES"/>
+        <relationship name="jobs" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="Job" inverseName="client" inverseEntity="Job" syncable="YES"/>
+    </entity>
+    <entity name="Invoice" representedClassName=".Invoice" syncable="YES">
+        <attribute name="dueDate" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="invoiceDate" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="paid" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <relationship name="client" maxCount="1" deletionRule="Nullify" destinationEntity="Client" inverseName="invoices" inverseEntity="Client" syncable="YES"/>
+        <relationship name="jobs" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Job" syncable="YES"/>
+    </entity>
+    <entity name="Job" representedClassName=".Job" syncable="YES">
+        <attribute name="jobDescription" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="rate" optional="YES" attributeType="Double" syncable="YES"/>
+        <relationship name="client" maxCount="1" deletionRule="Nullify" destinationEntity="Client" inverseName="jobs" inverseEntity="Client" syncable="YES"/>
+        <relationship name="sessions" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="TimingSession" inverseName="job" inverseEntity="TimingSession" syncable="YES"/>
+    </entity>
+    <entity name="TimingSession" representedClassName=".TimingSession" syncable="YES">
+        <attribute name="endDate" attributeType="Date" syncable="YES"/>
+        <attribute name="startDate" attributeType="Date" syncable="YES"/>
+        <relationship name="job" maxCount="1" deletionRule="Nullify" destinationEntity="Job" inverseName="sessions" inverseEntity="Job" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="Client" positionX="-63" positionY="-18" width="128" height="180"/>
+        <element name="Invoice" positionX="171" positionY="81" width="128" height="120"/>
+        <element name="Job" positionX="25" positionY="306" width="128" height="120"/>
+        <element name="TimingSession" positionX="252" positionY="357" width="128" height="90"/>
+    </elements>
+</model>
