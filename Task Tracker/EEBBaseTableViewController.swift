@@ -90,7 +90,7 @@ class EEBBaseTableViewController : NSViewController, NSTableViewDataSource, NSTa
     }
     
     @IBAction func remove(sender : AnyObject){
-        assert(false,"Run erroneously called on base object!")
+        assert(false,"Remove erroneously called on base object!")
     }
     
     @IBAction func run(sender : AnyObject){
