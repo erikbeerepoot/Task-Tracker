@@ -17,7 +17,8 @@ class EEBInvoiceViewController : NSViewController,NavigableViewController {
     
     var navigationController : EEBNavigationController? = nil
     var storeManager : EEBPersistentStoreManager? = nil
-
+    var invoicePath : String? = nil
+    
     override func viewDidLoad(){
         //Set overlay buttons
         let leftButton = EEBBorderedPictureButton(frame: CGRectMake(0,0,32,32))
@@ -39,7 +40,12 @@ class EEBInvoiceViewController : NSViewController,NavigableViewController {
     override func viewDidAppear() {
          customSpacerView.layer?.backgroundColor = CGColorCreateGenericRGB(overlayView.kGradientStartColour.red, overlayView.kGradientStartColour.green, overlayView.kGradientStartColour.blue, 1.0)
         
-        let url = NSURL(string: "file:///Users/erik/Documents/Invoice.pdf")
+        guard invoicePath != nil else {
+            print("Invoice path invalid (nil)")
+            return 
+        }
+        
+        let url = NSURL(string: "file://" + invoicePath!)
         let pdfDocument = PDFDocument(URL: url!)
         pdfView.setDocument(pdfDocument)
     }

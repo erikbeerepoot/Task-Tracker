@@ -109,10 +109,31 @@ class EEBCreateInvoiceViewController : NSViewController, NavigableViewController
                 }                
             }
             
-            //Create invoice
-            let invoiceCreator = EEBPDFInvoiceCreator(userinfo: client!, client: client!,jobs: jobsSubset)
-            invoiceCreator.createPDF(atPath: "/Users/erik/Documents/", withFilename: "Invoice.pdf")
+            
+            
+            let dirs = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true)
+            if let documentDir = dirs.first, let invoiceNumber = client?.invoices.count {
+                
+                //Create invoice
+                let invoiceCreator = EEBPDFInvoiceCreator(userinfo: client!, client: client!,jobs: jobsSubset)
+                let fileName = "Invoice-\(invoiceNumber + 1).pdf"
+                invoiceCreator.createPDF(atPath: documentDir, withFilename: "/" + fileName )
+                
+                //Add invoice to client
+                if let invoice = storeManager?.createObjectOfType("Invoice") as? Invoice {
+                    invoice.client = client!
+                    invoice.dueDate = NSDate()
+                    invoice.invoiceDate = invoice.dueDate
+                    invoice.paid = false
+                    invoice.path = documentDir + "/" + fileName
+                    invoice.name = fileName
 
+                    vc.invoicePath = invoice.path
+                        
+                    client?.invoices.addObject(invoice)
+                    storeManager?.save()
+                }
+            }
             
             
             

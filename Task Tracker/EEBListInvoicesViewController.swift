@@ -30,10 +30,6 @@ class EEBListInvoicesViewController : NSViewController, NavigableViewController,
     var client : Client? = nil
     var invoices : [Invoice] = []
     
-    @IBAction func open(sender : AnyObject){
-        print("Not implemented yet")
-    }
-    
     override func viewDidLoad() {
         guard client != nil else {
             return
@@ -42,6 +38,8 @@ class EEBListInvoicesViewController : NSViewController, NavigableViewController,
         if let inv = client!.invoices.array as? [Invoice] {
             invoices = inv
         }
+        
+        tableView.setDataSource(self)
         
         //Set navbar controls
         let leftButton = EEBBorderedPictureButton(frame: CGRectMake(0,0,32,32))
@@ -58,7 +56,10 @@ class EEBListInvoicesViewController : NSViewController, NavigableViewController,
         bgGradientLayer.colors = [CGColorCreateGenericRGB(kGradientStartColour.red, kGradientStartColour.green, kGradientStartColour.blue, kContentOpacity),
             CGColorCreateGenericRGB(kGradientEndColour.red, kGradientEndColour.green, kGradientEndColour.blue, kContentOpacity)]
         backgroundView.layer = bgGradientLayer
-        
+    }
+    
+    override func viewWillAppear() {
+        tableView.hidden = false
     }
     
     //MARK: Overlay actions
@@ -71,7 +72,22 @@ class EEBListInvoicesViewController : NSViewController, NavigableViewController,
     }
     
     func tableView(tableView: NSTableView, objectValueForTableColumn tableColumn: NSTableColumn?, row: Int) -> AnyObject? {
-        return invoices[row]
+        return invoices[row].name
     }
 
+    @IBAction func open(sender : AnyObject){
+        let inv = invoices[tableView.selectedRow]
+        
+        if let vc = self.storyboard?.instantiateControllerWithIdentifier("invoiceViewController") as? EEBInvoiceViewController {
+            vc.navigationController = navigationController
+            vc.storeManager = storeManager
+            vc.invoicePath = inv.path
+            
+            tableView.hidden = true
+            
+            self.navigationController?.pushViewController(vc, true)
+        }
+    }
+
+    
 }
