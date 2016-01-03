@@ -82,7 +82,7 @@ class EEBPersistentStoreManager : NSObject {
             }
             self.persistentStorePresent = true;
         } catch {
-            print("Error migrating store: \(error)");
+            print("Could not + \(canMigrate ? "migrate" : "create") datastore \(error)");
         }
         return true;
     }
