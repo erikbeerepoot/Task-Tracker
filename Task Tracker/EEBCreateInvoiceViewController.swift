@@ -38,7 +38,7 @@ class EEBCreateInvoiceViewController : NSViewController, NavigableViewController
     let kGradientEndColour   = (red: CGFloat(0.356), green : CGFloat(0.356), blue : CGFloat(0.356))
     let kContentOpacity : CGFloat = 1
     let kCornerRadius : CGFloat = 16
-    let kBorderWidth : CGFloat = 0.5
+    let kBorderWidth : CGFloat = 0.75
     
     
     var navigationController : EEBNavigationController? = nil;
