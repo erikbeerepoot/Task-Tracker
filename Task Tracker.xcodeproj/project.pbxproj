@@ -76,6 +76,7 @@
 		034DA68B1BFAB7CA004ECFD4 /* EEBInvoiceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EEBInvoiceViewController.swift; sourceTree = "<group>"; };
 		0360C3DB1C36DAF70091C6F1 /* AppData v0.2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "AppData v0.2.xcdatamodel"; sourceTree = "<group>"; };
 		0360C3DC1C38516E0091C6F1 /* EEBCreateInvoiceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EEBCreateInvoiceViewController.swift; sourceTree = "<group>"; };
+		0360C3E01C38B3B90091C6F1 /* AppData v0.3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "AppData v0.3.xcdatamodel"; sourceTree = "<group>"; };
 		036AAAAA1C35C40700FE5878 /* EEBBorderedColourButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EEBBorderedColourButton.swift; sourceTree = "<group>"; };
 		0378FAF01BE717F100F06307 /* EEBBorderedPictureButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EEBBorderedPictureButton.swift; sourceTree = "<group>"; };
 		0378FAF21BE71B8900F06307 /* arrow-left-black-48.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow-left-black-48.png"; sourceTree = "<group>"; };
@@ -660,10 +661,11 @@
 		03B67CFD1BDFD03B005CD45E /* AppData.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				0360C3E01C38B3B90091C6F1 /* AppData v0.3.xcdatamodel */,
 				0360C3DB1C36DAF70091C6F1 /* AppData v0.2.xcdatamodel */,
 				03B67CFE1BDFD03B005CD45E /* AppData.xcdatamodel */,
 			);
-			currentVersion = 0360C3DB1C36DAF70091C6F1 /* AppData v0.2.xcdatamodel */;
+			currentVersion = 0360C3E01C38B3B90091C6F1 /* AppData v0.3.xcdatamodel */;
 			path = AppData.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

@@ -64,10 +64,10 @@ class Job: NSManagedObject {
      */
     func totalTimeString() -> String {
         return NSTimeInterval.timeIntervalToString(totalTime())
-    }            
-    
+    }
+        
     /************************************************************
-     *                      Cost Logic                        *
+     *                      Cost Logic                          *
      ************************************************************/
     
     /**

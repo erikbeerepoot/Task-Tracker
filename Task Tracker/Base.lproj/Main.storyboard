@@ -1489,6 +1489,7 @@
                     <connections>
                         <outlet property="backgroundView" destination="oKJ-3T-BrG" id="2ho-mr-dV7"/>
                         <outlet property="chkbtn_dataRange" destination="Hrg-PM-qsX" id="SVE-UN-MC2"/>
+                        <outlet property="chkbtn_dateRange" destination="Hrg-PM-qsX" id="127-ak-3wm"/>
                         <outlet property="chkbtn_expression" destination="uYP-pr-ugW" id="3bT-tn-B5R"/>
                         <outlet property="chkbtn_selection" destination="sxY-FS-0sN" id="MQL-FQ-MUb"/>
                         <outlet property="createOptionsView" destination="3jp-xI-BUU" id="vWQ-zD-C27"/>
@@ -1500,7 +1501,7 @@
                 </viewController>
                 <customObject id="HXl-PC-eDE" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1764" y="1375"/>
+            <point key="canvasLocation" x="1924" y="1381"/>
         </scene>
     </scenes>
     <resources>
