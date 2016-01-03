@@ -40,18 +40,18 @@ class EEBJobViewController: EEBBaseTableViewController, NSTextFieldDelegate, EEB
         leftButton.target = self
         leftButton.action = Selector("back:")
         
-        let settingsButton = EEBBorderedPictureButton(frame: CGRectMake(0,0,32,32))
-        settingsButton.image = NSImage(named:"settings-48")
-        settingsButton.target = self
-        settingsButton.action = Selector("showSettings:")
-        
-        let invoicesButton = EEBBorderedPictureButton(frame: CGRectMake(0,0,32,32))
-        invoicesButton.image = NSImage(named:"square-inc-cash-48")
-        invoicesButton.target = self
-        invoicesButton.action = Selector("showInvoices:")
+        let btn_createInvoice = EEBBorderedPictureButton(frame: CGRectMake(0,0,32,32))
+        btn_createInvoice.image = NSImage(named:"note-plus-48")
+        btn_createInvoice.target = self
+        btn_createInvoice.action = Selector("createInvoice:")
+
+        let btn_showInvoices = EEBBorderedPictureButton(frame: CGRectMake(0,0,32,32))
+        btn_showInvoices.image = NSImage(named:"note-48")
+        btn_showInvoices.target = self
+        btn_showInvoices.action = Selector("showInvoices:")
         
         overlayView.leftBarButtonItems = [leftButton]
-        overlayView.rightBarButtonItems = [settingsButton,invoicesButton]
+        overlayView.rightBarButtonItems = [btn_showInvoices,btn_createInvoice]
         overlayView.text = client!.name!
         customSpacerView.layer? = CALayer()
         
@@ -290,11 +290,11 @@ class EEBJobViewController: EEBBaseTableViewController, NSTextFieldDelegate, EEB
         self.navigationController?.popViewControllerAnimated(true)
     }
     
-    func showSettings(sender : AnyObject){
+    func showInvoices(sender : AnyObject){
         //stub
     }
     
-    func showInvoices(sender : AnyObject){
+    func createInvoice(sender : AnyObject){
         if let vc = self.storyboard?.instantiateControllerWithIdentifier("createInvoiceViewController") as? EEBCreateInvoiceViewController {
             vc.navigationController = self.navigationController
             vc.storeManager = sm
