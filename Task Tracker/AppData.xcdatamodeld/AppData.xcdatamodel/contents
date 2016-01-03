@@ -31,8 +31,8 @@
     </entity>
     <elements>
         <element name="Client" positionX="-63" positionY="-18" width="128" height="180"/>
-        <element name="Invoice" positionX="171" positionY="81" width="128" height="105"/>
-        <element name="Job" positionX="25" positionY="306" width="128" height="120"/>
+        <element name="Invoice" positionX="171" positionY="81" width="128" height="103"/>
+        <element name="Job" positionX="25" positionY="306" width="128" height="118"/>
         <element name="TimingSession" positionX="252" positionY="357" width="128" height="90"/>
     </elements>
 </model>

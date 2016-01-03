@@ -655,7 +655,7 @@
                 <windowController id="B8D-0N-5wS" customClass="MainWindowController" customModule="Task_Tracker" customModuleProvider="target" sceneMemberID="viewController">
                     <window key="window" title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="default" id="IQv-IB-iLA">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES" unifiedTitleAndToolbar="YES" fullSizeContentView="YES"/>
-                        <rect key="contentRect" x="585" y="180" width="480" height="270"/>
+                        <rect key="contentRect" x="585" y="180" width="560" height="270"/>
                         <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1177"/>
                         <value key="minSize" type="size" width="560" height="270"/>
                         <toolbar key="toolbar" implicitIdentifier="9BA03E90-E8A2-43DD-BBB2-E0B94446F6E1" autosavesConfiguration="NO" displayMode="iconAndLabel" sizeMode="regular" id="gtZ-Ls-R5k">
@@ -704,7 +704,7 @@
                                 <toolbarItem implicitItemIdentifier="175CF21C-DC7B-4DC8-9F75-DF793526D843" explicitItemIdentifier="deleteToolbarItem" label="" paletteLabel="" image="delete" id="jpr-iw-qul">
                                     <nil key="toolTip"/>
                                     <size key="minSize" width="28" height="25"/>
-                                    <size key="maxSize" width="32" height="32"/>
+                                    <size key="maxSize" width="40" height="37"/>
                                     <button key="view" verticalHuggingPriority="750" id="ESe-KN-KQK">
                                         <rect key="frame" x="0.0" y="14" width="28" height="25"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -751,19 +751,6 @@
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="68" y="783"/>
-        </scene>
-        <!--View Controller-->
-        <scene sceneID="3JB-Ch-Smm">
-            <objects>
-                <viewController id="PFB-X2-Ctk" sceneMemberID="viewController">
-                    <view key="view" id="t5b-yY-LFZ">
-                        <rect key="frame" x="0.0" y="0.0" width="569" height="440"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </view>
-                </viewController>
-                <customObject id="50b-gn-FKe" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="741.5" y="783"/>
         </scene>
         <!--Job View Controller-->
         <scene sceneID="RCx-H0-I6R">
@@ -1055,7 +1042,7 @@
                 </viewController>
                 <customObject id="Mav-gv-QFf" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1209" y="1373"/>
+            <point key="canvasLocation" x="1350" y="1375"/>
         </scene>
         <!--Timing Sessions View Controller-->
         <scene sceneID="I06-ok-m46">
@@ -1514,18 +1501,6 @@
                 <customObject id="HXl-PC-eDE" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1764" y="1375"/>
-        </scene>
-        <!--View Controller-->
-        <scene sceneID="0Na-56-aZO">
-            <objects>
-                <viewController id="cyK-vS-n5y" sceneMemberID="viewController">
-                    <view key="view" id="4bN-gL-csW">
-                        <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </view>
-                </viewController>
-                <customObject id="ZEn-Pg-7kd" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
-            </objects>
         </scene>
     </scenes>
     <resources>
