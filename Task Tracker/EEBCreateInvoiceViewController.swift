@@ -77,64 +77,28 @@ class EEBCreateInvoiceViewController : NSViewController, NavigableViewController
     }
     
     @IBAction func create(sender : AnyObject){
-        guard client != nil && jobs != nil else {
+        guard client != nil && storeManager != nil else {
             print("Client or Jobs is nil")
             return
         }
         
         if let vc = self.storyboard?.instantiateControllerWithIdentifier("invoiceViewController") as? EEBInvoiceViewController {
-            vc.navigationController = navigationController
-            vc.storeManager = storeManager
-            self.navigationController?.pushViewController(vc, true)
 
             /*** Filter on selected jobs ***/
-            var jobsSubset : [Job] = []
-            if(chkbtn_selection.state == NSOnState){
-                 jobsSubset = jobs!
-            } else {
-                if let j = client!.jobs.array as? [Job] {
-                    jobsSubset = j
+            if var jobsSubset = (chkbtn_selection.state == NSOnState) ? jobs : (client!.jobs.array as? [Job]) {
+                /*** Filter on date range ***/
+                if(chkbtn_dateRange.state == NSOnState){
+                    jobsSubset = Job.filterJobsByDate(jobs:jobsSubset,fromDate:fromDatePicker.dateValue,toDate:toDatePicker.dateValue)
                 }
-            }
-
-            /*** Filter on date range ***/
-            if(chkbtn_dateRange.state == NSOnState){
-                let fromDate = fromDatePicker.dateValue
-                let toDate = toDatePicker.dateValue
+                let invoice = Invoice.createInvoiceForClient(client!, withJobs: jobsSubset, andStoreManager: storeManager!)
                 
-                if let j = client!.jobs.array as? [Job] {
-                    jobsSubset = j
-                    jobsSubset = jobsSubset.filter({$0.creationDate.earlierDate(fromDate).isEqualToDate(fromDate)})
-                    jobsSubset = jobsSubset.filter({$0.creationDate.laterDate(toDate).isEqualToDate(toDate)})
-                }                
-            }
-            
-            
-            
-            let dirs = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true)
-            if let documentDir = dirs.first, let invoiceNumber = client?.invoices.count {
+                //Setup view controller
+                vc.navigationController = navigationController
+                vc.storeManager = storeManager
+                vc.invoicePath = invoice?.path
                 
-                //Create invoice
-                let invoiceCreator = EEBPDFInvoiceCreator(userinfo: client!, client: client!,jobs: jobsSubset)
-                let fileName = "Invoice-\(invoiceNumber + 1).pdf"
-                invoiceCreator.createPDF(atPath: documentDir, withFilename: "/" + fileName )
-                
-                //Add invoice to client
-                if let invoice = storeManager?.createObjectOfType("Invoice") as? Invoice {
-                    invoice.client = client!
-                    invoice.dueDate = NSDate()
-                    invoice.invoiceDate = invoice.dueDate
-                    invoice.paid = false
-                    invoice.path = documentDir + "/" + fileName
-                    invoice.name = fileName
-
-                    vc.invoicePath = invoice.path
-                        
-                    client?.invoices.addObject(invoice)
-                    storeManager?.save()
-                }
+                self.navigationController?.pushViewController(vc, true)
             }
-            
             
             
         }

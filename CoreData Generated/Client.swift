@@ -28,5 +28,5 @@ class Client: NSManagedObject {
             let r = formatter.numberFromString(newValue)
             hourlyRate = (r != nil) ? r! : 0.0
         }
-    }
+    }    
 }
