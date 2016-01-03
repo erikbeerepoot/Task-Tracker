@@ -21,7 +21,7 @@ class EEBCreateInvoiceViewController : NSViewController, NavigableViewController
     
     //constraint selection
     @IBOutlet weak var chkbtn_selection : NSButton!
-    @IBOutlet weak var chkbtn_dataRange : NSButton!
+    @IBOutlet weak var chkbtn_dateRange : NSButton!
     @IBOutlet weak var chkbtn_expression : NSButton!
 
     //constraint details
