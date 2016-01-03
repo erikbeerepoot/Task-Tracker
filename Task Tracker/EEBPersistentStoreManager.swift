@@ -16,7 +16,7 @@ class EEBPersistentStoreManager : NSObject {
         sortDescriptors.append(sortDescriptor)
         
         if(self.configureBackingStore() == false){
-            print("Could not CoreData store for AppData!");
+            print("Could not configure CoreData store for AppData!");
         }
     }
     
@@ -40,7 +40,6 @@ class EEBPersistentStoreManager : NSObject {
         managedObjectContext = NSManagedObjectContext(concurrencyType: .MainQueueConcurrencyType)
         managedObjectContext?.persistentStoreCoordinator = psc
         
-        //dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)) {
         let urls = NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask)
         let docURL = urls[urls.endIndex-1]
         
@@ -62,13 +61,25 @@ class EEBPersistentStoreManager : NSObject {
         }
         
         if !canMigrate {
-            print("Unable to migrate persistent store. Backup your data.")
-            return false
+            print("Unable to migrate persistent store. Attempting to move old database...")
+            let backupURL = docURL.URLByAppendingPathComponent(self.dataModelName + ".sqlite.backup")
+            
+            do {
+                try NSFileManager.defaultManager().moveItemAtURL(storeURL, toURL: backupURL)
+                print("Moved old database to: \(backupURL.absoluteString)")
+            } catch {
+                print("An error occurred while moving the old database! Restored original state. Please contact support")
+            }
+            
         }
         
         do {
             //we've found an existing store. Try and migrate (if required)
-            try psc.addPersistentStoreWithType(NSSQLiteStoreType, configuration: nil, URL: storeURL, options: migrationOptions)
+            if(canMigrate){
+                try psc.addPersistentStoreWithType(NSSQLiteStoreType, configuration: nil, URL: storeURL, options: migrationOptions)
+            } else {
+                try psc.addPersistentStoreWithType(NSSQLiteStoreType, configuration: nil, URL: storeURL, options: nil)
+            }
             self.persistentStorePresent = true;
         } catch {
             print("Error migrating store: \(error)");
