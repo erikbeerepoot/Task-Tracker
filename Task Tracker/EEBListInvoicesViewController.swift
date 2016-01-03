@@ -58,9 +58,6 @@ class EEBListInvoicesViewController : NSViewController, NavigableViewController,
         backgroundView.layer = bgGradientLayer
     }
     
-    override func viewWillAppear() {
-        tableView.hidden = false
-    }
     
     //MARK: Overlay actions
     func back(sender : AnyObject){
@@ -76,14 +73,10 @@ class EEBListInvoicesViewController : NSViewController, NavigableViewController,
     }
 
     @IBAction func open(sender : AnyObject){
-        let inv = invoices[tableView.selectedRow]
-        
         if let vc = self.storyboard?.instantiateControllerWithIdentifier("invoiceViewController") as? EEBInvoiceViewController {
             vc.navigationController = navigationController
             vc.storeManager = storeManager
-            vc.invoicePath = inv.path
-            
-            tableView.hidden = true
+            vc.invoice = invoices[tableView.selectedRow]
             
             self.navigationController?.pushViewController(vc, true)
         }

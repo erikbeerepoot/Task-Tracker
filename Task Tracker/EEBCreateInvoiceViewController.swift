@@ -90,13 +90,11 @@ class EEBCreateInvoiceViewController : NSViewController, NavigableViewController
                 if(chkbtn_dateRange.state == NSOnState){
                     jobsSubset = Job.filterJobsByDate(jobs:jobsSubset,fromDate:fromDatePicker.dateValue,toDate:toDatePicker.dateValue)
                 }
-                let invoice = Invoice.createInvoiceForClient(client!, withJobs: jobsSubset, andStoreManager: storeManager!)
+                vc.invoice = Invoice.createInvoiceForClient(client!, withJobs: jobsSubset, andStoreManager: storeManager!)
                 
                 //Setup view controller
                 vc.navigationController = navigationController
                 vc.storeManager = storeManager
-                vc.invoicePath = invoice?.path
-                
                 self.navigationController?.pushViewController(vc, true)
             }
             
