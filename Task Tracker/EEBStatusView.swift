@@ -84,10 +84,18 @@ class EEBStatusView : NSView {
         super.init(coder: coder)
     }
     
+    /**
+     * @name    viewDidHide
+     * @brief   Called when the view hides (such as on minimize)
+     */
     override func viewDidHide() {
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
-    
+
+    /**
+     * @name    viewDidUnhides
+     * @brief   Called when the view unhides (such as restoring window from the dock)
+     */
     override func viewDidUnhide() {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("didStartTimer:"), name: kJobTimingSessionDidStartNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("didStopTimer:"), name: kJobTimingSessionDidStopNotification, object: nil)
@@ -99,6 +107,10 @@ class EEBStatusView : NSView {
         }
     }
     
+    /**
+     * @name    updateDetailsText
+     * @brief   Update the details of a job in the status view
+     */
     func updateDetailsText(notification : NSNotification){
         if let job = notification.object as? Job {
             leftTextView?.stringValue = "\(job.name) (\(job.client.name!))"
