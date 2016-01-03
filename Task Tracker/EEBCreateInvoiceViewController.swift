@@ -97,6 +97,17 @@ class EEBCreateInvoiceViewController : NSViewController, NavigableViewController
                     jobsSubset = j
                 }
             }
+
+            if(chkbtn_dateRange.state == NSOnState){
+                let fromDate = fromDatePicker.dateValue
+                let toDate = toDatePicker.dateValue
+                
+                if let j = client!.jobs.array as? [Job] {
+                    jobsSubset = j
+                    jobsSubset = jobsSubset.filter({$0.creationDate.earlierDate(fromDate).isEqualToDate(fromDate)})
+                    jobsSubset = jobsSubset.filter({$0.creationDate.laterDate(toDate).isEqualToDate(toDate)})
+                }                
+            }
             
             //Create invoice
             let invoiceCreator = EEBPDFInvoiceCreator(userinfo: client!, client: client!,jobs: jobsSubset)

@@ -272,6 +272,7 @@ class EEBJobViewController: EEBBaseTableViewController, NSTextFieldDelegate, EEB
         if let createdObject = sm!.createObjectOfType(self.kTVObjectType) as? Job {
             createdObject.name = "Untitled Job"
             createdObject.client = client!
+            createdObject.creationDate = NSDate()
             client!.jobs.addObject(createdObject)
             sm!.save()
         }
