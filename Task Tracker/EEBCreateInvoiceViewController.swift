@@ -89,6 +89,7 @@ class EEBCreateInvoiceViewController : NSViewController, NavigableViewController
             vc.storeManager = storeManager
             self.navigationController?.pushViewController(vc, true)
 
+            /*** Filter on selected jobs ***/
             var jobsSubset : [Job] = []
             if(chkbtn_selection.state == NSOnState){
                  jobsSubset = jobs!
@@ -98,6 +99,7 @@ class EEBCreateInvoiceViewController : NSViewController, NavigableViewController
                 }
             }
 
+            /*** Filter on date range ***/
             if(chkbtn_dateRange.state == NSOnState){
                 let fromDate = fromDatePicker.dateValue
                 let toDate = toDatePicker.dateValue
