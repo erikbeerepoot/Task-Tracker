@@ -16,6 +16,9 @@
 		033FB2861BFD8565001020A3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 033FB2841BFD8565001020A3 /* Main.storyboard */; };
 		034DA68C1BFAB7CA004ECFD4 /* EEBInvoiceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 034DA68B1BFAB7CA004ECFD4 /* EEBInvoiceViewController.swift */; };
 		0360C3DD1C38516E0091C6F1 /* EEBCreateInvoiceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0360C3DC1C38516E0091C6F1 /* EEBCreateInvoiceViewController.swift */; };
+		0360C3E21C396C370091C6F1 /* note-48.png in Resources */ = {isa = PBXBuildFile; fileRef = 0360C3E11C396C370091C6F1 /* note-48.png */; };
+		0360C3E41C396C3F0091C6F1 /* note-plus-48.png in Resources */ = {isa = PBXBuildFile; fileRef = 0360C3E31C396C3F0091C6F1 /* note-plus-48.png */; };
+		0360C3E61C3970B30091C6F1 /* EEBListInvoicesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0360C3E51C3970B30091C6F1 /* EEBListInvoicesViewController.swift */; };
 		036AAAAB1C35C40700FE5878 /* EEBBorderedColourButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 036AAAAA1C35C40700FE5878 /* EEBBorderedColourButton.swift */; };
 		0378FAF11BE717F100F06307 /* EEBBorderedPictureButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0378FAF01BE717F100F06307 /* EEBBorderedPictureButton.swift */; };
 		0378FAF31BE71B8900F06307 /* arrow-left-black-48.png in Resources */ = {isa = PBXBuildFile; fileRef = 0378FAF21BE71B8900F06307 /* arrow-left-black-48.png */; };
@@ -77,6 +80,9 @@
 		0360C3DB1C36DAF70091C6F1 /* AppData v0.2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "AppData v0.2.xcdatamodel"; sourceTree = "<group>"; };
 		0360C3DC1C38516E0091C6F1 /* EEBCreateInvoiceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EEBCreateInvoiceViewController.swift; sourceTree = "<group>"; };
 		0360C3E01C38B3B90091C6F1 /* AppData v0.3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "AppData v0.3.xcdatamodel"; sourceTree = "<group>"; };
+		0360C3E11C396C370091C6F1 /* note-48.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "note-48.png"; sourceTree = "<group>"; };
+		0360C3E31C396C3F0091C6F1 /* note-plus-48.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "note-plus-48.png"; sourceTree = "<group>"; };
+		0360C3E51C3970B30091C6F1 /* EEBListInvoicesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EEBListInvoicesViewController.swift; sourceTree = "<group>"; };
 		036AAAAA1C35C40700FE5878 /* EEBBorderedColourButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EEBBorderedColourButton.swift; sourceTree = "<group>"; };
 		0378FAF01BE717F100F06307 /* EEBBorderedPictureButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EEBBorderedPictureButton.swift; sourceTree = "<group>"; };
 		0378FAF21BE71B8900F06307 /* arrow-left-black-48.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow-left-black-48.png"; sourceTree = "<group>"; };
@@ -154,6 +160,8 @@
 				0378FAF41BE7B5F000F06307 /* settings-48.png */,
 				0378FAF61BE7B60100F06307 /* square-inc-cash-48.png */,
 				039A836E1BFADC4B00BD64C7 /* share-48.png */,
+				0360C3E11C396C370091C6F1 /* note-48.png */,
+				0360C3E31C396C3F0091C6F1 /* note-plus-48.png */,
 			);
 			name = "Material design";
 			sourceTree = "<group>";
@@ -194,6 +202,7 @@
 				03B67D191BE13A0C005CD45E /* EEBNavigationController.swift */,
 				03A9F5CE1C0240890041A954 /* EEBTimingSessionsViewController.swift */,
 				0360C3DC1C38516E0091C6F1 /* EEBCreateInvoiceViewController.swift */,
+				0360C3E51C3970B30091C6F1 /* EEBListInvoicesViewController.swift */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -396,7 +405,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				0378FAF71BE7B60100F06307 /* square-inc-cash-48.png in Resources */,
+				0360C3E21C396C370091C6F1 /* note-48.png in Resources */,
 				032A88D61BE6AFB8005AC234 /* delete.png in Resources */,
+				0360C3E41C396C3F0091C6F1 /* note-plus-48.png in Resources */,
 				0382E6C71BF4086B002CABF5 /* pause32.png in Resources */,
 				039A836F1BFADC4B00BD64C7 /* share-48.png in Resources */,
 				03B67D1E1BE26FA0005CD45E /* suitcase32.png in Resources */,
@@ -454,6 +465,7 @@
 				032A88D81BE6B0DA005AC234 /* EEBOverlayView.swift in Sources */,
 				03B67D101BE08709005CD45E /* Client+CoreDataProperties.swift in Sources */,
 				03B67D0E1BE08709005CD45E /* Invoice+CoreDataProperties.swift in Sources */,
+				0360C3E61C3970B30091C6F1 /* EEBListInvoicesViewController.swift in Sources */,
 				0382E6BA1BF3DC05002CABF5 /* Timer.swift in Sources */,
 				03B67D0B1BE08709005CD45E /* TimingSession.swift in Sources */,
 				03B67D0F1BE08709005CD45E /* Invoice.swift in Sources */,

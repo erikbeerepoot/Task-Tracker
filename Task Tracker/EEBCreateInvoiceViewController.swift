@@ -38,7 +38,7 @@ class EEBCreateInvoiceViewController : NSViewController, NavigableViewController
     let kGradientEndColour   = (red: CGFloat(0.356), green : CGFloat(0.356), blue : CGFloat(0.356))
     let kContentOpacity : CGFloat = 1
     let kCornerRadius : CGFloat = 16
-    let kBorderWidth : CGFloat = 0.5
+    let kBorderWidth : CGFloat = 0.75
     
     
     var navigationController : EEBNavigationController? = nil;
@@ -48,7 +48,6 @@ class EEBCreateInvoiceViewController : NSViewController, NavigableViewController
     
     override func viewDidLoad(){
         //Set navbar controls
-        //Set overlay buttons
         let leftButton = EEBBorderedPictureButton(frame: CGRectMake(0,0,32,32))
         leftButton.image = NSImage(named:"arrow-left-black-48")
         leftButton.target = self
@@ -57,7 +56,6 @@ class EEBCreateInvoiceViewController : NSViewController, NavigableViewController
         overlayView.leftBarButtonItems = [leftButton]
         overlayView.rightBarButtonItems = []
         customSpacerView.layer = CALayer()
-        
         
         //Set background colour
         let bgGradientLayer = CAGradientLayer()
@@ -79,41 +77,26 @@ class EEBCreateInvoiceViewController : NSViewController, NavigableViewController
     }
     
     @IBAction func create(sender : AnyObject){
-        guard client != nil && jobs != nil else {
+        guard client != nil && storeManager != nil else {
             print("Client or Jobs is nil")
             return
         }
         
         if let vc = self.storyboard?.instantiateControllerWithIdentifier("invoiceViewController") as? EEBInvoiceViewController {
-            vc.navigationController = navigationController
-            vc.storeManager = storeManager
-            self.navigationController?.pushViewController(vc, true)
 
-            var jobsSubset : [Job] = []
-            if(chkbtn_selection.state == NSOnState){
-                 jobsSubset = jobs!
-            } else {
-                if let j = client!.jobs.array as? [Job] {
-                    jobsSubset = j
+            /*** Filter on selected jobs ***/
+            if var jobsSubset = (chkbtn_selection.state == NSOnState) ? jobs : (client!.jobs.array as? [Job]) {
+                /*** Filter on date range ***/
+                if(chkbtn_dateRange.state == NSOnState){
+                    jobsSubset = Job.filterJobsByDate(jobs:jobsSubset,fromDate:fromDatePicker.dateValue,toDate:toDatePicker.dateValue)
                 }
-            }
-
-            if(chkbtn_dateRange.state == NSOnState){
-                let fromDate = fromDatePicker.dateValue
-                let toDate = toDatePicker.dateValue
+                vc.invoice = Invoice.createInvoiceForClient(client!, withJobs: jobsSubset, andStoreManager: storeManager!)
                 
-                if let j = client!.jobs.array as? [Job] {
-                    jobsSubset = j
-                    jobsSubset = jobsSubset.filter({$0.creationDate.earlierDate(fromDate).isEqualToDate(fromDate)})
-                    jobsSubset = jobsSubset.filter({$0.creationDate.laterDate(toDate).isEqualToDate(toDate)})
-                }                
+                //Setup view controller
+                vc.navigationController = navigationController
+                vc.storeManager = storeManager
+                self.navigationController?.pushViewController(vc, true)
             }
-            
-            //Create invoice
-            let invoiceCreator = EEBPDFInvoiceCreator(userinfo: client!, client: client!,jobs: jobsSubset)
-            invoiceCreator.createPDF(atPath: "/Users/erik/Documents/", withFilename: "Invoice.pdf")
-
-            
             
             
         }

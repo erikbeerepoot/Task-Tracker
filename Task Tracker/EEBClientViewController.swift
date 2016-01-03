@@ -59,12 +59,12 @@ class EEBClientViewController: EEBBaseTableViewController,EEBSimpleTableCellView
 
         if let simpleCellView = tableView.makeViewWithIdentifier("simpleCellView", owner: self) as? EEBSimpleTableCellView {
             if let companyNameView = simpleCellView.viewWithTag(200) as? NSTextField{
-                companyNameView.stringValue = currentObject.company == nil ? "" : currentObject.company!
+                companyNameView.stringValue = currentObject.company
             } else {
                 let companyNameRect = CGRectMake(0.0, simpleCellView.contentFrame.size.height - 45.0, simpleCellView.contentFrame.size.width - (kRateFieldWidth + kPadding),25.0)
                 let companyNameView = NSTextField(frame: companyNameRect)
                 companyNameView.font = NSFont(name: "Helvetica Neue Light", size: 15.0)
-                companyNameView.stringValue = currentObject.company == nil ? "" : currentObject.company!
+                companyNameView.stringValue = currentObject.company
                 companyNameView.textColor = NSColor.lightGrayColor()
                 companyNameView.editable = true
                 companyNameView.selectable = true
@@ -278,6 +278,7 @@ class EEBClientViewController: EEBBaseTableViewController,EEBSimpleTableCellView
     override func add(sender : AnyObject){
         if let createdObject = sm!.createObjectOfType(kTVObjectType) as? Client {
             createdObject.name = "New Client"
+            createdObject.company = ""
             createdObject.hourlyRate = 90.0
             sm!.save()
         }

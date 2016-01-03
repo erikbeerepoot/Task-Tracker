@@ -18,5 +18,7 @@ extension Invoice {
     @NSManaged var jobs: NSSet?
     @NSManaged var client : Client
     @NSManaged var paid : Bool
+    @NSManaged var path : String
+    @NSManaged var name : String 
 
 }

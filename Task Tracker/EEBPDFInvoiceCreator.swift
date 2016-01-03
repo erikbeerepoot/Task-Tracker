@@ -264,13 +264,13 @@ class EEBPDFInvoiceCreator {
         font = (template.style["to"]?["font"] as? NSFont) ?? NSFont(name: "Helvetica Neue", size: 14.0)
         drawTable(writeContext, inRect:template.toBounds, numRows: 5, numCols: 1,colHeaders:["To:"],drawRowDividers:false)
         path = setupTextBox(inRect:CGRectMake(template.toBounds.origin.x,template.toBounds.origin.y - kRowHeight,template.toBounds.size.width,template.toBounds.size.height))
-        text = client.name! + "\n" + client.company!
+        text = client.name! + "\n" + client.company
         drawText(writeContext,text:text, path: path,font:font!)
 
         font = (template.style["to"]?["font"] as? NSFont) ?? NSFont(name: "Helvetica Neue", size: 14.0)
         drawTable(writeContext, inRect:template.fromBounds, numRows: 5, numCols: 1,colHeaders:["From:"],drawRowDividers:false)
         path = setupTextBox(inRect:CGRectMake(template.fromBounds.origin.x,template.fromBounds.origin.y - kRowHeight,template.fromBounds.size.width,template.fromBounds.size.height))
-        text = user.name! + "\n" + user.company!
+        text = user.name! + "\n" + user.company
         drawText(writeContext,text:text, path: path,font:font!)
     }
     

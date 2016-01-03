@@ -90,6 +90,13 @@ class Job: NSManagedObject {
         let time = totalTime() as Double
         let r : Double = (rate == nil) ? client.hourlyRate.doubleValue : rate!.doubleValue
         return (r*(time/3600))
-    }            
+    }
+    
+    class func filterJobsByDate(jobs jobs : [Job], fromDate : NSDate, toDate : NSDate) -> [Job]{
+        var outJobs = jobs
+        outJobs = outJobs.filter({$0.creationDate.earlierDate(fromDate).isEqualToDate(fromDate)})
+        outJobs = outJobs.filter({$0.creationDate.laterDate(toDate).isEqualToDate(toDate)})
+        return outJobs
+    }
     
 }
