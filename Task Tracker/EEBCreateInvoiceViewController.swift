@@ -44,6 +44,7 @@ class EEBCreateInvoiceViewController : NSViewController, NavigableViewController
     var navigationController : EEBNavigationController? = nil;
     var storeManager : EEBPersistentStoreManager? = nil
     var client : Client? = nil
+    var jobs : [Job]? = nil
     
     override func viewDidLoad(){
         //Set navbar controls
@@ -78,14 +79,32 @@ class EEBCreateInvoiceViewController : NSViewController, NavigableViewController
     }
     
     @IBAction func create(sender : AnyObject){
+        guard client != nil && jobs != nil else {
+            print("Client or Jobs is nil")
+            return
+        }
+        
         if let vc = self.storyboard?.instantiateControllerWithIdentifier("invoiceViewController") as? EEBInvoiceViewController {
             vc.navigationController = navigationController
             vc.storeManager = storeManager
             self.navigationController?.pushViewController(vc, true)
+
+            var jobsSubset : [Job] = []
+            if(chkbtn_selection.state == NSOnState){
+                 jobsSubset = jobs!
+            } else {
+                if let j = client!.jobs.array as? [Job] {
+                    jobsSubset = j
+                }
+            }
             
-            assert(client != nil,"Something is terribly wrong, did not get a client for invoice creation!")
-            let invoiceCreator = EEBPDFInvoiceCreator(userinfo: client!, client: client!,jobs: client!.jobs.array as! [Job])
+            //Create invoice
+            let invoiceCreator = EEBPDFInvoiceCreator(userinfo: client!, client: client!,jobs: jobsSubset)
             invoiceCreator.createPDF(atPath: "/Users/erik/Documents/", withFilename: "Invoice.pdf")
+
+            
+            
+            
         }
     }
 
