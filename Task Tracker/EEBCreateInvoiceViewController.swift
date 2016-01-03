@@ -48,7 +48,6 @@ class EEBCreateInvoiceViewController : NSViewController, NavigableViewController
     
     override func viewDidLoad(){
         //Set navbar controls
-        //Set overlay buttons
         let leftButton = EEBBorderedPictureButton(frame: CGRectMake(0,0,32,32))
         leftButton.image = NSImage(named:"arrow-left-black-48")
         leftButton.target = self
@@ -57,7 +56,6 @@ class EEBCreateInvoiceViewController : NSViewController, NavigableViewController
         overlayView.leftBarButtonItems = [leftButton]
         overlayView.rightBarButtonItems = []
         customSpacerView.layer = CALayer()
-        
         
         //Set background colour
         let bgGradientLayer = CAGradientLayer()

@@ -1506,7 +1506,7 @@
         <!--List Invoices View Controller-->
         <scene sceneID="FSd-WZ-drc">
             <objects>
-                <viewController storyboardIdentifier="createInvoiceViewController" id="2Vw-a3-vha" customClass="EEBListInvoicesViewController" customModule="Task_Tracker" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="listInvoicesViewController" id="2Vw-a3-vha" customClass="EEBListInvoicesViewController" customModule="Task_Tracker" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" autoresizesSubviews="NO" id="6xX-VH-pPE">
                         <rect key="frame" x="0.0" y="0.0" width="534" height="450"/>
                         <autoresizingMask key="autoresizingMask"/>
