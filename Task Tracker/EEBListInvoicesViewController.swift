@@ -24,7 +24,7 @@ class EEBListInvoicesViewController : NSViewController, NavigableViewController,
     let kContentOpacity : CGFloat = 1
     let kCornerRadius : CGFloat = 16
     let kBorderWidth : CGFloat = 0.75
-
+    let debugFrames = true
     
     var navigationController : EEBNavigationController? = nil;
     var storeManager : EEBPersistentStoreManager? = nil
@@ -43,7 +43,9 @@ class EEBListInvoicesViewController : NSViewController, NavigableViewController,
         
         /*** View Constraints ***/
         customView.wantsLayer = true
-        customView.layer?.backgroundColor = NSColor.yellowColor().CGColor
+        if(debugFrames){
+            customView.layer?.backgroundColor = NSColor.yellowColor().CGColor
+        }
         
         
         tableView.setDataSource(self)
