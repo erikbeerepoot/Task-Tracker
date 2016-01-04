@@ -148,31 +148,33 @@ class EEBClientViewController: EEBBaseTableViewController,EEBSimpleTableCellView
                 numJobsButtonView.borderColor = kNumJobsButtonBorderColor
                 numJobsButtonView.backgroundColor = kNumJobsButtonBackgroundColor
                 numJobsButtonView.tag = 204
-                
+                numJobsButtonView.target = self
+                numJobsButtonView.action = Selector("disclosureButtonPressed:")                
                 simpleCellView.contentView?.addSubview(numJobsButtonView)
             }
             
             if let outstandingInvoices = simpleCellView.viewWithTag(205) as? EEBBorderedColourButton {
-                //stub
-                let outstandingInvoiceCount = currentObject.invoices.filter({
-                    if let invoice = $0 as? Invoice {
-                        return !invoice.paid
-                    }
-                    return false
-                }).count
-                if(outstandingInvoiceCount == 0){
+                if currentObject.invoices.count == 0 {
                     outstandingInvoices.hidden = true
                 } else {
-                    outstandingInvoices.hidden = false
-                    outstandingInvoices.text = String(outstandingInvoiceCount) + (outstandingInvoiceCount == 1 ? " outstanding invoice" : " outstanding invoices")
+                    let outstandingInvoiceCount = currentObject.invoices.filter({
+                        if let invoice = $0 as? Invoice {
+                            return !invoice.paid
+                        }
+                        return false
+                    }).count
+                    outstandingInvoices.target = self
+                    outstandingInvoices.action = Selector("showInvoice:")
+                    outstandingInvoices.hidden = (outstandingInvoiceCount == 0)
+                    outstandingInvoices.text = String(outstandingInvoiceCount) + (outstandingInvoiceCount == 1 ? " unpaid invoice" : " unpaid invoices")
+                    
                 }
             } else {
-                let outstandingInvRect = CGRectMake(kButtonWidth + kPadding, 0, kButtonWidth,kButtonHeight)
+                let outstandingInvRect = CGRectMake(kButtonWidth + kPadding, 0, 1.5*kButtonWidth,kButtonHeight)
                 let outstandingInvButtonView = EEBBorderedColourButton(frame: outstandingInvRect)
                 outstandingInvButtonView.borderColor = kOutstandingInvoicesButtonBorderColor
                 outstandingInvButtonView.backgroundColor = kOutstandingInvoicesButtonBackgroundColor
                 outstandingInvButtonView.tag = 205
-                
                 simpleCellView.contentView?.addSubview(outstandingInvButtonView)
             }
 
@@ -295,6 +297,22 @@ class EEBClientViewController: EEBBaseTableViewController,EEBSimpleTableCellView
             (sender as! NSButton).state = NSOffState
         }
         (sender as! NSButton).enabled = (tableView.selectedRow != -1)
+    }
+    
+    /**
+     * @name    showInvoice
+     * @brief   Method called when an outstanding invoice button is pressed
+     */
+    func showInvoice(sender : AnyObject){
+        if let view = sender as? NSView ,vc = self.storyboard?.instantiateControllerWithIdentifier("invoiceViewController") as? EEBInvoiceViewController {
+            let rowIdx = tableView.rowForView(view)
+
+            let unpaidInvoices = clients[rowIdx].invoices.array.filter({$0.paid == false})
+            vc.invoice = unpaidInvoices.first as! Invoice
+            vc.navigationController = navigationController            
+            navigationController?.pushViewController(vc, true)
+        }
+
     }
     
     func disclosureButtonPressed(sender: AnyObject) {
