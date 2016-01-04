@@ -1488,8 +1488,7 @@
                     </view>
                     <connections>
                         <outlet property="backgroundView" destination="oKJ-3T-BrG" id="2ho-mr-dV7"/>
-                        <outlet property="chkbtn_dataRange" destination="Hrg-PM-qsX" id="SVE-UN-MC2"/>
-                        <outlet property="chkbtn_dateRange" destination="Hrg-PM-qsX" id="127-ak-3wm"/>
+                        <outlet property="chkbtn_dateRange" destination="Hrg-PM-qsX" id="hw1-pk-osI"/>
                         <outlet property="chkbtn_expression" destination="uYP-pr-ugW" id="3bT-tn-B5R"/>
                         <outlet property="chkbtn_selection" destination="sxY-FS-0sN" id="MQL-FQ-MUb"/>
                         <outlet property="createOptionsView" destination="3jp-xI-BUU" id="vWQ-zD-C27"/>
@@ -1530,10 +1529,10 @@
                                         <rect key="frame" x="0.0" y="0.0" width="534" height="357"/>
                                         <subviews>
                                             <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ApT-7y-2ve">
-                                                <rect key="frame" x="95" y="40" width="344" height="276"/>
+                                                <rect key="frame" x="95" y="39" width="344" height="277"/>
                                                 <subviews>
                                                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mha-Rc-hjK">
-                                                        <rect key="frame" x="259" y="0.0" width="73" height="32"/>
+                                                        <rect key="frame" x="259" y="1" width="73" height="32"/>
                                                         <buttonCell key="cell" type="push" title="Open" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="qys-Mw-alP">
                                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                             <font key="font" metaFont="system"/>
@@ -1543,7 +1542,7 @@
                                                         </connections>
                                                     </button>
                                                     <view fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="84Y-Yu-QMC">
-                                                        <rect key="frame" x="0.0" y="43" width="344" height="233"/>
+                                                        <rect key="frame" x="0.0" y="44" width="344" height="233"/>
                                                         <subviews>
                                                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0ou-6h-XQM">
                                                                 <rect key="frame" x="94" y="190" width="142" height="27"/>
@@ -1622,6 +1621,7 @@
                     <connections>
                         <outlet property="backgroundView" destination="6er-qZ-W9M" id="bZG-L2-qfT"/>
                         <outlet property="customSpacerView" destination="xxn-U3-miw" id="QTD-mO-2Kw"/>
+                        <outlet property="customView" destination="ApT-7y-2ve" id="tHM-Sp-oWe"/>
                         <outlet property="overlayView" destination="Ru4-zg-znn" id="kzL-PQ-OHA"/>
                         <outlet property="tableView" destination="eQD-8l-pjj" id="zFq-Td-Qnw"/>
                     </connections>

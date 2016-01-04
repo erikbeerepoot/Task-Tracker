@@ -15,6 +15,7 @@ class EEBListInvoicesViewController : NSViewController, NavigableViewController,
     @IBOutlet weak var overlayView : EEBOverlayView!
     @IBOutlet weak var customSpacerView : NSView!
     @IBOutlet weak var backgroundView : NSView!
+    @IBOutlet weak var customView : NSView!
     @IBOutlet weak var tableView : NSTableView!
     
     //MARK: Appearance constants
@@ -23,7 +24,7 @@ class EEBListInvoicesViewController : NSViewController, NavigableViewController,
     let kContentOpacity : CGFloat = 1
     let kCornerRadius : CGFloat = 16
     let kBorderWidth : CGFloat = 0.75
-
+    let debugFrames = true
     
     var navigationController : EEBNavigationController? = nil;
     var storeManager : EEBPersistentStoreManager? = nil
@@ -38,6 +39,14 @@ class EEBListInvoicesViewController : NSViewController, NavigableViewController,
         if let inv = client!.invoices.array as? [Invoice] {
             invoices = inv
         }
+        
+        
+        /*** View Constraints ***/
+        customView.wantsLayer = true
+        if(debugFrames){
+            customView.layer?.backgroundColor = NSColor.yellowColor().CGColor
+        }
+        
         
         tableView.setDataSource(self)
         
