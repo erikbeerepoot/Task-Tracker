@@ -56,6 +56,7 @@
 		03C269A81BDF2ABB00DAA4E7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 03C269A71BDF2ABB00DAA4E7 /* Assets.xcassets */; };
 		03C269B61BDF2ABB00DAA4E7 /* Task_TrackerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03C269B51BDF2ABB00DAA4E7 /* Task_TrackerTests.swift */; };
 		03C269C11BDF2B7700DAA4E7 /* MainWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03C269C01BDF2B7700DAA4E7 /* MainWindowController.swift */; };
+		03F492881C3C0FD4006D1856 /* arrow-right.png in Resources */ = {isa = PBXBuildFile; fileRef = 03F492871C3C0FD4006D1856 /* arrow-right.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -124,6 +125,7 @@
 		03C269B51BDF2ABB00DAA4E7 /* Task_TrackerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Task_TrackerTests.swift; sourceTree = "<group>"; };
 		03C269B71BDF2ABB00DAA4E7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		03C269C01BDF2B7700DAA4E7 /* MainWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainWindowController.swift; sourceTree = "<group>"; };
+		03F492871C3C0FD4006D1856 /* arrow-right.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow-right.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -155,6 +157,7 @@
 		032A88D21BE69831005AC234 /* Material design */ = {
 			isa = PBXGroup;
 			children = (
+				03F492871C3C0FD4006D1856 /* arrow-right.png */,
 				032A88D31BE69856005AC234 /* arrow-right-black-48.png */,
 				0378FAF21BE71B8900F06307 /* arrow-left-black-48.png */,
 				0378FAF41BE7B5F000F06307 /* settings-48.png */,
@@ -412,6 +415,7 @@
 				039A836F1BFADC4B00BD64C7 /* share-48.png in Resources */,
 				03B67D1E1BE26FA0005CD45E /* suitcase32.png in Resources */,
 				03B67D221BE27475005CD45E /* play32.png in Resources */,
+				03F492881C3C0FD4006D1856 /* arrow-right.png in Resources */,
 				03B67D201BE273F4005CD45E /* receipt-us32.png in Resources */,
 				033FB2861BFD8565001020A3 /* Main.storyboard in Resources */,
 				0382E6C51BF407DD002CABF5 /* stop32.png in Resources */,
