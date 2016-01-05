@@ -134,7 +134,7 @@ class EEBSimpleTableCellView : NSTableCellView,EEBSimpleTableCellViewDelegate {
     }
     
     func initializeFrames(frameRect : CGRect){
-        let ratio = frameRect.size.height / (2*kHeaderPadding + kHeaderSize)
+        let ratio = frameRect.size.height / (2*kVerticalPadding + kHeaderSize)
         
         //Scale the row relative to our total frame size
         let verticalPadding = kVerticalPadding * ratio
@@ -221,7 +221,7 @@ class EEBSimpleTableCellView : NSTableCellView,EEBSimpleTableCellViewDelegate {
         case EEBSimpleTableCellViewAccessoryType.DisclosureIndicator:
             /** 
              * We create 3 layers, stacked on top of each other. The root layer is blue, and we overlay
-             * an inset white layer to create a single pixel outline. The third layer contains the indicator
+             * an inset white layer to create a 0.5 pt outline. The third layer contains the indicator
              */
             accessoryView?.layer = CALayer()
             accessoryView?.wantsLayer = true;
@@ -229,7 +229,7 @@ class EEBSimpleTableCellView : NSTableCellView,EEBSimpleTableCellViewDelegate {
             accessoryView?.layer?.cornerRadius = kCornerRadius
             
             let backgroundLayer = CALayer()
-            backgroundLayer.frame = CGRectMake(1.0, 1.0, accessoryFrame.size.width - 2.0 , accessoryFrame.size.height - 2.0)
+            backgroundLayer.frame = CGRectMake(0.5, 0.5, accessoryFrame.size.width - 1.0 , accessoryFrame.size.height - 1.0)
             backgroundLayer.backgroundColor = CGColorCreateGenericRGB(kBackgroundColourComponents.red,kBackgroundColourComponents.green,kBackgroundColourComponents.blue,1.0)
             backgroundLayer.cornerRadius = kCornerRadius
             accessoryView!.layer!.addSublayer(backgroundLayer)
