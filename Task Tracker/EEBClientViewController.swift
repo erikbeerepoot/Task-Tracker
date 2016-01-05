@@ -12,6 +12,8 @@ import AppKit
 class EEBClientViewController: EEBBaseTableViewController,EEBSimpleTableCellViewDelegate, NSTextFieldDelegate {
     
     let kDefaultIconImageName = "client128.png"
+    
+    let kCellIdentifier = "simpleCellView"
     let kRateFieldWidth = CGFloat(70)
     let kPadding = CGFloat(10)
     let kButtonWidth = CGFloat(75)
@@ -28,7 +30,6 @@ class EEBClientViewController: EEBBaseTableViewController,EEBSimpleTableCellView
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        kRowHeight = 114.0
         kTVObjectType = "Client"
     }
         
@@ -36,6 +37,10 @@ class EEBClientViewController: EEBBaseTableViewController,EEBSimpleTableCellView
         super.viewDidLoad()
         view.wantsLayer = true
 
+        //Since we set the height in the storyboard, we should get it dynamically rather than using a magic number
+        if  let view = tableView.makeViewWithIdentifier(kCellIdentifier, owner: nil){
+            kRowHeight = view.bounds.size.height
+        }
 
         timer = EEBTimer(storeManager:sm!)
         
@@ -51,13 +56,14 @@ class EEBClientViewController: EEBBaseTableViewController,EEBSimpleTableCellView
     
     override func becomeFirstResponder() -> Bool {
         return false
-    }
+    }    
             
     func tableView(tableView: NSTableView, viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView? {
         //Get the object of which we wish to display the properties
         let currentObject = clients[row]
 
-        if let simpleCellView = tableView.makeViewWithIdentifier("simpleCellView", owner: self) as? EEBSimpleTableCellView {
+        if let simpleCellView = tableView.makeViewWithIdentifier(kCellIdentifier, owner: self) as? EEBSimpleTableCellView {
+            
             if let companyNameView = simpleCellView.viewWithTag(200) as? NSTextField{
                 companyNameView.stringValue = currentObject.company
             } else {

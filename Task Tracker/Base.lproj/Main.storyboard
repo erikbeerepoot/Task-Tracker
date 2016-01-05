@@ -1232,13 +1232,13 @@
                         <rect key="frame" x="0.0" y="0.0" width="550" height="450"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <scrollView autoresizesSubviews="NO" borderType="none" autohidesScrollers="YES" horizontalLineScroll="130" horizontalPageScroll="10" verticalLineScroll="130" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="as8-Wz-RYO">
+                            <scrollView autoresizesSubviews="NO" borderType="none" autohidesScrollers="YES" horizontalLineScroll="162" horizontalPageScroll="10" verticalLineScroll="162" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="as8-Wz-RYO">
                                 <rect key="frame" x="0.0" y="0.0" width="550" height="450"/>
                                 <clipView key="contentView" drawsBackground="NO" id="HVy-xk-60C">
                                     <rect key="frame" x="0.0" y="0.0" width="550" height="450"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <tableView focusRingType="exterior" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" selectionHighlightStyle="none" multipleSelection="NO" emptySelection="NO" autosaveColumns="NO" rowHeight="128" viewBased="YES" id="g74-pK-c93">
+                                        <tableView focusRingType="exterior" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" selectionHighlightStyle="none" multipleSelection="NO" emptySelection="NO" autosaveColumns="NO" rowHeight="160" viewBased="YES" id="g74-pK-c93">
                                             <rect key="frame" x="0.0" y="0.0" width="550" height="0.0"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <size key="intercellSpacing" width="1" height="2"/>
@@ -1260,7 +1260,7 @@
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
                                                         <tableCellView identifier="simpleCellView" autoresizesSubviews="NO" id="X9H-BC-mvo" customClass="EEBSimpleTableCellView" customModule="Task_Tracker" customModuleProvider="target">
-                                                            <rect key="frame" x="0.0" y="1" width="549.19832114404153" height="114"/>
+                                                            <rect key="frame" x="0.0" y="1" width="549" height="170"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                         </tableCellView>
                                                     </prototypeCellViews>
