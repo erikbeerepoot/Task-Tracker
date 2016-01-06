@@ -11,14 +11,12 @@ import AppKit
 
 class EEBClientViewController: EEBBaseTableViewController,EEBSimpleTableCellViewDelegate, NSTextFieldDelegate {
     
-    let kDefaultIconImageName = "client128.png"
-    
     let kCellIdentifier = "simpleCellView"
     let kRateFieldWidth = CGFloat(70)
     let kPadding = CGFloat(10)
     let kButtonWidth = CGFloat(75)
     let kButtonHeight = CGFloat(18)
-    
+    let kButtonOffset = CGFloat(10)
     var clients : [Client] = []
     func fetchClients(){
         assert(sm != nil, "Persistent store manager nil in ClientVieController \(self)")
@@ -67,7 +65,7 @@ class EEBClientViewController: EEBBaseTableViewController,EEBSimpleTableCellView
             if let companyNameView = simpleCellView.viewWithTag(200) as? NSTextField{
                 companyNameView.stringValue = currentObject.company
             } else {
-                let companyNameRect = CGRectMake(0.0, simpleCellView.contentFrame.size.height - 45.0, simpleCellView.contentFrame.size.width - (kRateFieldWidth + kPadding),25.0)
+                let companyNameRect = CGRectMake(0.0, simpleCellView.contentFrame.size.height - 57.0, simpleCellView.contentFrame.size.width - (kRateFieldWidth + kPadding),25.0)
                 let companyNameView = NSTextField(frame: companyNameRect)
                 companyNameView.font = NSFont(name: "Helvetica Neue Light", size: 15.0)
                 companyNameView.stringValue = currentObject.company
@@ -89,7 +87,7 @@ class EEBClientViewController: EEBBaseTableViewController,EEBSimpleTableCellView
             if let clientNameView = simpleCellView.viewWithTag(201) as? NSTextField {
                 clientNameView.stringValue = currentObject.name!
             } else {
-                let clientNameRect = CGRectMake(0.0, simpleCellView.contentFrame.size.height - 25.0, simpleCellView.contentFrame.size.width ,25.0)
+                let clientNameRect = CGRectMake(0.0, simpleCellView.contentFrame.size.height - 35.0, simpleCellView.contentFrame.size.width ,25.0)
                 let clientNameView = NSTextField(frame: clientNameRect)
                 clientNameView.stringValue = currentObject.name!
                 clientNameView.font = NSFont(name: "Helvetica Neue Light", size: 22.0)
@@ -104,7 +102,6 @@ class EEBClientViewController: EEBBaseTableViewController,EEBSimpleTableCellView
                 clientNameView.action = Selector("textfieldEdited:")
 
                 simpleCellView.contentView?.addSubview(clientNameView)
-
             }
             
             if let clientRateView = simpleCellView.viewWithTag(202) as? NSTextField {
@@ -140,7 +137,22 @@ class EEBClientViewController: EEBBaseTableViewController,EEBSimpleTableCellView
                 clientRateView.stringValue = currentObject.rateString
             }
             
-            if let numJobsButton = simpleCellView.viewWithTag(204) as? EEBBorderedColourButton {
+            if let settingsButton = simpleCellView.viewWithTag(204) as? EEBBorderedPictureButton {
+            } else {
+                let settingsButtonRect = CGRectMake(0, kButtonOffset, kButtonHeight,kButtonHeight)
+                let settingsButton = EEBBorderedPictureButton(frame: settingsButtonRect)
+                settingsButton.image = NSImage(named:"settings-48")
+
+                settingsButton.borderThickness = 0
+                settingsButton.target = self
+                settingsButton.action = Selector("settings:")
+
+                simpleCellView.contentView?.addSubview(settingsButton)
+                
+            }
+            
+            
+            if let numJobsButton = simpleCellView.viewWithTag(205) as? EEBBorderedColourButton {
                 //stub
                 if(currentObject.jobs.count == 0){
                    numJobsButton.hidden = true
@@ -149,17 +161,17 @@ class EEBClientViewController: EEBBaseTableViewController,EEBSimpleTableCellView
                     numJobsButton.text = String(currentObject.jobs.count) + (currentObject.jobs.count == 1 ? " job" : " jobs")
                 }
             } else {
-                let numJobsRect = CGRectMake(0, 0, kButtonWidth,kButtonHeight)
+                let numJobsRect = CGRectMake(kButtonHeight+kPadding, kButtonOffset, kButtonWidth,kButtonHeight)
                 let numJobsButtonView = EEBBorderedColourButton(frame: numJobsRect)
                 numJobsButtonView.borderColor = kNumJobsButtonBorderColor
                 numJobsButtonView.backgroundColor = kNumJobsButtonBackgroundColor
-                numJobsButtonView.tag = 204
+                numJobsButtonView.tag = 205
                 numJobsButtonView.target = self
                 numJobsButtonView.action = Selector("disclosureButtonPressed:")                
                 simpleCellView.contentView?.addSubview(numJobsButtonView)
             }
             
-            if let outstandingInvoices = simpleCellView.viewWithTag(205) as? EEBBorderedColourButton {
+            if let outstandingInvoices = simpleCellView.viewWithTag(206) as? EEBBorderedColourButton {
                 if currentObject.invoices.count == 0 {
                     outstandingInvoices.hidden = true
                 } else {
@@ -176,11 +188,11 @@ class EEBClientViewController: EEBBaseTableViewController,EEBSimpleTableCellView
                     
                 }
             } else {
-                let outstandingInvRect = CGRectMake(kButtonWidth + kPadding, 0, 1.5*kButtonWidth,kButtonHeight)
+                let outstandingInvRect = CGRectMake(kButtonHeight + kButtonWidth + 2*kPadding, kButtonOffset, 1.5*kButtonWidth,kButtonHeight)
                 let outstandingInvButtonView = EEBBorderedColourButton(frame: outstandingInvRect)
                 outstandingInvButtonView.borderColor = kOutstandingInvoicesButtonBorderColor
                 outstandingInvButtonView.backgroundColor = kOutstandingInvoicesButtonBackgroundColor
-                outstandingInvButtonView.tag = 205
+                outstandingInvButtonView.tag = 206
                 simpleCellView.contentView?.addSubview(outstandingInvButtonView)
             }
 
@@ -319,6 +331,14 @@ class EEBClientViewController: EEBBaseTableViewController,EEBSimpleTableCellView
             navigationController?.pushViewController(vc, true)
         }
 
+    }
+    
+    /**
+     * @name    settings
+     * @brief   Show settings for the client
+     */
+    func settings(sender : AnyObject){
+        print("Settings")
     }
     
     func disclosureButtonPressed(sender: AnyObject) {
