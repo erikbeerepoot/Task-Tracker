@@ -11,17 +11,20 @@ import AppKit
 
 class EEBBorderedPictureButton : NSButton {
     
-    let kCornerRadius : CGFloat = 3.0
-    let kBorderThickness : CGFloat = 0.25
+    let cornerRadius : CGFloat = 3.0
+    
+    var borderThickness : CGFloat = 0.25 {
+        didSet {
+            layer?.borderWidth = borderThickness
+        }
+    }
     
     override var image : NSImage? {
         didSet {
             self.layer?.contents = image
         }
     }
-    
-    
-    
+        
     override init(frame frameRect: NSRect) {
         super.init(frame: frameRect)
         
@@ -29,10 +32,10 @@ class EEBBorderedPictureButton : NSButton {
         self.bordered = false;
         
         //draw custom border & transparent background
-        self.layer = CALayer()
-        self.layer?.borderColor = NSColor.blackColor().CGColor
-        self.layer?.borderWidth = kBorderThickness
-        self.layer?.cornerRadius = kCornerRadius
+        layer = CALayer()
+        layer?.borderColor = NSColor.blackColor().CGColor
+        layer?.borderWidth = borderThickness
+        layer?.cornerRadius = cornerRadius
     }
     
     required init?(coder: NSCoder) {
@@ -43,10 +46,10 @@ class EEBBorderedPictureButton : NSButton {
         self.bordered = false;
         
         //draw custom border & transparent background
-        self.layer = CALayer()
-        self.layer?.borderColor = NSColor.blackColor().CGColor
-        self.layer?.borderWidth = kBorderThickness
-        self.layer?.cornerRadius = kCornerRadius
+        wantsLayer = true
+        layer?.borderColor = NSColor.blackColor().CGColor
+        layer?.borderWidth = borderThickness
+        layer?.cornerRadius = cornerRadius
     }
     
 }
