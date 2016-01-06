@@ -12,7 +12,7 @@ import AppKit
 class EEBBorderedColourButton : NSButton {
     
     let kCornerRadius : CGFloat = 3.0
-    let kBorderThickness : CGFloat = 0.25
+    let kBorderThickness : CGFloat = 0.1
     
     let backgroundLayer = CALayer()
     let outlineLayer = CALayer()
