@@ -37,11 +37,19 @@ class EEBSimpleTableCellView : NSTableCellView,EEBSimpleTableCellViewDelegate {
     var contentView : NSView? = nil;
     var accessoryView : NSView? = nil;
     
+    var imageLayer : CALayer?
     //Subview content settings
     var headerImage : NSImage = NSImage(named: "client128.png")! {
         didSet {
             drawHeaderOutline()
-            headerView?.layer?.sublayers![0].contents = headerImage
+            imageLayer?.contents = headerImage
+        }
+    }
+    
+    var ringOutlineLayer : CALayer?
+    var ringOutlineColor : NSColor = lightLightGray {
+        didSet {
+            ringOutlineLayer?.backgroundColor = ringOutlineColor.CGColor
         }
     }
     
@@ -67,19 +75,25 @@ class EEBSimpleTableCellView : NSTableCellView,EEBSimpleTableCellViewDelegate {
     //MARK: Appearance constants
     //layout
     let kSelectionOutlineThickness : CGFloat = 2.0
-    let kHeaderPadding : CGFloat = 50.0
     let kHeaderSize  : CGFloat = 128.0
-    let kAccessoryPadding : CGFloat = 30.0
     let kAccessorySize : CGFloat = 50.0
-    let kVerticalPadding : CGFloat = 50.0
+    let kHeaderPadding : CGFloat = 30.0
+    let kVerticalPadding : CGFloat = 20.0
+    let kAccessoryPadding : CGFloat = 20.0
+    let kBorderWidth : CGFloat = 1
     
     //colours
     let kOutlineColourComponents = (red: CGFloat(0.2902), green : CGFloat(0.5647), blue : CGFloat(0.8863))
     let kBackgroundColourComponents = (red: CGFloat(0.9804), green : CGFloat(0.9804), blue : CGFloat(0.9804))
+
+    let kGradientStartColour = CGColorCreateGenericRGB(1, 1, 1,1.0)
+    let kGradientEndColour = CGColorCreateGenericRGB(0.9333, 0.9333, 0.9333,1.0)
+
+    
     
     //contents
     let kCornerRadius : CGFloat = 3.0
-    let kDisclosureImageName : String = "arrow-right-black-48"
+    let kDisclosureImageName : String = "arrow-right-small-black-48"
     
     let debugViews : Bool = false;
     
@@ -182,7 +196,6 @@ class EEBSimpleTableCellView : NSTableCellView,EEBSimpleTableCellViewDelegate {
         headerView = NSView(frame: headerFrame)
         
         //configure as layer-hosting view
-        headerView?.layer = CALayer()
         headerView?.wantsLayer = true;
         if(debugViews){
             headerView?.layer?.backgroundColor = NSColor.redColor().CGColor
@@ -191,15 +204,69 @@ class EEBSimpleTableCellView : NSTableCellView,EEBSimpleTableCellViewDelegate {
         self.addSubview(headerView!)
         
         drawHeaderOutline()
-        headerView?.layer?.sublayers![0].contents = headerImage
+        imageLayer?.contents = headerImage
     }
     
     func drawHeaderOutline(){
-        let backgroundLayer = CALayer()
-        backgroundLayer.frame = CGRectMake(1.0, 1.0, headerFrame.size.width - 2.0 , headerFrame.size.height - 2.0)
-        backgroundLayer.backgroundColor = CGColorCreateGenericRGB(kBackgroundColourComponents.red,kBackgroundColourComponents.green,kBackgroundColourComponents.blue,1.0)
-        headerView?.layer?.backgroundColor = NSColor.lightGrayColor().CGColor
-        headerView?.layer?.addSublayer(backgroundLayer)
+        let frame = CGRectMake(0, 0, headerFrame.size.width , headerFrame.size.height)
+
+        /*** Outside border ***/
+        let ringOutline = CALayer()
+        ringOutline.frame = frame
+        ringOutline.backgroundColor = lightLightGray.CGColor
+        
+        let ringOutlineMaskLayer = CAShapeLayer()
+        ringOutlineMaskLayer.path = CGPathCreateWithEllipseInRect(CGRectInset(frame,0,0), nil)
+        ringOutline.mask = ringOutlineMaskLayer
+        ringOutlineLayer = ringOutline
+        
+        /*** Inside edge ***/
+        let ring = CAGradientLayer()
+        ring.frame = frame
+        ring.colors = [kGradientStartColour,kGradientEndColour]
+        
+        let ringMaskLayer = CAShapeLayer()
+        ringMaskLayer.path = CGPathCreateWithEllipseInRect(CGRectInset(frame,1.0,1.0), nil)
+        ring.mask = ringMaskLayer
+
+        //mask the inner layer
+        let maskLayer = CAShapeLayer()
+        maskLayer.path = CGPathCreateWithEllipseInRect(CGRectInset(frame,5,5), nil)
+
+
+        /*** Inner border ***/
+        let ringInnerBorder = CALayer()
+        ringInnerBorder.frame = frame
+        ringInnerBorder.backgroundColor = lightLightGray.CGColor
+        
+        let ringInnerBorderMaskLayer = CAShapeLayer()
+        ringInnerBorderMaskLayer.path = CGPathCreateWithEllipseInRect(CGRectInset(frame,7,7), nil)
+        ringInnerBorder.mask = maskLayer
+
+        let ringInnerBorderShadow = CALayer()
+        ringInnerBorderShadow.frame = frame
+        
+        ringInnerBorderShadow.shadowColor = NSColor.darkGrayColor().CGColor
+        ringInnerBorderShadow.shadowOpacity = 0.7
+        ringInnerBorderShadow.shadowRadius = 7
+        ringInnerBorderShadow.shadowPath = CGPathCreateWithEllipseInRect(CGRectInset(frame,4,4), nil)
+        ringInnerBorderShadow.shadowOffset = CGSize(width: 0.0, height: 0.0)
+        
+        imageLayer = CALayer()
+        imageLayer?.borderWidth = kBorderWidth
+        imageLayer?.frame = frame
+        imageLayer?.shadowColor = NSColor.blackColor().CGColor
+        imageLayer?.mask = ringInnerBorderMaskLayer
+        imageLayer?.backgroundColor = NSColor.whiteColor().CGColor
+        
+        
+        
+        ringOutline.addSublayer(ring)
+        ring.addSublayer(ringInnerBorder)
+        ringInnerBorder.addSublayer(ringInnerBorderShadow)
+        ringInnerBorderShadow.addSublayer(imageLayer!)
+        headerView?.layer?.addSublayer(ringOutline)
+
     }
     
     func initializeContentView(){
