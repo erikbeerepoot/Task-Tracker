@@ -137,7 +137,7 @@ class EEBClientViewController: EEBBaseTableViewController,EEBSimpleTableCellView
                 clientRateView.stringValue = currentObject.rateString
             }
             
-            if let settingsButton = simpleCellView.viewWithTag(204) as? EEBBorderedPictureButton {
+            if let _ = simpleCellView.viewWithTag(204) as? EEBBorderedPictureButton {
             } else {
                 let settingsButtonRect = CGRectMake(0, kButtonOffset, kButtonHeight,kButtonHeight)
                 let settingsButton = EEBBorderedPictureButton(frame: settingsButtonRect)
