@@ -20,13 +20,13 @@ class EEBBorderedColourButton : NSButton {
     
     var borderColor =  NSColor(calibratedRed:0.816,green:0.007,blue:0.106,alpha:1.0) {
         didSet {
-            outlineLayer.backgroundColor = borderColor.CGColor
+            outlineLayer.backgroundColor = borderColor.cgColor
             outlineLayer.setNeedsDisplay()
         }
     }
     var backgroundColor =  NSColor(calibratedRed:0.988,green:0.835,blue:0.859,alpha:1.0) {
         didSet {
-            backgroundLayer.backgroundColor = backgroundColor.CGColor
+            backgroundLayer.backgroundColor = backgroundColor.cgColor
             backgroundLayer.setNeedsDisplay()
         }
     }
@@ -42,29 +42,29 @@ class EEBBorderedColourButton : NSButton {
         bounds = frame
         
         //turn off default "border"
-        self.bordered = false;
+        self.isBordered = false;
         self.wantsLayer = true
         
         //draw custom border & transparent background
         outlineLayer.frame = frameRect
-        outlineLayer.backgroundColor = borderColor.CGColor
+        outlineLayer.backgroundColor = borderColor.cgColor
         outlineLayer.cornerRadius = kCornerRadius
 
         backgroundLayer.frame.origin.x = frameRect.origin.x + 0.5
         backgroundLayer.frame.origin.y = frameRect.origin.y + 0.5
         backgroundLayer.frame.size.width = frameRect.size.width - 1
         backgroundLayer.frame.size.height = frameRect.size.height - 1
-        backgroundLayer.backgroundColor = NSColor.clearColor().CGColor
+        backgroundLayer.backgroundColor = NSColor.clear.cgColor
         backgroundLayer.cornerRadius = kCornerRadius
         
         textfield = NSTextField(frame: frameRect)
         textfield!.frame.origin.y -= 2
-        textfield!.bezeled = false
-        textfield!.editable = false
+        textfield!.isBezeled = false
+        textfield!.isEditable = false
         textfield!.drawsBackground = false
-        textfield!.alignment = .Center
+        textfield!.alignment = .center
         textfield!.font = NSFont(name: "Helvetica Neue Light", size: 12.0)
-        textfield!.textColor = NSColor.darkGrayColor()
+        textfield!.textColor = NSColor.darkGray
         
         addSubview(textfield!)
         layer?.addSublayer(outlineLayer)
@@ -78,29 +78,29 @@ class EEBBorderedColourButton : NSButton {
         bounds = frame
         
         //turn off default "border"
-        self.bordered = false;
+        self.isBordered = false;
         self.wantsLayer = true
         
         //draw custom border & transparent background
         outlineLayer.frame = frame
-        outlineLayer.backgroundColor = borderColor.CGColor
+        outlineLayer.backgroundColor = borderColor.cgColor
         outlineLayer.cornerRadius = kCornerRadius
         
         backgroundLayer.frame.origin.x = frame.origin.x + 0.5
         backgroundLayer.frame.origin.y = frame.origin.y + 0.5
         backgroundLayer.frame.size.width = frame.size.width - 1
         backgroundLayer.frame.size.height = frame.size.height - 1
-        backgroundLayer.backgroundColor = backgroundColor.CGColor
+        backgroundLayer.backgroundColor = backgroundColor.cgColor
         backgroundLayer.cornerRadius = kCornerRadius
         
         textfield = NSTextField(frame: frame)
         textfield!.frame.origin.y -= 2
-        textfield!.bezeled = false
-        textfield!.editable = false
+        textfield!.isBezeled = false
+        textfield!.isEditable = false
         textfield!.drawsBackground = false
-        textfield!.alignment = .Center
+        textfield!.alignment = .center
         textfield!.font = NSFont(name: "Helvetica Neue Light", size: 12.0)
-        textfield!.textColor = NSColor.darkGrayColor()
+        textfield!.textColor = NSColor.darkGray
         
         addSubview(textfield!)
         layer?.addSublayer(outlineLayer)

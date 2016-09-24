@@ -29,19 +29,19 @@ class EEBTimer {
      * @brief   Tries to start a new timing session for this job. 
      * @returns true on success, false on failure 
      */
-    func startTimingSession(job : Job) -> Bool {
+    func startTimingSession(_ job : Job) -> Bool {
         guard (currentSession == nil) else {
             return false;
         }
         
         //Create new timing session
         if let session = sm.createObjectOfType("TimingSession") as? TimingSession {
-            session.startDate = NSDate()
+            session.startDate = Date()
             session.endDate = session.startDate
             currentSession = session
             
-            job.addTimingSession(currentSession!)
-            NSNotificationCenter.defaultCenter().postNotificationName(kJobTimingSessionDidStartNotification, object: job)
+            job.addTimingSession(session: currentSession!)
+            NotificationCenter.default.post(name: Notification.Name(rawValue: kJobTimingSessionDidStartNotification), object: job)
             return true
         }
         return false
@@ -54,15 +54,15 @@ class EEBTimer {
      */
     func stopTimingSession() -> Bool {
         if(currentSession != nil){
-            currentSession!.endDate = NSDate()
+            currentSession!.endDate = Date()
             
             //Remove the last timing session we add (essentially a placeholder)
             let job = currentSession!.job
-            job.removeTimingSession(job.sessions.lastObject as! TimingSession)
-            job.addTimingSession(currentSession!)
+            job.removeTimingSession(session: job.sessions.lastObject as! TimingSession)
+            job.addTimingSession(session: currentSession!)
             
             currentSession = nil
-            NSNotificationCenter.defaultCenter().postNotificationName(kJobTimingSessionDidStopNotification, object: job)
+            NotificationCenter.default.post(name: Notification.Name(rawValue: kJobTimingSessionDidStopNotification), object: job)
             return true
         }
         return false;

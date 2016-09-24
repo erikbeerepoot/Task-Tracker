@@ -19,7 +19,7 @@ class EEBStatusToolbarItem : NSToolbarItem {
     }
     
     override func awakeFromNib() {
-        let frame = CGRectMake(0, 0, kStatusViewMinWidth,kRegularItemHeight)
+        let frame = CGRect(x: 0, y: 0, width: kStatusViewMinWidth,height: kRegularItemHeight)
         
         self.view = EEBStatusView(frame:frame)
         self.view?.frame = frame
@@ -73,10 +73,10 @@ class EEBStatusView : NSView {
         leftTextView?.stringValue = leftJustifiedText
         rightTextView?.stringValue = rightJustifiedText
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("didStartTimer:"), name: kJobTimingSessionDidStartNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("didStopTimer:"), name: kJobTimingSessionDidStopNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("updateDetailsText:"), name: kJobDidUpdateNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("updateDetailsText:"), name: kClientDidUpdateNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(EEBStatusView.didStartTimer(_:)), name: NSNotification.Name(rawValue: kJobTimingSessionDidStartNotification), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(EEBStatusView.didStopTimer(_:)), name: NSNotification.Name(rawValue: kJobTimingSessionDidStopNotification), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(EEBStatusView.updateDetailsText(_:)), name: NSNotification.Name(rawValue: kJobDidUpdateNotification), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(EEBStatusView.updateDetailsText(_:)), name: NSNotification.Name(rawValue: kClientDidUpdateNotification), object: nil)
     }
     
     
@@ -89,7 +89,7 @@ class EEBStatusView : NSView {
      * @brief   Called when the view hides (such as on minimize)
      */
     override func viewDidHide() {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+        NotificationCenter.default.removeObserver(self)
     }
 
     /**
@@ -97,10 +97,10 @@ class EEBStatusView : NSView {
      * @brief   Called when the view unhides (such as restoring window from the dock)
      */
     override func viewDidUnhide() {
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("didStartTimer:"), name: kJobTimingSessionDidStartNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("didStopTimer:"), name: kJobTimingSessionDidStopNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("updateDetailsText:"), name: kJobDidUpdateNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("updateDetailsText:"), name: kClientDidUpdateNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(EEBStatusView.didStartTimer(_:)), name: NSNotification.Name(rawValue: kJobTimingSessionDidStartNotification), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(EEBStatusView.didStopTimer(_:)), name: NSNotification.Name(rawValue: kJobTimingSessionDidStopNotification), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(EEBStatusView.updateDetailsText(_:)), name: NSNotification.Name(rawValue: kJobDidUpdateNotification), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(EEBStatusView.updateDetailsText(_:)), name: NSNotification.Name(rawValue: kClientDidUpdateNotification), object: nil)
 
         if(timerRunning){
             progressIndicator?.startAnimation(self)
@@ -111,30 +111,30 @@ class EEBStatusView : NSView {
      * @name    updateDetailsText
      * @brief   Update the details of a job in the status view
      */
-    func updateDetailsText(notification : NSNotification){
+    func updateDetailsText(_ notification : Notification){
         if let job = notification.object as? Job {
             leftTextView?.stringValue = "\(job.name) (\(job.client.name!))"
             leftTextView?.needsDisplay = true
         }
     }
     
-    func didStartTimer(notification : NSNotification){
-        self.progressIndicator?.hidden = false
+    func didStartTimer(_ notification : Notification){
+        self.progressIndicator?.isHidden = false
         self.progressIndicator?.startAnimation(self)
-        rightTextView?.hidden = false
+        rightTextView?.isHidden = false
         timerRunning = true
         
         if let job = notification.object as? Job{
             leftTextView?.stringValue = "\(job.name) (\(job.client.name!))"
 
             //Recursive closure to keep time updated!
-            func updateTimeWrapper(job : Job){
-                func updateTime(job : Job) -> () {
+            func updateTimeWrapper(_ job : Job){
+                func updateTime(_ job : Job) -> () {
                     rightTextView?.stringValue = job.totalTimeString()
                     rightTextView?.needsDisplay = true
                     
                     if(timerRunning){
-                        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(kUpdateFrequency * Double(NSEC_PER_SEC))), dispatch_get_main_queue(),{
+                        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Double(Int64(kUpdateFrequency * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC),execute: {
                             updateTime(job)
                         })
                     }
@@ -146,15 +146,15 @@ class EEBStatusView : NSView {
     }
     
     
-    func didStopTimer(notification : NSNotification){
-        self.progressIndicator?.hidden = true
+    func didStopTimer(_ notification : Notification){
+        self.progressIndicator?.isHidden = true
         self.progressIndicator?.stopAnimation(self)
         timerRunning = false
         
         leftTextView?.stringValue = NSLocalizedString("Timer Stopped", comment: "Timer Stopped")
     }
 
-    func configureLayers(frame : CGRect){
+    func configureLayers(_ frame : CGRect){
         let backgroundLayer = CAGradientLayer()
         let gradientLayer = CAGradientLayer()
         
@@ -166,8 +166,8 @@ class EEBStatusView : NSView {
 
         
         var newFrame = frame
-        newFrame.size = CGSizeMake(frame.size.width-2, frame.size.height-2)
-        newFrame.origin = CGPointMake(frame.origin.x+1,frame.origin.y+1)
+        newFrame.size = CGSize(width: frame.size.width-2, height: frame.size.height-2)
+        newFrame.origin = CGPoint(x: frame.origin.x+1,y: frame.origin.y+1)
         gradientLayer.frame = newFrame;
         
         /*
@@ -175,14 +175,14 @@ class EEBStatusView : NSView {
          * the toolbar gradient, we use two grey gradients. One is dark, which creates 
          * the outline, the other is very light grey 
          */
-        let outlineStartColour = CGColorCreateGenericRGB(kOutlineStartColour,kOutlineStartColour,kOutlineStartColour, 1)
-        let outlineEndColour = CGColorCreateGenericRGB(kOutlineEndColour,kOutlineEndColour,kOutlineEndColour, 1)
+        let outlineStartColour = CGColor(red: kOutlineStartColour,green: kOutlineStartColour,blue: kOutlineStartColour, alpha: 1)
+        let outlineEndColour = CGColor(red: kOutlineEndColour,green: kOutlineEndColour,blue: kOutlineEndColour, alpha: 1)
         backgroundLayer.colors = [outlineStartColour,outlineEndColour]
         
-        let startColour = CGColorCreateGenericRGB(kVeryLightGrayValue,kVeryLightGrayValue,kVeryLightGrayValue, 1)
-        let endColour = CGColorCreateGenericRGB(kVeryLighterGrayValue, kVeryLighterGrayValue, kVeryLighterGrayValue, 1)
+        let startColour = CGColor(red: kVeryLightGrayValue,green: kVeryLightGrayValue,blue: kVeryLightGrayValue, alpha: 1)
+        let endColour = CGColor(red: kVeryLighterGrayValue, green: kVeryLighterGrayValue, blue: kVeryLighterGrayValue, alpha: 1)
         gradientLayer.colors = [startColour,endColour]
-        gradientLayer.autoresizingMask = .LayerWidthSizable
+        gradientLayer.autoresizingMask = .layerWidthSizable
         
         //Finally, round the corners
         gradientLayer.cornerRadius = kCornerRadius
@@ -201,12 +201,12 @@ class EEBStatusView : NSView {
     
     //TODO: These methods are really ugly. Fixme
     func setupProgressIndicator(){
-        let piFrame = CGRectMake(self.frame.size.width - kContentItemSize - kPadding, self.frame.origin.y + ((self.frame.size.height-kContentItemSize)/2), kContentItemSize, kContentItemSize)
+        let piFrame = CGRect(x: self.frame.size.width - kContentItemSize - kPadding, y: self.frame.origin.y + ((self.frame.size.height-kContentItemSize)/2), width: kContentItemSize, height: kContentItemSize)
         progressIndicator = NSProgressIndicator(frame: piFrame)
-        progressIndicator?.controlSize = NSControlSize.SmallControlSize
-        progressIndicator?.style = NSProgressIndicatorStyle.SpinningStyle
-        progressIndicator?.hidden = true
-        progressIndicator?.autoresizingMask = .ViewMinXMargin
+        progressIndicator?.controlSize = NSControlSize.small
+        progressIndicator?.style = NSProgressIndicatorStyle.spinningStyle
+        progressIndicator?.isHidden = true
+        progressIndicator?.autoresizingMask = .viewMinXMargin
         self.addSubview(progressIndicator!)
     }
     
@@ -216,48 +216,48 @@ class EEBStatusView : NSView {
         }
         
         //switch state
-        if(progressIndicator!.hidden){
-            progressIndicator?.hidden = false
+        if(progressIndicator!.isHidden){
+            progressIndicator?.isHidden = false
             progressIndicator?.startAnimation(self)
         } else {
-            progressIndicator?.hidden = true
+            progressIndicator?.isHidden = true
             progressIndicator?.stopAnimation(self)
         }
     }
     
-    func configureLeftJustifiedTextView(frame : CGRect){
+    func configureLeftJustifiedTextView(_ frame : CGRect){
         var textFieldFrame = frame;
         textFieldFrame.origin.x += kPadding
         textFieldFrame.origin.y -= kInset
         textFieldFrame.size.width = (frame.width - (progressIndicator!.frame.size.width +  kTimeFieldWidth + 2*kPadding))
         
         leftTextView = NSTextField(frame: textFieldFrame)
-        leftTextView?.editable = false
-        leftTextView?.bordered = false
-        leftTextView?.backgroundColor = NSColor.clearColor()
+        leftTextView?.isEditable = false
+        leftTextView?.isBordered = false
+        leftTextView?.backgroundColor = NSColor.clear
         leftTextView?.font = NSFont(name: "Helvetica Neue Light", size: 12)
-        leftTextView?.autoresizingMask = .ViewWidthSizable
+        leftTextView?.autoresizingMask = .viewWidthSizable
         self.addSubview(leftTextView!)
     }
     
     
-    func configureRightJustifiedTextView(frame : CGRect){
+    func configureRightJustifiedTextView(_ frame : CGRect){
         var textFieldFrame = frame;
         textFieldFrame.size.width = kTimeFieldWidth
         textFieldFrame.origin.y -= kInset
         textFieldFrame.origin.x = (progressIndicator?.frame.origin.x)! - (kPadding + textFieldFrame.size.width)
         
         rightTextView = NSTextField(frame: textFieldFrame)
-        rightTextView?.editable = false
-        rightTextView?.bordered = false
-        rightTextView?.backgroundColor = NSColor.clearColor()
+        rightTextView?.isEditable = false
+        rightTextView?.isBordered = false
+        rightTextView?.backgroundColor = NSColor.clear
         rightTextView?.font = NSFont(name: "Helvetica Neue Light", size: 12)
-        rightTextView?.hidden = true
-        rightTextView?.autoresizingMask = .ViewMinXMargin
+        rightTextView?.isHidden = true
+        rightTextView?.autoresizingMask = .viewMinXMargin
         self.addSubview(rightTextView!)
     }
     
     override func updateLayer() {
-        self.layer?.backgroundColor = NSColor.whiteColor().CGColor
+        self.layer?.backgroundColor = NSColor.white.cgColor
     }
 }

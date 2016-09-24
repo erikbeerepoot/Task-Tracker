@@ -12,8 +12,8 @@ import CoreData
 
 class Invoice: NSManagedObject {
     
-    class func createInvoiceForClient(client : Client,withJobs jobs : [Job], andStoreManager manager : EEBPersistentStoreManager) -> Invoice? {
-        let dirs = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true)
+    class func createInvoiceForClient(_ client : Client,withJobs jobs : [Job], andStoreManager manager : EEBPersistentStoreManager) -> Invoice? {
+        let dirs = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.documentDirectory, FileManager.SearchPathDomainMask.userDomainMask, true)
         if let documentDir = dirs.first {
             
             //Invoice parameters
@@ -27,13 +27,13 @@ class Invoice: NSManagedObject {
             //Add invoice to client
             if let invoice = manager.createObjectOfType("Invoice") as? Invoice {
                 invoice.client = client
-                invoice.dueDate = NSDate()
+                invoice.dueDate = Date()
                 invoice.invoiceDate = invoice.dueDate
                 invoice.paid = false
                 invoice.path = documentDir + "/" + fileName
                 invoice.name = fileName
                 
-                client.invoices.addObject(invoice)
+                client.invoices.add(invoice)
                 manager.save()
                 return invoice
             }

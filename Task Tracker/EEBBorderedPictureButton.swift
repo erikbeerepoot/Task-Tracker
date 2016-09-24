@@ -29,11 +29,11 @@ class EEBBorderedPictureButton : NSButton {
         super.init(frame: frameRect)
         
         //turn off default "border"
-        self.bordered = false;
+        self.isBordered = false;
         
         //draw custom border & transparent background
         layer = CALayer()
-        layer?.borderColor = NSColor.blackColor().CGColor
+        layer?.borderColor = NSColor.black.cgColor
         layer?.borderWidth = borderThickness
         layer?.cornerRadius = cornerRadius
     }
@@ -43,11 +43,11 @@ class EEBBorderedPictureButton : NSButton {
         super.init(coder: coder)
         
         //turn off default "border"
-        self.bordered = false;
+        self.isBordered = false;
         
         //draw custom border & transparent background
         wantsLayer = true
-        layer?.borderColor = NSColor.blackColor().CGColor
+        layer?.borderColor = NSColor.black.cgColor
         layer?.borderWidth = borderThickness
         layer?.cornerRadius = cornerRadius
     }

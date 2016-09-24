@@ -17,7 +17,7 @@ let kClientDidUpdateNotification = "ClientDidUpdateNotification"
 let kToolbarItemIdentifierRun = "runToolbarItem"
 let kToolbarItemIdentifierDelete = "deleteToolbarItem"
 let kToolbarItemIdentifierAdd = "addToolbarItem"
-let kUpdateFrequency : NSTimeInterval = 1.0
+let kUpdateFrequency : TimeInterval = 1.0
 
 
 /** Button appearance **/

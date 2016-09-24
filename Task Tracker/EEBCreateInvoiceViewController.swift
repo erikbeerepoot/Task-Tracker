@@ -19,12 +19,12 @@ class EEBCreateInvoiceViewController : NSViewController, NavigableViewController
     /**** Create subview ****/
     @IBOutlet weak var createOptionsView : NSView!
     
-    //constraint selection
+    //constrain selection
     @IBOutlet weak var chkbtn_selection : NSButton!
     @IBOutlet weak var chkbtn_dateRange : NSButton!
     @IBOutlet weak var chkbtn_expression : NSButton!
 
-    //constraint details
+    //constrain details
     @IBOutlet weak var fromDatePicker : NSDatePicker!
     @IBOutlet weak var toDatePicker : NSDatePicker!
     @IBOutlet weak var expressionField : NSTextField!
@@ -48,10 +48,10 @@ class EEBCreateInvoiceViewController : NSViewController, NavigableViewController
     
     override func viewDidLoad(){
         //Set navbar controls
-        let leftButton = EEBBorderedPictureButton(frame: CGRectMake(0,0,32,32))
+        let leftButton = EEBBorderedPictureButton(frame: CGRect(x: 0,y: 0,width: 32,height: 32))
         leftButton.image = NSImage(named:"arrow-left-black-48")
         leftButton.target = self
-        leftButton.action = Selector("back:")
+        leftButton.action = #selector(EEBCreateInvoiceViewController.back(_:))
         
         overlayView.leftBarButtonItems = [leftButton]
         overlayView.rightBarButtonItems = []
@@ -59,36 +59,36 @@ class EEBCreateInvoiceViewController : NSViewController, NavigableViewController
         
         //Set background colour
         let bgGradientLayer = CAGradientLayer()
-        bgGradientLayer.colors = [CGColorCreateGenericRGB(kGradientStartColour.red, kGradientStartColour.green, kGradientStartColour.blue, kContentOpacity),
-        CGColorCreateGenericRGB(kGradientEndColour.red, kGradientEndColour.green, kGradientEndColour.blue, kContentOpacity)]
+        bgGradientLayer.colors = [CGColor(red: kGradientStartColour.red, green: kGradientStartColour.green, blue: kGradientStartColour.blue, alpha: kContentOpacity),
+        CGColor(red: kGradientEndColour.red, green: kGradientEndColour.green, blue: kGradientEndColour.blue, alpha: kContentOpacity)]
         backgroundView.layer = bgGradientLayer
         
         //Create outline of options box
         createOptionsView.wantsLayer = true
         createOptionsView.layer?.borderWidth = kBorderWidth
         createOptionsView.layer?.cornerRadius = kCornerRadius
-        createOptionsView.layer?.borderColor = NSColor.whiteColor().CGColor
+        createOptionsView.layer?.borderColor = NSColor.white.cgColor
     }
     
     override func viewWillAppear() {
-        fromDatePicker.dateValue = NSDate()
-        toDatePicker.dateValue = NSDate()
+        fromDatePicker.dateValue = Date()
+        toDatePicker.dateValue = Date()
         
     }
     
-    @IBAction func create(sender : AnyObject){
+    @IBAction func create(_ sender : AnyObject){
         guard client != nil && storeManager != nil else {
             print("Client or Jobs is nil")
             return
         }
         
-        if let vc = self.storyboard?.instantiateControllerWithIdentifier("invoiceViewController") as? EEBInvoiceViewController {
+        if let vc = self.storyboard?.instantiateController(withIdentifier: "invoiceViewController") as? EEBInvoiceViewController {
 
             /*** Filter on selected jobs ***/
             if var jobsSubset = (chkbtn_selection.state == NSOnState) ? jobs : (client!.jobs.array as? [Job]) {
                 /*** Filter on date range ***/
                 if(chkbtn_dateRange.state == NSOnState){
-                    jobsSubset = Job.filterJobsByDate(jobs:jobsSubset,fromDate:fromDatePicker.dateValue,toDate:toDatePicker.dateValue)
+                    jobsSubset = Job.filterJobsByDate(jobs:jobsSubset,fromDate:fromDatePicker.dateValue ,toDate:toDatePicker.dateValue)
                 }
                 vc.invoice = Invoice.createInvoiceForClient(client!, withJobs: jobsSubset, andStoreManager: storeManager!)
                 
@@ -102,12 +102,12 @@ class EEBCreateInvoiceViewController : NSViewController, NavigableViewController
         }
     }
 
-    @IBAction func open(sender : AnyObject){
+    @IBAction func open(_ sender : AnyObject){
         print("Not implenented yet")
     }
     
     //MARK: Overlay actions
-    func back(sender : AnyObject){
+    func back(_ sender : AnyObject){
         self.navigationController?.popViewControllerAnimated(true)
     }
     

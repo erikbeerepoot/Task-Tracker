@@ -13,8 +13,8 @@ import Foundation
 import CoreData
 
 extension Invoice {
-    @NSManaged var dueDate: NSDate?
-    @NSManaged var invoiceDate: NSDate?
+    @NSManaged var dueDate: Date?
+    @NSManaged var invoiceDate: Date?
     @NSManaged var jobs: NSSet?
     @NSManaged var client : Client
     @NSManaged var paid : Bool

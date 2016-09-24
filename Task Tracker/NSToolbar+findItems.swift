@@ -10,7 +10,7 @@ import Foundation
 import AppKit
 
 extension NSToolbar {
-    func itemWithIdentifier(identifier : String) -> NSToolbarItem? {
+    func itemWithIdentifier(_ identifier : String) -> NSToolbarItem? {
         let items = self.items.filter({ ($0.itemIdentifier == identifier)})
         return items.first
     }

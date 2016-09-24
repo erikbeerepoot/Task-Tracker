@@ -10,12 +10,12 @@ import Foundation
 import AppKit
 
 enum EEBSimpleTableCellViewAccessoryType : Int {
-    case None
-    case DisclosureIndicator
+    case none
+    case disclosureIndicator
 }
 
 protocol EEBSimpleTableCellViewDelegate {
-    func disclosureButtonPressed(sender : AnyObject)
+    func disclosureButtonPressed(_ sender : AnyObject)
 }
 
 class EEBSimpleTableCellView : NSTableCellView,EEBSimpleTableCellViewDelegate {
@@ -49,22 +49,22 @@ class EEBSimpleTableCellView : NSTableCellView,EEBSimpleTableCellViewDelegate {
     var ringOutlineLayer : CALayer?
     var ringOutlineColor : NSColor = lightLightGray {
         didSet {
-            ringOutlineLayer?.backgroundColor = ringOutlineColor.CGColor
+            ringOutlineLayer?.backgroundColor = ringOutlineColor.cgColor
         }
     }
     
     var selected : Bool = false {
         didSet {
             //draw selection
-            outlineView?.layer?.backgroundColor = NSColor.whiteColor().CGColor
+            outlineView?.layer?.backgroundColor = NSColor.white.cgColor
             if(selected){
-                outlineView?.layer?.backgroundColor = NSColor(calibratedRed: kOutlineColourComponents.red, green: kOutlineColourComponents.green, blue: kOutlineColourComponents.blue, alpha: 1.0).CGColor
+                outlineView?.layer?.backgroundColor = NSColor(calibratedRed: kOutlineColourComponents.red, green: kOutlineColourComponents.green, blue: kOutlineColourComponents.blue, alpha: 1.0).cgColor
             }
 
         }
     }
     
-    var accessoryType : EEBSimpleTableCellViewAccessoryType = EEBSimpleTableCellViewAccessoryType.DisclosureIndicator
+    var accessoryType : EEBSimpleTableCellViewAccessoryType = EEBSimpleTableCellViewAccessoryType.disclosureIndicator
     
     
     //MARK: Frames
@@ -86,8 +86,8 @@ class EEBSimpleTableCellView : NSTableCellView,EEBSimpleTableCellViewDelegate {
     let kOutlineColourComponents = (red: CGFloat(0.2902), green : CGFloat(0.5647), blue : CGFloat(0.8863))
     let kBackgroundColourComponents = (red: CGFloat(0.9804), green : CGFloat(0.9804), blue : CGFloat(0.9804))
 
-    let kGradientStartColour = CGColorCreateGenericRGB(1, 1, 1,1.0)
-    let kGradientEndColour = CGColorCreateGenericRGB(0.9333, 0.9333, 0.9333,1.0)
+    let kGradientStartColour = CGColor(red: 1, green: 1, blue: 1,alpha: 1.0)
+    let kGradientEndColour = CGColor(red: 0.9333, green: 0.9333, blue: 0.9333,alpha: 1.0)
 
     
     
@@ -99,9 +99,9 @@ class EEBSimpleTableCellView : NSTableCellView,EEBSimpleTableCellViewDelegate {
     
     //MARK: Designated initializers
     override init(frame frameRect: NSRect) {
-        self.headerFrame = CGRectMake(0,0,0,0)
-        self.contentFrame = CGRectMake(0,0,0,0)
-        self.accessoryFrame = CGRectMake(0,0,0,0)
+        self.headerFrame = CGRect(x: 0,y: 0,width: 0,height: 0)
+        self.contentFrame = CGRect(x: 0,y: 0,width: 0,height: 0)
+        self.accessoryFrame = CGRect(x: 0,y: 0,width: 0,height: 0)
         
         super.init(frame: frameRect)
         initializeFrames(frame)
@@ -111,9 +111,9 @@ class EEBSimpleTableCellView : NSTableCellView,EEBSimpleTableCellViewDelegate {
     }
     
     required init?(coder: NSCoder) {
-        headerFrame = CGRectMake(0,0,0,0)
-        contentFrame = CGRectMake(0,0,0,0)
-        accessoryFrame = CGRectMake(0,0,0,0)
+        headerFrame = CGRect(x: 0,y: 0,width: 0,height: 0)
+        contentFrame = CGRect(x: 0,y: 0,width: 0,height: 0)
+        accessoryFrame = CGRect(x: 0,y: 0,width: 0,height: 0)
         
         super.init(coder: coder)
         initializeFrames(frame)
@@ -128,26 +128,26 @@ class EEBSimpleTableCellView : NSTableCellView,EEBSimpleTableCellViewDelegate {
         initializeAccessoryView(accessoryType)
         
         contentView!.translatesAutoresizingMaskIntoConstraints = false
-        contentView!.leadingAnchor.constraintEqualToAnchor(headerView?.leadingAnchor,constant:headerFrame.size.width + kAccessoryPadding).active = true
-        contentView!.topAnchor.constraintEqualToAnchor(headerView?.topAnchor).active = true
-        contentView!.bottomAnchor.constraintEqualToAnchor(headerView?.bottomAnchor).active = true
-        contentView!.trailingAnchor.constraintEqualToAnchor(accessoryView?.leadingAnchor,constant: -kAccessoryPadding).active = true
+        contentView!.leadingAnchor.constraint(equalTo: (headerView?.leadingAnchor)!,constant:headerFrame.size.width + kAccessoryPadding).isActive = true
+        contentView!.topAnchor.constraint(equalTo: (headerView?.topAnchor)!).isActive = true
+        contentView!.bottomAnchor.constraint(equalTo: (headerView?.bottomAnchor)!).isActive = true
+        contentView!.trailingAnchor.constraint(equalTo: (accessoryView?.leadingAnchor)!,constant: -kAccessoryPadding).isActive = true
 
         let distance = (((contentView?.bounds.size.height)! / 2) - (self.accessoryFrame.height/2))
         accessoryView!.translatesAutoresizingMaskIntoConstraints = false
-        accessoryView!.leadingAnchor.constraintEqualToAnchor(self.trailingAnchor,constant:-1*(accessoryFrame.size.width + kAccessoryPadding)).active = true
-        accessoryView!.topAnchor.constraintEqualToAnchor(contentView!.topAnchor,constant:distance).active = true
-        accessoryView!.bottomAnchor.constraintEqualToAnchor(contentView!.bottomAnchor,constant:-distance).active = true
-        accessoryView!.trailingAnchor.constraintEqualToAnchor(self.trailingAnchor,constant: -kAccessoryPadding).active = true
+        accessoryView!.leadingAnchor.constraint(equalTo: self.trailingAnchor,constant:-1*(accessoryFrame.size.width + kAccessoryPadding)).isActive = true
+        accessoryView!.topAnchor.constraint(equalTo: contentView!.topAnchor,constant:distance).isActive = true
+        accessoryView!.bottomAnchor.constraint(equalTo: contentView!.bottomAnchor,constant:-distance).isActive = true
+        accessoryView!.trailingAnchor.constraint(equalTo: self.trailingAnchor,constant: -kAccessoryPadding).isActive = true
         
         self.layer = CALayer()
         
         if(debugViews){
-            self.layer?.backgroundColor = NSColor.blackColor().CGColor
+            self.layer?.backgroundColor = NSColor.black.cgColor
         }
     }
     
-    func initializeFrames(frameRect : CGRect){
+    func initializeFrames(_ frameRect : CGRect){
         let ratio = frameRect.size.height / (2*kVerticalPadding + kHeaderSize)
         
         //Scale the row relative to our total frame size
@@ -158,14 +158,14 @@ class EEBSimpleTableCellView : NSTableCellView,EEBSimpleTableCellViewDelegate {
         let accessoryPadding = kAccessoryPadding * ratio
         
         //header frame is leftmost
-        self.headerFrame = CGRectMake(frameRect.origin.x + headerPadding, frameRect.origin.y + verticalPadding, headerSize, headerSize)
+        self.headerFrame = CGRect(x: frameRect.origin.x + headerPadding, y: frameRect.origin.y + verticalPadding, width: headerSize, height: headerSize)
         
         //accessory view is rightmost
-        self.accessoryFrame = CGRectMake(frameRect.origin.x + frameRect.size.width - (accessoryPadding+accessorySize) , frameRect.origin.y + verticalPadding + 0.5*(headerSize - accessorySize), accessorySize, accessorySize)
+        self.accessoryFrame = CGRect(x: frameRect.origin.x + frameRect.size.width - (accessoryPadding+accessorySize) , y: frameRect.origin.y + verticalPadding + 0.5*(headerSize - accessorySize), width: accessorySize, height: accessorySize)
         
         //content frame is the middle of the cell
         let contentFrameStart_x = self.headerFrame.origin.x + self.headerFrame.size.width + kAccessoryPadding
-        self.contentFrame = CGRectMake(contentFrameStart_x, self.headerFrame.origin.y,self.accessoryFrame.origin.x - contentFrameStart_x - kAccessoryPadding, headerSize)
+        self.contentFrame = CGRect(x: contentFrameStart_x, y: self.headerFrame.origin.y,width: self.accessoryFrame.origin.x - contentFrameStart_x - kAccessoryPadding, height: headerSize)
 
     }
     
@@ -174,21 +174,21 @@ class EEBSimpleTableCellView : NSTableCellView,EEBSimpleTableCellViewDelegate {
         )
         let insetView = NSView(frame: insetFrame)
         insetView.layer = CALayer()
-        insetView.layer?.backgroundColor = NSColor.whiteColor().CGColor
+        insetView.layer?.backgroundColor = NSColor.white.cgColor
         outlineView!.addSubview(insetView)
         self.addSubview(outlineView!)
         
         outlineView!.translatesAutoresizingMaskIntoConstraints = false
-        outlineView!.leadingAnchor.constraintEqualToAnchor(self.leadingAnchor).active = true
-        outlineView!.topAnchor.constraintEqualToAnchor(self.topAnchor).active = true
-        outlineView!.bottomAnchor.constraintEqualToAnchor(self.bottomAnchor).active = true
-        outlineView!.trailingAnchor.constraintEqualToAnchor(self.trailingAnchor).active = true
+        outlineView!.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
+        outlineView!.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
+        outlineView!.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
+        outlineView!.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
         
         insetView.translatesAutoresizingMaskIntoConstraints = false
-        insetView.leadingAnchor.constraintEqualToAnchor(self.outlineView!.leadingAnchor,constant: kSelectionOutlineThickness).active = true
-        insetView.topAnchor.constraintEqualToAnchor(self.outlineView!.topAnchor, constant: kSelectionOutlineThickness).active = true
-        insetView.bottomAnchor.constraintEqualToAnchor(self.outlineView!.bottomAnchor , constant: -kSelectionOutlineThickness).active = true
-        insetView.trailingAnchor.constraintEqualToAnchor(self.outlineView!.trailingAnchor,constant: -kSelectionOutlineThickness).active = true
+        insetView.leadingAnchor.constraint(equalTo: self.outlineView!.leadingAnchor,constant: kSelectionOutlineThickness).isActive = true
+        insetView.topAnchor.constraint(equalTo: self.outlineView!.topAnchor, constant: kSelectionOutlineThickness).isActive = true
+        insetView.bottomAnchor.constraint(equalTo: self.outlineView!.bottomAnchor , constant: -kSelectionOutlineThickness).isActive = true
+        insetView.trailingAnchor.constraint(equalTo: self.outlineView!.trailingAnchor,constant: -kSelectionOutlineThickness).isActive = true
 
     }
     
@@ -198,7 +198,7 @@ class EEBSimpleTableCellView : NSTableCellView,EEBSimpleTableCellViewDelegate {
         //configure as layer-hosting view
         headerView?.wantsLayer = true;
         if(debugViews){
-            headerView?.layer?.backgroundColor = NSColor.redColor().CGColor
+            headerView?.layer?.backgroundColor = NSColor.red.cgColor
         }
         
         self.addSubview(headerView!)
@@ -208,15 +208,15 @@ class EEBSimpleTableCellView : NSTableCellView,EEBSimpleTableCellViewDelegate {
     }
     
     func drawHeaderOutline(){
-        let frame = CGRectMake(0, 0, headerFrame.size.width , headerFrame.size.height)
+        let frame = CGRect(x: 0, y: 0, width: headerFrame.size.width , height: headerFrame.size.height)
 
         /*** Outside border ***/
         let ringOutline = CALayer()
         ringOutline.frame = frame
-        ringOutline.backgroundColor = lightLightGray.CGColor
+        ringOutline.backgroundColor = lightLightGray.cgColor
         
         let ringOutlineMaskLayer = CAShapeLayer()
-        ringOutlineMaskLayer.path = CGPathCreateWithEllipseInRect(CGRectInset(frame,0,0), nil)
+        ringOutlineMaskLayer.path = CGPath(ellipseIn: frame.insetBy(dx: 0,dy: 0), transform: nil)
         ringOutline.mask = ringOutlineMaskLayer
         ringOutlineLayer = ringOutline
         
@@ -226,38 +226,38 @@ class EEBSimpleTableCellView : NSTableCellView,EEBSimpleTableCellViewDelegate {
         ring.colors = [kGradientStartColour,kGradientEndColour]
         
         let ringMaskLayer = CAShapeLayer()
-        ringMaskLayer.path = CGPathCreateWithEllipseInRect(CGRectInset(frame,1.0,1.0), nil)
+        ringMaskLayer.path = CGPath(ellipseIn: frame.insetBy(dx: 1.0,dy: 1.0), transform: nil)
         ring.mask = ringMaskLayer
 
         //mask the inner layer
         let maskLayer = CAShapeLayer()
-        maskLayer.path = CGPathCreateWithEllipseInRect(CGRectInset(frame,5,5), nil)
+        maskLayer.path = CGPath(ellipseIn: frame.insetBy(dx: 5,dy: 5), transform: nil)
 
 
         /*** Inner border ***/
         let ringInnerBorder = CALayer()
         ringInnerBorder.frame = frame
-        ringInnerBorder.backgroundColor = lightLightGray.CGColor
+        ringInnerBorder.backgroundColor = lightLightGray.cgColor
         
         let ringInnerBorderMaskLayer = CAShapeLayer()
-        ringInnerBorderMaskLayer.path = CGPathCreateWithEllipseInRect(CGRectInset(frame,7,7), nil)
+        ringInnerBorderMaskLayer.path = CGPath(ellipseIn: frame.insetBy(dx: 7,dy: 7), transform: nil)
         ringInnerBorder.mask = maskLayer
 
         let ringInnerBorderShadow = CALayer()
         ringInnerBorderShadow.frame = frame
         
-        ringInnerBorderShadow.shadowColor = NSColor.darkGrayColor().CGColor
+        ringInnerBorderShadow.shadowColor = NSColor.darkGray.cgColor
         ringInnerBorderShadow.shadowOpacity = 0.7
         ringInnerBorderShadow.shadowRadius = 7
-        ringInnerBorderShadow.shadowPath = CGPathCreateWithEllipseInRect(CGRectInset(frame,4,4), nil)
+        ringInnerBorderShadow.shadowPath = CGPath(ellipseIn: frame.insetBy(dx: 4,dy: 4), transform: nil)
         ringInnerBorderShadow.shadowOffset = CGSize(width: 0.0, height: 0.0)
         
         imageLayer = CALayer()
         imageLayer?.borderWidth = kBorderWidth
         imageLayer?.frame = frame
-        imageLayer?.shadowColor = NSColor.blackColor().CGColor
+        imageLayer?.shadowColor = NSColor.black.cgColor
         imageLayer?.mask = ringInnerBorderMaskLayer
-        imageLayer?.backgroundColor = NSColor.whiteColor().CGColor
+        imageLayer?.backgroundColor = NSColor.white.cgColor
         
         
         
@@ -275,67 +275,67 @@ class EEBSimpleTableCellView : NSTableCellView,EEBSimpleTableCellViewDelegate {
         contentView?.layer = CALayer()
         contentView?.wantsLayer = true
         if(debugViews){
-            contentView?.layer?.backgroundColor = NSColor.yellowColor().CGColor
+            contentView?.layer?.backgroundColor = NSColor.yellow.cgColor
         }
         self.addSubview(contentView!)
         
     }
     
-    func initializeAccessoryView(accessoryType : EEBSimpleTableCellViewAccessoryType){
+    func initializeAccessoryView(_ accessoryType : EEBSimpleTableCellViewAccessoryType){
         accessoryView = NSView(frame: accessoryFrame)
         
         switch accessoryType {
-        case EEBSimpleTableCellViewAccessoryType.DisclosureIndicator:
+        case EEBSimpleTableCellViewAccessoryType.disclosureIndicator:
             /** 
              * We create 3 layers, stacked on top of each other. The root layer is blue, and we overlay
              * an inset white layer to create a 0.5 pt outline. The third layer contains the indicator
              */
             accessoryView?.layer = CALayer()
             accessoryView?.wantsLayer = true;
-            accessoryView?.layer?.backgroundColor = CGColorCreateGenericRGB(kOutlineColourComponents.red, kOutlineColourComponents.green, kOutlineColourComponents.blue, 1.0)
+            accessoryView?.layer?.backgroundColor = CGColor(red: kOutlineColourComponents.red, green: kOutlineColourComponents.green, blue: kOutlineColourComponents.blue, alpha: 1.0)
             accessoryView?.layer?.cornerRadius = kCornerRadius
             
             let backgroundLayer = CALayer()
-            backgroundLayer.frame = CGRectMake(0.5, 0.5, accessoryFrame.size.width - 1.0 , accessoryFrame.size.height - 1.0)
-            backgroundLayer.backgroundColor = CGColorCreateGenericRGB(kBackgroundColourComponents.red,kBackgroundColourComponents.green,kBackgroundColourComponents.blue,1.0)
+            backgroundLayer.frame = CGRect(x: 0.5, y: 0.5, width: accessoryFrame.size.width - 1.0 , height: accessoryFrame.size.height - 1.0)
+            backgroundLayer.backgroundColor = CGColor(red: kBackgroundColourComponents.red,green: kBackgroundColourComponents.green,blue: kBackgroundColourComponents.blue,alpha: 1.0)
             backgroundLayer.cornerRadius = kCornerRadius
             accessoryView!.layer!.addSublayer(backgroundLayer)
             createDisclosureButton(backgroundLayer.frame)
             
             
-        case EEBSimpleTableCellViewAccessoryType.None:
+        case EEBSimpleTableCellViewAccessoryType.none:
             break;
         }
        
         
         if(debugViews){
-            accessoryView?.layer?.backgroundColor = NSColor.blueColor().CGColor
+            accessoryView?.layer?.backgroundColor = NSColor.blue.cgColor
         }
         
         self.addSubview(accessoryView!)
     }
     
-    func createDisclosureButton(frame : CGRect){
+    func createDisclosureButton(_ frame : CGRect){
         //add button
         let disclosureButton = EEBBorderedPictureButton(frame: frame)
         disclosureButton.target = self
-        disclosureButton.action = Selector("disclosureButtonPressed:")
+        disclosureButton.action = #selector(EEBSimpleTableCellView.disclosureButtonPressed(_:))
         
         let imageLayer = CALayer()
         imageLayer.frame = frame
-        imageLayer.contents = getTintedImage(NSImage(named: kDisclosureImageName)!,tint: NSColor(CGColor: (accessoryView?.layer?.backgroundColor!)!)!)
+        imageLayer.contents = getTintedImage(NSImage(named: kDisclosureImageName)!,tint: NSColor(cgColor: (accessoryView?.layer?.backgroundColor!)!)!)
         accessoryView!.addSubview(disclosureButton)
         accessoryView!.layer!.addSublayer(imageLayer)
     }
     
-    func getTintedImage(image:NSImage, tint:NSColor) -> NSImage {
+    func getTintedImage(_ image:NSImage, tint:NSColor) -> NSImage {
         
         let tinted = image.copy() as! NSImage
         tinted.lockFocus()
         tint.set()
         
         let imageRect = NSRect(origin: NSZeroPoint, size: image.size)
-        NSRectFillUsingOperation(imageRect, NSCompositingOperation.CompositeSourceAtop)
+        NSRectFillUsingOperation(imageRect, NSCompositingOperation.sourceAtop)
         
         tinted.unlockFocus()
         return tinted
@@ -345,7 +345,7 @@ class EEBSimpleTableCellView : NSTableCellView,EEBSimpleTableCellViewDelegate {
      * @name    disclosureButtonPressed
      * @brief   Placeholder for disclosure button delegate method.
      */
-    func disclosureButtonPressed(sender: AnyObject) {
+    func disclosureButtonPressed(_ sender: AnyObject) {
         delegate?.disclosureButtonPressed(self)
     }
     

@@ -22,8 +22,8 @@ class Job: NSManagedObject {
      * @brief   Adds a timing session to this job
      */
     func addTimingSession(session : TimingSession) {
-        let ses = self.mutableOrderedSetValueForKey("sessions")
-        ses.addObject(session)
+        let ses = self.mutableOrderedSetValue(forKey: "sessions")
+        ses.add(session)
         sessions = ses
     }
     
@@ -32,8 +32,8 @@ class Job: NSManagedObject {
      * @brief removes a timing session from this job
      */
     func removeTimingSession(session : TimingSession) {
-        let ses = self.mutableOrderedSetValueForKey("sessions")
-        ses.removeObject(session)
+        let ses = self.mutableOrderedSetValue(forKey: "sessions")
+        ses.remove(session)
         sessions = ses
     }
     
@@ -41,16 +41,16 @@ class Job: NSManagedObject {
      * @name       totalTime
      * @brief       Returns the total time of this job as an NSTimeInterval (aka Double)
      */
-    func totalTime() -> NSTimeInterval {
-        var time : NSTimeInterval = 0
+    func totalTime() -> TimeInterval {
+        var time : TimeInterval = 0
         if let nativeSpecializedSet = sessions.set as?  Set<TimingSession>{
-            time = nativeSpecializedSet.reduce(0) { $0 + ($1.endDate).timeIntervalSinceDate($1.startDate)}
+            time = nativeSpecializedSet.reduce(0) { $0 + ($1.endDate).timeIntervalSince($1.startDate)}
         }
         
         //If we haven't stopped the last sessions yet, we need to compare against the current time
         if let lastSession = sessions.lastObject as? TimingSession {
             if(lastSession.startDate == lastSession.endDate){
-               time += NSDate().timeIntervalSinceDate(lastSession.startDate)
+               time += NSDate().timeIntervalSince(lastSession.startDate)
             }
         }        
         return time
@@ -63,7 +63,7 @@ class Job: NSManagedObject {
      * @brief Returns the total time of this job as a string
      */
     func totalTimeString() -> String {
-        return NSTimeInterval.timeIntervalToString(totalTime())
+        return TimeInterval.timeIntervalToString(totalTime())
     }
         
     /************************************************************
@@ -75,9 +75,11 @@ class Job: NSManagedObject {
      * @brief   Returns the cost of this job as a string
      */
     func cost() -> String {
-        let formatter = NSNumberFormatter()
-        formatter.numberStyle = NSNumberFormatterStyle.CurrencyStyle
-        let cost = formatter.stringFromNumber(computeCost())
+        let formatter = NumberFormatter()
+                        
+        formatter.numberStyle = NumberFormatter.Style.currency
+        
+        let cost = formatter.string(from: NSNumber(value:computeCost()))
         return (cost == nil) ? "" : cost!
     }
     
@@ -92,11 +94,15 @@ class Job: NSManagedObject {
         return (r*(time/3600))
     }
     
-    class func filterJobsByDate(jobs jobs : [Job], fromDate : NSDate, toDate : NSDate) -> [Job]{
-        var outJobs = jobs
-        outJobs = outJobs.filter({$0.creationDate.earlierDate(fromDate).isEqualToDate(fromDate)})
-        outJobs = outJobs.filter({$0.creationDate.laterDate(toDate).isEqualToDate(toDate)})
-        return outJobs
+    class func filterJobsByDate(jobs : [Job], fromDate : Date, toDate : Date) -> [Job]{
+//        var outJobs = jobs
+//        outJobs = outJobs.filter({$0.creationDate.
+////            earlierDate(fromDate).isEqualToDate(fromDate)})
+//        outJobs = outJobs.filter({$0.creationDate.laterDate(toDate).isEqualToDate(toDate)})
+//        return outJobs
+        
+//        var outJobs = jobs.filter({($0.creationDate as NSDate).(earlierDate(fromDate) as NSDate).isEqual(toDate) })
+        return jobs
     }
     
 }

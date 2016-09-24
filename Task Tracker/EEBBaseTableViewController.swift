@@ -32,7 +32,7 @@ class EEBBaseTableViewController : NSViewController, NSTableViewDataSource, NSTa
     
     var lastSelectedRowIndex : Int = -1 
     
-    var selectedObject : AnyObject? {
+    var selectedObject : Any? {
         let idx = self.tableView.selectedRow
         if(idx == -1 ){
             return nil
@@ -48,7 +48,7 @@ class EEBBaseTableViewController : NSViewController, NSTableViewDataSource, NSTa
     }
     
     override func viewWillAppear() {
-        self.view.layer?.backgroundColor = NSColor.whiteColor().CGColor
+        self.view.layer?.backgroundColor = NSColor.white.cgColor
     }
     
     override func viewDidAppear() {
@@ -61,53 +61,53 @@ class EEBBaseTableViewController : NSViewController, NSTableViewDataSource, NSTa
         }
     }
     
-    override var representedObject: AnyObject? {
+    override var representedObject: Any? {
         didSet {
             // Update the view, if already loaded.
         }
     }
     
-    func textfieldEdited(sender : NSTextField){
-        let rowIdx = tableView.rowForView(sender)
+    func textfieldEdited(_ sender : NSTextField){
+        let rowIdx = tableView.row(for: sender)
         if(rowIdx != -1){
             let obj = sm?.allObjectsOfType(self.kTVObjectType)?[rowIdx]
-            obj?.setValue(sender.stringValue, forKey: sender.identifier!)
+            (obj as AnyObject).setValue(sender.stringValue, forKey: sender.identifier!)
             sm?.save()
         }
     }
     
     //MARK: TableView methods
-    func tableView(tableView: NSTableView, heightOfRow row: Int) -> CGFloat {
+    func tableView(_ tableView: NSTableView, heightOfRow row: Int) -> CGFloat {
         return kRowHeight
     }
     
-    func numberOfRowsInTableView(tableView: NSTableView) -> Int {
+    func numberOfRows(in tableView: NSTableView) -> Int {
         return (sm?.allObjectsOfType(kTVObjectType) != nil) ? sm!.allObjectsOfType(kTVObjectType)!.count : 0
     }
     
-    @IBAction func add(sender : AnyObject){
+    @IBAction func add(_ sender : AnyObject){
         assert(false,"Add erroneously called on base object!")
     }
     
-    @IBAction func remove(sender : AnyObject){
+    @IBAction func remove(_ sender : AnyObject){
         assert(false,"Remove erroneously called on base object!")
     }
     
-    @IBAction func run(sender : AnyObject){
+    @IBAction func run(_ sender : AnyObject){
         assert(false,"Run erroneously called on base object!")
     }
 
-    func redo(sender : AnyObject){
+    func redo(_ sender : AnyObject){
         sm?.managedObjectContext?.undoManager?.redo()
         tableView.reloadData()
     }
     
-    func undo(sender : AnyObject){
+    func undo(_ sender : AnyObject){
         sm?.managedObjectContext?.undoManager?.undo()
         tableView.reloadData()
     }
     
-    func back(sender : AnyObject){
+    func back(_ sender : AnyObject){
         self.navigationController?.popViewControllerAnimated(true)
     }
     

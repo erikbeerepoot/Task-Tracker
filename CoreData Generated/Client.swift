@@ -12,20 +12,20 @@ import CoreData
 
 class Client: NSManagedObject {
 
-    lazy var formatter : NSNumberFormatter =  {
-        let tempFormatter = NSNumberFormatter()
-        tempFormatter.numberStyle = NSNumberFormatterStyle.CurrencyStyle
+    lazy var formatter : NumberFormatter =  {
+        let tempFormatter = NumberFormatter()
+        tempFormatter.numberStyle = NumberFormatter.Style.currency
         return tempFormatter
     }()
     
     
     var rateString : String {
         get {
-            let rateStr = formatter.stringFromNumber(hourlyRate)
+            let rateStr = formatter.string(from: hourlyRate)
             return (rateStr != nil) ? rateStr! : hourlyRate.stringValue
         }
         set {
-            let r = formatter.numberFromString(newValue)
+            let r = formatter.number(from: newValue)
             hourlyRate = (r != nil) ? r! : 0.0
         }
     }    

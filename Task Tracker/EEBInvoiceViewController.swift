@@ -21,15 +21,15 @@ class EEBInvoiceViewController : NSViewController,NavigableViewController {
     
     override func viewDidLoad(){
         //Set overlay buttons
-        let leftButton = EEBBorderedPictureButton(frame: CGRectMake(0,0,32,32))
+        let leftButton = EEBBorderedPictureButton(frame: CGRect(x: 0,y: 0,width: 32,height: 32))
         leftButton.image = NSImage(named:"arrow-left-black-48")
         leftButton.target = self
-        leftButton.action = Selector("back:")
+        leftButton.action = #selector(EEBInvoiceViewController.back(_:))
         
-        let shareButton = EEBBorderedPictureButton(frame: CGRectMake(0,0,32,32))
+        let shareButton = EEBBorderedPictureButton(frame: CGRect(x: 0,y: 0,width: 32,height: 32))
         shareButton.image = NSImage(named:"share-48")
         shareButton.target = self
-        shareButton.action = Selector("share:")
+        shareButton.action = #selector(EEBInvoiceViewController.share(_:))
         
         overlayView.leftBarButtonItems = [leftButton]
         overlayView.rightBarButtonItems = [shareButton]
@@ -38,24 +38,24 @@ class EEBInvoiceViewController : NSViewController,NavigableViewController {
     }
     
     override func viewDidAppear() {
-         customSpacerView.layer?.backgroundColor = CGColorCreateGenericRGB(overlayView.kGradientStartColour.red, overlayView.kGradientStartColour.green, overlayView.kGradientStartColour.blue, 1.0)
+         customSpacerView.layer?.backgroundColor = CGColor(red: overlayView.kGradientStartColour.red, green: overlayView.kGradientStartColour.green, blue: overlayView.kGradientStartColour.blue, alpha: 1.0)
         
         guard invoice != nil else {
             print("No invoice set to display");
             return
         }
         
-        let url = NSURL(string: "file://" + invoice.path)
-        let pdfDocument = PDFDocument(URL: url!)
-        pdfView.setDocument(pdfDocument)
+        let url = URL(string: "file://" + invoice.path)
+        let pdfDocument = PDFDocument(url: url!)
+        pdfView.document = pdfDocument
     }
     
     //MARK: Overlay actions
-    func back(sender : AnyObject){
+    func back(_ sender : AnyObject){
         self.navigationController?.popViewControllerAnimated(true)
     }
     
-    func share(sender : AnyObject){
+    func share(_ sender : AnyObject){
         //stub
     }
 

@@ -28,6 +28,8 @@
 		0382E6C31BF3ED29002CABF5 /* constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0382E6C21BF3ED29002CABF5 /* constants.swift */; };
 		0382E6C51BF407DD002CABF5 /* stop32.png in Resources */ = {isa = PBXBuildFile; fileRef = 0382E6C41BF407DD002CABF5 /* stop32.png */; };
 		0382E6C71BF4086B002CABF5 /* pause32.png in Resources */ = {isa = PBXBuildFile; fileRef = 0382E6C61BF4086B002CABF5 /* pause32.png */; };
+		0395F9161C66637200CBF166 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0395F9141C66637200CBF166 /* Fabric.framework */; };
+		0395F9171C66637200CBF166 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0395F9151C66637200CBF166 /* Crashlytics.framework */; };
 		039A836F1BFADC4B00BD64C7 /* share-48.png in Resources */ = {isa = PBXBuildFile; fileRef = 039A836E1BFADC4B00BD64C7 /* share-48.png */; };
 		03A9F5CD1C0234680041A954 /* NSToolbar+findItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03A9F5CC1C0234680041A954 /* NSToolbar+findItems.swift */; };
 		03A9F5CF1C0240890041A954 /* EEBTimingSessionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03A9F5CE1C0240890041A954 /* EEBTimingSessionsViewController.swift */; };
@@ -93,6 +95,8 @@
 		0382E6C21BF3ED29002CABF5 /* constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = constants.swift; sourceTree = "<group>"; };
 		0382E6C41BF407DD002CABF5 /* stop32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = stop32.png; sourceTree = "<group>"; };
 		0382E6C61BF4086B002CABF5 /* pause32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pause32.png; sourceTree = "<group>"; };
+		0395F9141C66637200CBF166 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Fabric.framework; path = ../Fabric.framework; sourceTree = "<group>"; };
+		0395F9151C66637200CBF166 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Crashlytics.framework; path = ../Crashlytics.framework; sourceTree = "<group>"; };
 		039A836E1BFADC4B00BD64C7 /* share-48.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "share-48.png"; sourceTree = "<group>"; };
 		03A9F5CC1C0234680041A954 /* NSToolbar+findItems.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSToolbar+findItems.swift"; sourceTree = "<group>"; };
 		03A9F5CE1C0240890041A954 /* EEBTimingSessionsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EEBTimingSessionsViewController.swift; sourceTree = "<group>"; };
@@ -133,6 +137,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0395F9171C66637200CBF166 /* Crashlytics.framework in Frameworks */,
+				0395F9161C66637200CBF166 /* Fabric.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -186,6 +192,15 @@
 			name = Helper;
 			sourceTree = "<group>";
 		};
+		0395F9181C66638700CBF166 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				0395F9141C66637200CBF166 /* Fabric.framework */,
+				0395F9151C66637200CBF166 /* Crashlytics.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		03A9F5CB1C0234470041A954 /* Categories */ = {
 			isa = PBXGroup;
 			children = (
@@ -236,6 +251,7 @@
 		03B67D131BE11793005CD45E /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				0395F9181C66638700CBF166 /* Frameworks */,
 				03054E761C06A0DC0067CF8C /* Invoice Templates */,
 				032A88D21BE69831005AC234 /* Material design */,
 				03B67D161BE117C7005CD45E /* Images */,
@@ -336,6 +352,7 @@
 				03C2699C1BDF2ABB00DAA4E7 /* Sources */,
 				03C2699D1BDF2ABB00DAA4E7 /* Frameworks */,
 				03C2699E1BDF2ABB00DAA4E7 /* Resources */,
+				0395F9131C66635700CBF166 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -376,9 +393,11 @@
 				TargetAttributes = {
 					03C2699F1BDF2ABB00DAA4E7 = {
 						CreatedOnToolsVersion = 7.1;
+						LastSwiftMigration = 0800;
 					};
 					03C269B01BDF2ABB00DAA4E7 = {
 						CreatedOnToolsVersion = 7.1;
+						LastSwiftMigration = 0800;
 						TestTargetID = 03C2699F1BDF2ABB00DAA4E7;
 					};
 				};
@@ -436,6 +455,22 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		0395F9131C66635700CBF166 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "./Fabric.framework/run d5c7a009fe4dfc74bfd76f5ec7241e705f815acd 2704ceaf537117e9d10ad763ecf5cfbb311990df5ed9426c297926e626949264\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		03C2699C1BDF2ABB00DAA4E7 /* Sources */ = {
@@ -592,12 +627,17 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = "Task Tracker/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.barefootsystems.Task-Tracker";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -606,12 +646,17 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = "Task Tracker/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.barefootsystems.Task-Tracker";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
@@ -624,6 +669,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.barefootsystems.Task-TrackerTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Task Tracker.app/Contents/MacOS/Task Tracker";
 			};
 			name = Debug;
@@ -637,6 +683,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.barefootsystems.Task-TrackerTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Task Tracker.app/Contents/MacOS/Task Tracker";
 			};
 			name = Release;

@@ -7,36 +7,35 @@
 //
 
 import Cocoa
+import Fabric
+import Crashlytics
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
 
 
 
-    func applicationDidFinishLaunching(aNotification: NSNotification) {
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("didStartTimer:"), name: kJobTimingSessionDidStartNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("didStopTimer:"), name: kJobTimingSessionDidStopNotification, object: nil)
-
-        
-        
-
+    func applicationDidFinishLaunching(_ aNotification: Notification) {
+        NotificationCenter.default.addObserver(self, selector: #selector(AppDelegate.didStartTimer(_:)), name: NSNotification.Name(rawValue: kJobTimingSessionDidStartNotification), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(AppDelegate.didStopTimer(_:)), name: NSNotification.Name(rawValue: kJobTimingSessionDidStopNotification), object: nil)
+        Fabric.with([Crashlytics.self])
     }
 
-    func applicationWillTerminate(aNotification: NSNotification) {
+    func applicationWillTerminate(_ aNotification: Notification) {
         // Insert code here to tear down your application
-        if let navigationController = NSApplication.sharedApplication().keyWindow?.contentViewController as? EEBNavigationController {
+        if let navigationController = NSApplication.shared().keyWindow?.contentViewController as? EEBNavigationController {
             navigationController.applicationWillTerminate()
         }
         
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+        NotificationCenter.default.removeObserver(self)
     }
     
 
-    func didStartTimer(notification : NSNotification){
+    func didStartTimer(_ notification : Notification){
         NSApp.applicationIconImage = NSImage(named:"watch_icon_play")
     }
     
-    func didStopTimer(notification : NSNotification){
+    func didStopTimer(_ notification : Notification){
         NSApp.applicationIconImage = nil
     }
 

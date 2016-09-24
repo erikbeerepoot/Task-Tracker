@@ -31,24 +31,24 @@ class EEBJobViewController: EEBBaseTableViewController, NSTextFieldDelegate, EEB
     }
     
     override func viewDidLoad() {
-        tableView.doubleAction = Selector("doubleClicked:")
+        tableView.doubleAction = #selector(EEBJobViewController.doubleClicked(_:))
         tableView.target = self
         
         //Set overlay buttons
-        let leftButton = EEBBorderedPictureButton(frame: CGRectMake(0,0,32,32))
+        let leftButton = EEBBorderedPictureButton(frame: CGRect(x: 0,y: 0,width: 32,height: 32))
         leftButton.image = NSImage(named:"arrow-left-black-48")
         leftButton.target = self
-        leftButton.action = Selector("back:")
+        leftButton.action = #selector(EEBBaseTableViewController.back(_:))
         
-        let btn_createInvoice = EEBBorderedPictureButton(frame: CGRectMake(0,0,32,32))
+        let btn_createInvoice = EEBBorderedPictureButton(frame: CGRect(x: 0,y: 0,width: 32,height: 32))
         btn_createInvoice.image = NSImage(named:"note-plus-48")
         btn_createInvoice.target = self
-        btn_createInvoice.action = Selector("createInvoice:")
+        btn_createInvoice.action = #selector(EEBJobViewController.createInvoice(_:))
 
-        let btn_showInvoices = EEBBorderedPictureButton(frame: CGRectMake(0,0,32,32))
+        let btn_showInvoices = EEBBorderedPictureButton(frame: CGRect(x: 0,y: 0,width: 32,height: 32))
         btn_showInvoices.image = NSImage(named:"note-48")
         btn_showInvoices.target = self
-        btn_showInvoices.action = Selector("showInvoices:")
+        btn_showInvoices.action = #selector(EEBJobViewController.showInvoices(_:))
         
         overlayView.leftBarButtonItems = [leftButton]
         overlayView.rightBarButtonItems = [btn_showInvoices,btn_createInvoice]
@@ -56,23 +56,23 @@ class EEBJobViewController: EEBBaseTableViewController, NSTextFieldDelegate, EEB
         customSpacerView.layer? = CALayer()
         
         if(timer != nil && timer!.running){
-            lastSelectedRowIndex = client!.jobs.indexOfObject(timer!.job!)
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(kUpdateFrequency * Double(NSEC_PER_SEC))), dispatch_get_main_queue(),updateRow)
+            lastSelectedRowIndex = client!.jobs.index(of: timer!.job!)
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Double(Int64(kUpdateFrequency * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC),execute: updateRow)
         }
     }
     
     override func viewDidAppear() {
                 updateToolbarItems()
-        customSpacerView.layer?.backgroundColor = CGColorCreateGenericRGB(overlayView.kGradientStartColour.red, overlayView.kGradientStartColour.green, overlayView.kGradientStartColour.blue, 1.0)
+        customSpacerView.layer?.backgroundColor = CGColor(red: overlayView.kGradientStartColour.red, green: overlayView.kGradientStartColour.green, blue: overlayView.kGradientStartColour.blue, alpha: 1.0)
     }
     
     
-    func tableView(tableView: NSTableView, objectValueForTableColumn tableColumn: NSTableColumn?, row: Int) -> AnyObject? {
+    func tableView(_ tableView: NSTableView, objectValueForTableColumn tableColumn: NSTableColumn?, row: Int) -> AnyObject? {
         //stub
         return nil;
     }
     
-    func tableView(tableView: NSTableView, viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView? {
+    func tableView(_ tableView: NSTableView, viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView? {
         guard (client != nil  && client!.jobs.count > row) else {
             return nil
         }
@@ -83,32 +83,32 @@ class EEBJobViewController: EEBBaseTableViewController, NSTextFieldDelegate, EEB
         
         switch(tableColumn!.identifier){
             case kNameColumnIdentifier:
-                if let cellView = tableView.makeViewWithIdentifier("nameCell", owner: self) as? NSTableCellView{
+                if let cellView = tableView.make(withIdentifier: "nameCell", owner: self) as? NSTableCellView{
                     cellView.textField?.stringValue = currentJob.name
                     cellView.textField?.delegate = self
-                    cellView.textField?.editable = true
+                    cellView.textField?.isEditable = true
                     cellView.textField?.target = self
-                    cellView.textField?.action = Selector("textfieldEdited:")
+                    cellView.textField?.action = #selector(EEBBaseTableViewController.textfieldEdited(_:))
                     cellView.textField?.identifier = "name"
                     return cellView
                 }
                 
                 break;
             case kDescriptionColumnIdentifier:
-                if let cellView = tableView.makeViewWithIdentifier("nameCell", owner: self) as? NSTableCellView{
+                if let cellView = tableView.make(withIdentifier: "nameCell", owner: self) as? NSTableCellView{
                     cellView.textField?.stringValue = (currentJob.jobDescription == nil) ? "" : currentJob.jobDescription!
-                    cellView.textField?.editable = true
+                    cellView.textField?.isEditable = true
                     cellView.textField?.delegate = self
                     cellView.textField?.target = self
-                    cellView.textField?.action = Selector("textfieldEdited:")
+                    cellView.textField?.action = #selector(EEBBaseTableViewController.textfieldEdited(_:))
                     cellView.textField?.identifier = "jobDescription"
                     return cellView
                 }
                 break;
             case kTimeColumnIdentifier:
-                if let cellView = tableView.makeViewWithIdentifier("nameCell", owner: self) as? NSTableCellView {
+                if let cellView = tableView.make(withIdentifier: "nameCell", owner: self) as? NSTableCellView {
                     cellView.textField?.stringValue = currentJob.totalTimeString()
-                    cellView.textField?.editable = false
+                    cellView.textField?.isEditable = false
                     
                     //embed recessed button
 //                    let quickAdd = NSButton(frame: CGRectMake(cellView.frame.size.width - tableView.rowHeight ,0,tableView.rowHeight,tableView.rowHeight))
@@ -122,9 +122,9 @@ class EEBJobViewController: EEBBaseTableViewController, NSTextFieldDelegate, EEB
                 }
                 break;
             case kCostColumnIdentifier:
-                if let cellView = tableView.makeViewWithIdentifier("nameCell", owner: self) as? NSTableCellView{
+                if let cellView = tableView.make(withIdentifier: "nameCell", owner: self) as? NSTableCellView{
                     cellView.textField?.stringValue = currentJob.cost()
-                    cellView.textField?.editable = false
+                    cellView.textField?.isEditable = false
                     return cellView
                 }
                 break
@@ -134,15 +134,15 @@ class EEBJobViewController: EEBBaseTableViewController, NSTextFieldDelegate, EEB
         return view
     }
     
-    override func numberOfRowsInTableView(tableView: NSTableView) -> Int {
+    override func numberOfRows(in tableView: NSTableView) -> Int {
         return (client == nil || client?.jobs == nil) ? 0 : (client?.jobs.count)!
     }
     
-    func tableView(tableView: NSTableView, shouldSelectRow row: Int) -> Bool {
+    func tableView(_ tableView: NSTableView, shouldSelectRow row: Int) -> Bool {
         return true
     }
     
-    func tableViewSelectionDidChange(notification: NSNotification) {
+    func tableViewSelectionDidChange(_ notification: Notification) {
         if(tableView.selectedRow != -1){
             lastSelectedRowIndex = tableView.selectedRow
         }
@@ -152,10 +152,10 @@ class EEBJobViewController: EEBBaseTableViewController, NSTextFieldDelegate, EEB
     
     func updateToolbarItems(){
         let items = self.view.window?.toolbar?.items.filter({$0.itemIdentifier == kToolbarItemIdentifierRun})
-        items?.first?.enabled = (tableView.selectedRow != -1) || ((items?.first?.view as! NSButton).state == NSOnState)
+        items?.first?.isEnabled = (tableView.selectedRow != -1) || ((items?.first?.view as! NSButton).state == NSOnState)
         
         let deleteItems = self.view.window?.toolbar?.items.filter({$0.itemIdentifier == kToolbarItemIdentifierDelete})
-        deleteItems?.first?.enabled = (tableView.selectedRow != -1) || ((deleteItems?.first?.view as! NSButton).state == NSOnState)
+        deleteItems?.first?.isEnabled = (tableView.selectedRow != -1) || ((deleteItems?.first?.view as! NSButton).state == NSOnState)
     }
     
     /**
@@ -163,7 +163,7 @@ class EEBJobViewController: EEBBaseTableViewController, NSTextFieldDelegate, EEB
      * @brief   Method called to update the model when a textfield in the tableview has been changed
      */
 
-    override func textfieldEdited(sender: NSTextField) {
+    override func textfieldEdited(_ sender: NSTextField) {
         guard tableView.selectedRow != -1  else {
             return 
         }
@@ -173,41 +173,41 @@ class EEBJobViewController: EEBBaseTableViewController, NSTextFieldDelegate, EEB
             sm!.save()
             
             if(timer!.running){
-                NSNotificationCenter.defaultCenter().postNotificationName(kJobDidUpdateNotification, object: currentJob)
+                NotificationCenter.default.post(name: Notification.Name(rawValue: kJobDidUpdateNotification), object: currentJob)
             }
         }
     }
     
     
-    override func controlTextDidBeginEditing(obj: NSNotification) {
+    override func controlTextDidBeginEditing(_ obj: Notification) {
         editing = true
     }
     
-    override func controlTextDidEndEditing(obj: NSNotification) {
+    override func controlTextDidEndEditing(_ obj: Notification) {
         editing = false
     }
     
-    func doubleClicked(sender : AnyObject){
-        if(sender.clickedColumn == tableView.columnWithIdentifier(kTimeColumnIdentifier)){
+    func doubleClicked(_ sender : AnyObject){
+        if(sender.clickedColumn == tableView.column(withIdentifier: kTimeColumnIdentifier)){
             let currentJob = client?.jobs[sender.clickedRow] as? Job
-            if let vc = self.storyboard?.instantiateControllerWithIdentifier("timingViewController") as? EEBTimingSessionsViewController {
+            if let vc = self.storyboard?.instantiateController(withIdentifier: "timingViewController") as? EEBTimingSessionsViewController {
                 vc.job = currentJob
                 vc.delegate = self
                 vc.sm = sm
                 
                 let popover = NSPopover()
                 popover.delegate = vc
-                popover.behavior = .Transient
+                popover.behavior = .transient
                 popover.contentViewController = vc
                 popover.contentSize = vc.view.bounds.size
-                popover.showRelativeToRect(NSMakeRect(0, 0, 50, 50), ofView: tableView.viewAtColumn(sender.clickedColumn, row: sender.clickedRow, makeIfNecessary: false)!, preferredEdge: NSRectEdge.MinY)
+                popover.show(relativeTo: NSMakeRect(0, 0, 50, 50), of: tableView.view(atColumn: sender.clickedColumn, row: sender.clickedRow, makeIfNecessary: false)!, preferredEdge: NSRectEdge.minY)
                 vc.popover = popover
                 
             }
             
         } else {
-            let view = tableView.viewAtColumn(sender.clickedColumn, row: sender.clickedRow, makeIfNecessary: false) as? NSTableCellView
-            if view?.textField?.editable == true {
+            let view = tableView.view(atColumn: sender.clickedColumn, row: sender.clickedRow, makeIfNecessary: false) as? NSTableCellView
+            if view?.textField?.isEditable == true {
                 view?.window?.makeFirstResponder(view?.textField)
             }
         }
@@ -227,31 +227,31 @@ class EEBJobViewController: EEBBaseTableViewController, NSTextFieldDelegate, EEB
             return
         }
         
-        if let currentJob = timer?.job, jobIdx = client?.jobs.indexOfObject(timer!.job!) {
+        if let currentJob = timer?.job, let jobIdx = client?.jobs.index(of: timer!.job!) {
             
             let timeCellView = tableView(tableView, viewForTableColumn: NSTableColumn(identifier:kTimeColumnIdentifier), row: jobIdx) as? NSTableCellView
             let costCellView = tableView(tableView, viewForTableColumn: NSTableColumn(identifier: kCostColumnIdentifier), row: jobIdx) as? NSTableCellView
             timeCellView?.textField?.stringValue = currentJob.totalTimeString()
             costCellView?.textField?.stringValue = currentJob.cost()
             
-            let idxSet = NSMutableIndexSet(index: tableView.columnWithIdentifier(kTimeColumnIdentifier))
-            idxSet.addIndex(tableView.columnWithIdentifier(kCostColumnIdentifier))
+            let idxSet = NSMutableIndexSet(index: tableView.column(withIdentifier: kTimeColumnIdentifier))
+            idxSet.add(tableView.column(withIdentifier: kCostColumnIdentifier))
             
             tableView.beginUpdates()
-            tableView.reloadDataForRowIndexes(NSIndexSet(index:jobIdx), columnIndexes: idxSet)
+            tableView.reloadData(forRowIndexes: IndexSet(integer:jobIdx), columnIndexes: idxSet as IndexSet)
             tableView.endUpdates()
         }
         
         //repeat
         if(timer!.running){
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(kUpdateFrequency * Double(NSEC_PER_SEC))), dispatch_get_main_queue(),updateRow)
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Double(Int64(kUpdateFrequency * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC),execute: updateRow)
         }
     }
     
     //MARK: IBActions
     
     //Remove the selected job from the DB
-    override func remove(sender : AnyObject){
+    override func remove(_ sender : AnyObject){
         guard tableView.selectedRowIndexes.count > 0 && editing == false  else {
             return
         }
@@ -264,7 +264,7 @@ class EEBJobViewController: EEBBaseTableViewController, NSTextFieldDelegate, EEB
     }
     
     //Add a new item of type Job to the DB
-    override func add(sender : AnyObject){
+    override func add(_ sender : AnyObject){
         guard editing == false else {
             return
         }
@@ -272,8 +272,8 @@ class EEBJobViewController: EEBBaseTableViewController, NSTextFieldDelegate, EEB
         if let createdObject = sm!.createObjectOfType(self.kTVObjectType) as? Job {
             createdObject.name = "Untitled Job"
             createdObject.client = client!
-            createdObject.creationDate = NSDate()
-            client!.jobs.addObject(createdObject)
+            createdObject.creationDate = Date()
+            client!.jobs.add(createdObject)
             sm!.save()
         }
         self.tableView.reloadData()
@@ -286,12 +286,12 @@ class EEBJobViewController: EEBBaseTableViewController, NSTextFieldDelegate, EEB
     }
     
     //MARK: Overlay actions
-    override func back(sender : AnyObject){
+    override func back(_ sender : AnyObject){
         self.navigationController?.popViewControllerAnimated(true)
     }
     
-    func showInvoices(sender : AnyObject){
-        if let vc = self.storyboard?.instantiateControllerWithIdentifier("listInvoicesViewController") as? EEBListInvoicesViewController {
+    func showInvoices(_ sender : AnyObject){
+        if let vc = self.storyboard?.instantiateController(withIdentifier: "listInvoicesViewController") as? EEBListInvoicesViewController {
             vc.navigationController = self.navigationController
             vc.storeManager = sm
             vc.client = client
@@ -300,14 +300,14 @@ class EEBJobViewController: EEBBaseTableViewController, NSTextFieldDelegate, EEB
         }
     }
     
-    func createInvoice(sender : AnyObject){
-        if let vc = self.storyboard?.instantiateControllerWithIdentifier("createInvoiceViewController") as? EEBCreateInvoiceViewController {
+    func createInvoice(_ sender : AnyObject){
+        if let vc = self.storyboard?.instantiateController(withIdentifier: "createInvoiceViewController") as? EEBCreateInvoiceViewController {
             vc.navigationController = self.navigationController
             vc.storeManager = sm
             vc.client = client
             
             //Set set of selected jobs
-            if let jobs = client!.jobs.objectsAtIndexes(tableView.selectedRowIndexes) as? [Job] {
+            if let jobs = client!.jobs.objects(at: tableView.selectedRowIndexes) as? [Job] {
                 vc.jobs = jobs
             }
             
@@ -320,7 +320,7 @@ class EEBJobViewController: EEBBaseTableViewController, NSTextFieldDelegate, EEB
      * @brief Method called when the run button is pressed. Note that part of the 
      * run functionality is in the ClientViewController class
       */
-    override func run(sender : AnyObject){
+    override func run(_ sender : AnyObject){
         guard(timer != nil && editing == false) else {
             return
         }
@@ -330,10 +330,10 @@ class EEBJobViewController: EEBBaseTableViewController, NSTextFieldDelegate, EEB
             if(result){
                 (sender as! NSButton).state = NSOffState
             }
-            (sender as! NSButton).enabled = (tableView.selectedRow != -1)
+            (sender as! NSButton).isEnabled = (tableView.selectedRow != -1)
         } else {
             guard (tableView.selectedRow != -1) else {
-                (sender as! NSButton).enabled = false
+                (sender as! NSButton).isEnabled = false
                 return
             }
             
@@ -342,7 +342,7 @@ class EEBJobViewController: EEBBaseTableViewController, NSTextFieldDelegate, EEB
                 if(result){
                     (sender as! NSButton).state = NSOnState
                     //Periodically update the appropriate row
-                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(kUpdateFrequency * Double(NSEC_PER_SEC))), dispatch_get_main_queue(),updateRow)
+                    DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Double(Int64(kUpdateFrequency * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC),execute: updateRow)
                     
                 }
             }

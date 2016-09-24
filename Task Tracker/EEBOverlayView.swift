@@ -8,6 +8,26 @@
 
 import Foundation
 import AppKit
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l > r
+  default:
+    return rhs < lhs
+  }
+}
+
 
 class EEBOverlayView : NSView {
     
@@ -46,9 +66,9 @@ class EEBOverlayView : NSView {
     var overlayTextField : NSTextField? = nil;
     
     //MARK: View frames
-    var leftItemsFrame : CGRect = CGRectMake(0,0,0,0)
-    var contentFrame: CGRect = CGRectMake(0,0,0,0)
-    var rightItemsFrame : CGRect = CGRectMake(0,0,0,0)
+    var leftItemsFrame : CGRect = CGRect(x: 0,y: 0,width: 0,height: 0)
+    var contentFrame: CGRect = CGRect(x: 0,y: 0,width: 0,height: 0)
+    var rightItemsFrame : CGRect = CGRect(x: 0,y: 0,width: 0,height: 0)
     
     //MARK: Appearance constants
     //layout
@@ -81,35 +101,35 @@ class EEBOverlayView : NSView {
         configureRightItemsView()
         
         contentView!.translatesAutoresizingMaskIntoConstraints = false
-        contentView!.leadingAnchor.constraintEqualToAnchor(leftItemsView?.trailingAnchor,constant: kLeftPadding).active = true
-        contentView!.topAnchor.constraintEqualToAnchor(leftItemsView?.topAnchor).active = true
-        contentView!.bottomAnchor.constraintEqualToAnchor(leftItemsView?.bottomAnchor).active = true
-        contentView!.trailingAnchor.constraintEqualToAnchor(rightItemsView?.leadingAnchor,constant: -kLeftPadding).active = true
+        contentView!.leadingAnchor.constraint(equalTo: (leftItemsView?.trailingAnchor)!,constant: kLeftPadding).isActive = true
+        contentView!.topAnchor.constraint(equalTo: (leftItemsView?.topAnchor)!).isActive = true
+        contentView!.bottomAnchor.constraint(equalTo: (leftItemsView?.bottomAnchor)!).isActive = true
+        contentView!.trailingAnchor.constraint(equalTo: (rightItemsView?.leadingAnchor)!,constant: -kLeftPadding).isActive = true
         
-        overlayTextField!.setContentHuggingPriority(NSLayoutPriority(1), forOrientation: NSLayoutConstraintOrientation.Horizontal)
+        overlayTextField!.setContentHuggingPriority(NSLayoutPriority(1), for: NSLayoutConstraintOrientation.horizontal)
         
         overlayTextField!.translatesAutoresizingMaskIntoConstraints = false
-        overlayTextField!.leadingAnchor.constraintEqualToAnchor(contentView?.leadingAnchor).active = true
-        overlayTextField!.topAnchor.constraintEqualToAnchor(contentView?.topAnchor).active = true
-        overlayTextField!.bottomAnchor.constraintEqualToAnchor(contentView?.bottomAnchor).active = true
-        overlayTextField!.trailingAnchor.constraintEqualToAnchor(contentView?.trailingAnchor).active = true
+        overlayTextField!.leadingAnchor.constraint(equalTo: (contentView?.leadingAnchor)!).isActive = true
+        overlayTextField!.topAnchor.constraint(equalTo: (contentView?.topAnchor)!).isActive = true
+        overlayTextField!.bottomAnchor.constraint(equalTo: (contentView?.bottomAnchor)!).isActive = true
+        overlayTextField!.trailingAnchor.constraint(equalTo: (contentView?.trailingAnchor)!).isActive = true
 
         
         layer = CAGradientLayer()
-        (layer as! CAGradientLayer).colors  = [CGColorCreateGenericRGB(kGradientStartColour.red, kGradientStartColour.green, kGradientStartColour.blue, kContentOpacity),
-                                                    CGColorCreateGenericRGB(kGradientEndColour.red, kGradientEndColour.green, kGradientEndColour.blue, kContentOpacity)]
+        (layer as! CAGradientLayer).colors  = [CGColor(red: kGradientStartColour.red, green: kGradientStartColour.green, blue: kGradientStartColour.blue, alpha: kContentOpacity),
+                                                    CGColor(red: kGradientEndColour.red, green: kGradientEndColour.green, blue: kGradientEndColour.blue, alpha: kContentOpacity)]
         if(debugViews){
-            self.layer?.backgroundColor = NSColor.blackColor().CGColor
+            self.layer?.backgroundColor = NSColor.black.cgColor
         }
         
         let dropShadow = NSShadow()
-        dropShadow.shadowColor = NSColor.grayColor()
+        dropShadow.shadowColor = NSColor.gray
         dropShadow.shadowOffset = NSMakeSize(0,-4.0)
         dropShadow.shadowBlurRadius = 4.0
         self.shadow = dropShadow
     }
     
-    func back(sender : AnyObject){
+    func back(_ sender : AnyObject){
         NSLog("back")
     }
 
@@ -120,7 +140,7 @@ class EEBOverlayView : NSView {
     /**
      * @name    initializeFrames
      * @brief   Initializes the subview frames for 1 item each
-     **/    func initializeFrames(frameRect : CGRect){
+     **/    func initializeFrames(_ frameRect : CGRect){
         //We must have room to show the overlay
         assert(kElementSize <= frameRect.size.height)
 
@@ -128,14 +148,14 @@ class EEBOverlayView : NSView {
         let verticalPadding = 0.5*(frameRect.size.height - kElementSize)
         
         //header frame is leftmost
-        leftItemsFrame = CGRectMake(kLeftPadding,verticalPadding,kElementSize,kElementSize)
+        leftItemsFrame = CGRect(x: kLeftPadding,y: verticalPadding,width: kElementSize,height: kElementSize)
         
         //accessory view is rightmost
-        rightItemsFrame = CGRectMake(frameRect.size.width - (2*kElementSize + kElementPadding + kRightPadding),verticalPadding, 2*kElementSize + kElementPadding, kElementSize)
+        rightItemsFrame = CGRect(x: frameRect.size.width - (2*kElementSize + kElementPadding + kRightPadding),y: verticalPadding, width: 2*kElementSize + kElementPadding, height: kElementSize)
         
         //content frame is the middle of the cell
         let contentFrameStart_x = self.leftItemsFrame.origin.x + self.leftItemsFrame.size.width + kLeftPadding
-        contentFrame = CGRectMake(contentFrameStart_x, self.leftItemsFrame.origin.y,self.rightItemsFrame.origin.x - contentFrameStart_x - kLeftPadding, kElementSize)
+        contentFrame = CGRect(x: contentFrameStart_x, y: self.leftItemsFrame.origin.y,width: self.rightItemsFrame.origin.x - contentFrameStart_x - kLeftPadding, height: kElementSize)
     }
     
     func configureLeftItemsView(){
@@ -143,7 +163,7 @@ class EEBOverlayView : NSView {
         leftItemsView?.layer = CALayer()
         leftItemsView?.wantsLayer = true
         if(debugViews){
-            leftItemsView?.layer?.backgroundColor = NSColor.redColor().CGColor
+            leftItemsView?.layer?.backgroundColor = NSColor.red.cgColor
         }
         self.addSubview(leftItemsView!)
     }
@@ -153,18 +173,18 @@ class EEBOverlayView : NSView {
         contentView?.layer = CALayer()
         contentView?.wantsLayer = true
         if(debugViews){
-            contentView?.layer?.backgroundColor = NSColor.yellowColor().CGColor
+            contentView?.layer?.backgroundColor = NSColor.yellow.cgColor
         }
         self.addSubview(contentView!)
         
         overlayTextField = NSTextField(frame: contentView!.frame)
         overlayTextField!.font = NSFont(name: "Helvetica Neue Light", size: 25.0)
-        overlayTextField!.alignment = .Center
-        overlayTextField!.backgroundColor = NSColor.clearColor()
-        overlayTextField!.bordered = false
-        overlayTextField!.focusRingType = .None
-        overlayTextField!.selectable = false
-        overlayTextField!.editable = false
+        overlayTextField!.alignment = .center
+        overlayTextField!.backgroundColor = NSColor.clear
+        overlayTextField!.isBordered = false
+        overlayTextField!.focusRingType = .none
+        overlayTextField!.isSelectable = false
+        overlayTextField!.isEditable = false
         self.addSubview(overlayTextField!)
     }
 
@@ -174,28 +194,28 @@ class EEBOverlayView : NSView {
         rightItemsView?.wantsLayer = true
         
         if(debugViews){
-            rightItemsView?.layer?.backgroundColor = NSColor.greenColor().CGColor
+            rightItemsView?.layer?.backgroundColor = NSColor.green.cgColor
         }
         self.addSubview(rightItemsView!)
 
-        rightItemsView?.autoresizingMask = .ViewMinXMargin
+        rightItemsView?.autoresizingMask = .viewMinXMargin
     }
     
     func configureDefaultButtons() {
         //defaut left button
-        let leftButton = EEBBorderedPictureButton(frame: CGRectMake(0,0,32,32))
+        let leftButton = EEBBorderedPictureButton(frame: CGRect(x: 0,y: 0,width: 32,height: 32))
         leftButton.image = NSImage(named:"arrow-left-black-48")
         leftButton.target = self
-        leftButton.action = Selector("back:")
+        leftButton.action = #selector(EEBOverlayView.back(_:))
         leftBarButtonItems = [leftButton]
 
         
-        let settingsButton = EEBBorderedPictureButton(frame: CGRectMake(0,0,32,32))
+        let settingsButton = EEBBorderedPictureButton(frame: CGRect(x: 0,y: 0,width: 32,height: 32))
         settingsButton.image = NSImage(named:"settings-48")
         settingsButton.target = self
         settingsButton.action = Selector("settings:")
         
-        let invoicesButton = EEBBorderedPictureButton(frame: CGRectMake(32+kElementPadding,0,32,32))
+        let invoicesButton = EEBBorderedPictureButton(frame: CGRect(x: 32+kElementPadding,y: 0,width: 32,height: 32))
         invoicesButton.image = NSImage(named:"square-inc-cash-48")
         invoicesButton.target = self
         invoicesButton.action = Selector("invoices:")

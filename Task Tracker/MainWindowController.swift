@@ -12,7 +12,6 @@ import AppKit
 class MainWindowController : NSWindowController {
  
     override func windowDidLoad() {
-        self.window?.titleVisibility = NSWindowTitleVisibility.Hidden;
-        self.window?.styleMask |= NSFullSizeContentViewWindowMask;
+        self.window?.titleVisibility = NSWindowTitleVisibility.hidden;
     }
 }

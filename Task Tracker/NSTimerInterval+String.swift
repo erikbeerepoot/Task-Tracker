@@ -8,20 +8,20 @@
 
 import Foundation
 
-extension NSTimeInterval {
-    static func timeIntervalToString(timeInterval : NSTimeInterval) -> String {
-        let formatter = NSDateComponentsFormatter()
-        formatter.zeroFormattingBehavior = .Pad
-        formatter.allowedUnits = [NSCalendarUnit.Hour , NSCalendarUnit.Minute, NSCalendarUnit.Second]
-        let string = formatter.stringFromTimeInterval(timeInterval)
+extension TimeInterval {
+    static func timeIntervalToString(_ timeInterval : TimeInterval) -> String {
+        let formatter = DateComponentsFormatter()
+        formatter.zeroFormattingBehavior = .pad
+        formatter.allowedUnits = [NSCalendar.Unit.hour , NSCalendar.Unit.minute, NSCalendar.Unit.second]
+        let string = formatter.string(from: timeInterval)
         return string!
     }
     
-    static func timeIntervalFromString(string : String) -> NSTimeInterval {
-        let formatter = NSDateFormatter()
+    static func timeIntervalFromString(_ string : String) -> TimeInterval {
+        let formatter = DateFormatter()
         formatter.dateFormat = "hh:mm:ss"
-        if let date = formatter.dateFromString(string),referenceDate = formatter.dateFromString("00:00:00") {
-            return date.timeIntervalSinceDate(referenceDate)
+        if let date = formatter.date(from: string),let referenceDate = formatter.date(from: "00:00:00") {
+            return date.timeIntervalSince(referenceDate)
         }
         return -1.0
     }

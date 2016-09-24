@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15D9c" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="15D9c" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="9531"/>
-        <plugIn identifier="com.apple.pdfkit.ibplugin" version="9531"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="9532"/>
+        <plugIn identifier="com.apple.pdfkit.ibplugin" version="9532"/>
         <capability name="stacking Non-gravity area distributions on NSStackView" minToolsVersion="7.0" minSystemVersion="10.11"/>
     </dependencies>
     <scenes>
@@ -1528,8 +1528,8 @@
                                     <customView translatesAutoresizingMaskIntoConstraints="NO" id="6er-qZ-W9M">
                                         <rect key="frame" x="0.0" y="0.0" width="534" height="357"/>
                                         <subviews>
-                                            <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ApT-7y-2ve">
-                                                <rect key="frame" x="95" y="39" width="344" height="277"/>
+                                            <customView ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ApT-7y-2ve">
+                                                <rect key="frame" x="95" y="40" width="344" height="277"/>
                                                 <subviews>
                                                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mha-Rc-hjK">
                                                         <rect key="frame" x="259" y="1" width="73" height="32"/>
@@ -1597,8 +1597,15 @@
                                                 </subviews>
                                             </customView>
                                         </subviews>
+                                        <constraints>
+                                            <constraint firstItem="ApT-7y-2ve" firstAttribute="centerY" secondItem="6er-qZ-W9M" secondAttribute="centerY" id="gne-a6-i9n"/>
+                                            <constraint firstItem="ApT-7y-2ve" firstAttribute="centerX" secondItem="6er-qZ-W9M" secondAttribute="centerX" id="qfc-3B-zo2"/>
+                                        </constraints>
                                     </customView>
                                 </subviews>
+                                <constraints>
+                                    <constraint firstItem="6er-qZ-W9M" firstAttribute="width" secondItem="PX2-hi-JY6" secondAttribute="width" id="irQ-Ff-UTq"/>
+                                </constraints>
                                 <visibilityPriorities>
                                     <integer value="1000"/>
                                     <integer value="1000"/>
@@ -1621,7 +1628,7 @@
                     <connections>
                         <outlet property="backgroundView" destination="6er-qZ-W9M" id="bZG-L2-qfT"/>
                         <outlet property="customSpacerView" destination="xxn-U3-miw" id="QTD-mO-2Kw"/>
-                        <outlet property="customView" destination="ApT-7y-2ve" id="tHM-Sp-oWe"/>
+                        <outlet property="listInvoicesBackgroundView" destination="84Y-Yu-QMC" id="Jbv-eu-D4N"/>
                         <outlet property="overlayView" destination="Ru4-zg-znn" id="kzL-PQ-OHA"/>
                         <outlet property="tableView" destination="eQD-8l-pjj" id="zFq-Td-Qnw"/>
                     </connections>

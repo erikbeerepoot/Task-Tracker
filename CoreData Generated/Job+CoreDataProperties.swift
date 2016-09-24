@@ -19,5 +19,5 @@ extension Job {
     @NSManaged var rate: NSNumber?
     @NSManaged var sessions: NSOrderedSet
     @NSManaged var client: Client
-    @NSManaged var creationDate : NSDate
+    @NSManaged var creationDate : Date
 }

@@ -12,9 +12,9 @@ import AppKit
 class EEBInvoiceTemplate {
     
     //Layout
-    var toBounds : CGRect = CGRectZero, fromBounds : CGRect = CGRectZero, titleBounds : CGRect = CGRectZero
-    var bodyRect : CGRect = CGRectZero
-    var footerRect : CGRect = CGRectZero
+    var toBounds : CGRect = CGRect.zero, fromBounds : CGRect = CGRect.zero, titleBounds : CGRect = CGRect.zero
+    var bodyRect : CGRect = CGRect.zero
+    var footerRect : CGRect = CGRect.zero
     
     //Style
     var style : [String : [String : AnyObject]] = [String : [String : AnyObject]]()
@@ -23,11 +23,11 @@ class EEBInvoiceTemplate {
     
     init(templateName : String ){
         var json : [String : AnyObject] = [String : AnyObject]()
-        if let path = NSBundle.mainBundle().pathForResource(templateName, ofType: "json")
+        if let path = Bundle.main.path(forResource: templateName, ofType: "json")
         {
             do {
-                let jsonData = try NSData(contentsOfFile: path, options: .DataReadingMappedIfSafe)
-                let jsonResult = try NSJSONSerialization.JSONObjectWithData(jsonData, options: .AllowFragments)
+                let jsonData = try Data(contentsOf: URL(fileURLWithPath: path), options: .mappedIfSafe)
+                let jsonResult = try JSONSerialization.jsonObject(with: jsonData, options: .allowFragments)
 
                 if jsonResult is [String : AnyObject] {
                     json = jsonResult as! [String : AnyObject]
@@ -46,7 +46,7 @@ class EEBInvoiceTemplate {
 
     }
     
-    func parseTemplate(json : [String : AnyObject]){
+    func parseTemplate(_ json : [String : AnyObject]){
         
         /********** Layout Parsing ************/
         let layoutDict = json["layout"]! as? [String : AnyObject]
@@ -71,7 +71,7 @@ class EEBInvoiceTemplate {
             style[key] = [String : AnyObject]()
             if let sectionStyle = styleJSON![key] as? [String : AnyObject] {
                 if let colorsJSON = sectionStyle["colors"] as? [String : AnyObject] {
-                    style[key]!["colors"] = parseColors(colorsJSON)
+                    style[key]!["colors"] = parseColors(colorsJSON) as AnyObject?
                 }
                 
                 if let fontJSON = sectionStyle["font"] as? [String : AnyObject] {
@@ -87,12 +87,12 @@ class EEBInvoiceTemplate {
      * @name    parseRect
      * @brief   Helper method to parse JSON into a CGRect
      */
-    func parseRect(rectJSON : [String : AnyObject]) -> CGRect {
+    func parseRect(_ rectJSON : [String : AnyObject]) -> CGRect {
         if(validateKeys(rectJSON, keys: ["origin","size"],exhaustive: false)){
-            return CGRectMake(rectJSON["origin"]!["x"]! as! CGFloat,rectJSON["origin"]!["y"]! as! CGFloat,rectJSON["size"]!["width"]! as! CGFloat,rectJSON["size"]!["height"]! as! CGFloat)
+            return CGRect(x: rectJSON["origin"]!["x"]! as! CGFloat,y: rectJSON["origin"]!["y"]! as! CGFloat,width: rectJSON["size"]!["width"]! as! CGFloat,height: rectJSON["size"]!["height"]! as! CGFloat)
         } else {
             print("Invalid rect json: \(rectJSON)")
-            return CGRectZero
+            return CGRect.zero
         }
     }
     
@@ -101,8 +101,8 @@ class EEBInvoiceTemplate {
      * @name    parseFont
      * @brief   Helper method to parse JSON into NSFont objects
      */
-    func parseFont(fontJSON : [String : AnyObject]) -> NSFont {
-        var font = NSFont.systemFontOfSize(NSFont.systemFontSize())
+    func parseFont(_ fontJSON : [String : AnyObject]) -> NSFont {
+        var font = NSFont.systemFont(ofSize: NSFont.systemFontSize())
 
         let valid = validateKeys(fontJSON, keys: ["font-name","font-size","font-style"])
         guard valid else {
@@ -110,9 +110,9 @@ class EEBInvoiceTemplate {
         }
         
         
-        if let name = fontJSON["font-name"] as? String,style = fontJSON["font-style"] as? String, size = fontJSON["font-size"] as? Float {
+        if let name = fontJSON["font-name"] as? String,let style = fontJSON["font-style"] as? String, let size = fontJSON["font-size"] as? Float {
             let fontName = "\(name) \(style)"
-            font = NSFont(name: fontName, size: CGFloat(size)) ?? NSFont.systemFontOfSize(NSFont.systemFontSize())
+            font = NSFont(name: fontName, size: CGFloat(size)) ?? NSFont.systemFont(ofSize: NSFont.systemFontSize())
         }
         return font
     }
@@ -122,7 +122,7 @@ class EEBInvoiceTemplate {
      * @name    parseColors
      * @brief   Helper method to parse JSON into CGColor objects
      */
-    func parseColors(colorJSON : [String : AnyObject]) -> [String : CGColor] {
+    func parseColors(_ colorJSON : [String : AnyObject]) -> [String : CGColor] {
         let valid = validateKeys(colorJSON, keys: ["text","fill","stroke"])
         guard valid else {
             return [String : CGColor]()
@@ -134,11 +134,11 @@ class EEBInvoiceTemplate {
                 switch(colorValue[colorValue.startIndex]){
                     case "#":
                         //parse hex codes
-                        let hex = colorValue[colorValue.startIndex.successor() ..< colorValue.endIndex]
-                        let r = CGFloat(Int(hex[hex.startIndex ... hex.startIndex.successor()],radix:  16)! / 255)
-                        let g = CGFloat(Int(hex[hex.startIndex.advancedBy(2) ... hex.startIndex.advancedBy(3)],radix:  16)! / 255)
-                        let b = CGFloat(Int(hex[hex.startIndex.advancedBy(4) ... hex.startIndex.advancedBy(5)],radix:  16)! / 255)
-                        let color = CGColorCreate(CGColorSpaceCreateDeviceRGB(),[r,g,b,1.0])
+                        let hex = colorValue[colorValue.characters.index(after: colorValue.startIndex) ..< colorValue.endIndex]
+                        let r = CGFloat(Int(hex[hex.startIndex ... hex.characters.index(after: hex.startIndex)],radix:  16)! / 255)
+                        let g = CGFloat(Int(hex[hex.characters.index(hex.startIndex, offsetBy: 2) ... hex.characters.index(hex.startIndex, offsetBy: 3)],radix:  16)! / 255)
+                        let b = CGFloat(Int(hex[hex.characters.index(hex.startIndex, offsetBy: 4) ... hex.characters.index(hex.startIndex, offsetBy: 5)],radix:  16)! / 255)
+                        let color = CGColor(colorSpace: CGColorSpaceCreateDeviceRGB(),components: [r,g,b,1.0])
                         colors[key] = color
                         break
                     default:
@@ -158,7 +158,7 @@ class EEBInvoiceTemplate {
      * @name    validateJSON
      * @brief   Checks that the template JSON meets at least the minimum requirements (see README)
      */
-    func validateJSON(json : [String : AnyObject]) -> Bool{
+    func validateJSON(_ json : [String : AnyObject]) -> Bool{
         guard json.count > 0 else {
             print("Invalid template JSON")
             return false
@@ -193,7 +193,7 @@ class EEBInvoiceTemplate {
      * @brief   Checks that the keys are in the dictionary. Non-exhaustive search just checks the topmost level
      *          exhaustive does a BFS for each key
      */
-    func validateKeys(json : [String : AnyObject], keys : [String], exhaustive : Bool = false) -> Bool {
+    func validateKeys(_ json : [String : AnyObject], keys : [String], exhaustive : Bool = false) -> Bool {
         if exhaustive {
             var present = true
             for key in keys {
@@ -215,7 +215,7 @@ class EEBInvoiceTemplate {
      * @name    findKey
      * @brief   Recursively searches the dictionary for searchKey
      */
-    func findKey(searchKey : String, inDict dict : [String : AnyObject]) -> Bool {
+    func findKey(_ searchKey : String, inDict dict : [String : AnyObject]) -> Bool {
         var keyFound = false
         for key in dict.keys {
             keyFound = (dict[searchKey] != nil)

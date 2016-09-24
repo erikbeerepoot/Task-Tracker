@@ -15,7 +15,7 @@ class EEBListInvoicesViewController : NSViewController, NavigableViewController,
     @IBOutlet weak var overlayView : EEBOverlayView!
     @IBOutlet weak var customSpacerView : NSView!
     @IBOutlet weak var backgroundView : NSView!
-    @IBOutlet weak var customView : NSView!
+    @IBOutlet weak var listInvoicesBackgroundView : NSView!
     @IBOutlet weak var tableView : NSTableView!
     
     //MARK: Appearance constants
@@ -24,7 +24,7 @@ class EEBListInvoicesViewController : NSViewController, NavigableViewController,
     let kContentOpacity : CGFloat = 1
     let kCornerRadius : CGFloat = 16
     let kBorderWidth : CGFloat = 0.75
-    let debugFrames = true
+    let debugFrames = false
     
     var navigationController : EEBNavigationController? = nil;
     var storeManager : EEBPersistentStoreManager? = nil
@@ -42,19 +42,19 @@ class EEBListInvoicesViewController : NSViewController, NavigableViewController,
         
         
         /*** View Constraints ***/
-        customView.wantsLayer = true
+        listInvoicesBackgroundView.wantsLayer = true
         if(debugFrames){
-            customView.layer?.backgroundColor = NSColor.yellowColor().CGColor
+            listInvoicesBackgroundView.layer?.backgroundColor = NSColor.yellow.cgColor
         }
         
         
-        tableView.setDataSource(self)
+        tableView.dataSource = self
         
         //Set navbar controls
-        let leftButton = EEBBorderedPictureButton(frame: CGRectMake(0,0,32,32))
+        let leftButton = EEBBorderedPictureButton(frame: CGRect(x: 0,y: 0,width: 32,height: 32))
         leftButton.image = NSImage(named:"arrow-left-black-48")
         leftButton.target = self
-        leftButton.action = Selector("back:")
+        leftButton.action = #selector(EEBListInvoicesViewController.back(_:))
         
         overlayView.leftBarButtonItems = [leftButton]
         overlayView.rightBarButtonItems = []
@@ -62,27 +62,33 @@ class EEBListInvoicesViewController : NSViewController, NavigableViewController,
         
         //Set background colour
         let bgGradientLayer = CAGradientLayer()
-        bgGradientLayer.colors = [CGColorCreateGenericRGB(kGradientStartColour.red, kGradientStartColour.green, kGradientStartColour.blue, kContentOpacity),
-            CGColorCreateGenericRGB(kGradientEndColour.red, kGradientEndColour.green, kGradientEndColour.blue, kContentOpacity)]
+        bgGradientLayer.colors = [CGColor(red: kGradientStartColour.red, green: kGradientStartColour.green, blue: kGradientStartColour.blue, alpha: kContentOpacity),
+            CGColor(red: kGradientEndColour.red, green: kGradientEndColour.green, blue: kGradientEndColour.blue, alpha: kContentOpacity)]
         backgroundView.layer = bgGradientLayer
+        
+        //Create outline of options box
+        listInvoicesBackgroundView.wantsLayer = true
+        listInvoicesBackgroundView.layer?.borderWidth = kBorderWidth
+        listInvoicesBackgroundView.layer?.cornerRadius = kCornerRadius
+        listInvoicesBackgroundView.layer?.borderColor = NSColor.white.cgColor
     }
     
     
     //MARK: Overlay actions
-    func back(sender : AnyObject){
+    func back(_ sender : AnyObject){
         self.navigationController?.popViewControllerAnimated(true)
     }
     
-    func numberOfRowsInTableView(tableView: NSTableView) -> Int {
+    func numberOfRows(in tableView: NSTableView) -> Int {
         return invoices.count
     }
     
-    func tableView(tableView: NSTableView, objectValueForTableColumn tableColumn: NSTableColumn?, row: Int) -> AnyObject? {
+    func tableView(_ tableView: NSTableView, objectValueFor tableColumn: NSTableColumn?, row: Int) -> Any? {
         return invoices[row].name
     }
 
-    @IBAction func open(sender : AnyObject){
-        if let vc = self.storyboard?.instantiateControllerWithIdentifier("invoiceViewController") as? EEBInvoiceViewController {
+    @IBAction func open(_ sender : AnyObject){
+        if let vc = self.storyboard?.instantiateController(withIdentifier: "invoiceViewController") as? EEBInvoiceViewController {
             vc.navigationController = navigationController
             vc.storeManager = storeManager
             vc.invoice = invoices[tableView.selectedRow]

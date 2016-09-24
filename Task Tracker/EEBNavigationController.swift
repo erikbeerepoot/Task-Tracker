@@ -13,7 +13,7 @@ protocol NavigableViewController  {
     var navigationController : EEBNavigationController? {get set};
     var view : NSView {get set}
     
-    func back(sender : AnyObject);
+    func back(_ sender : AnyObject);
 }
 
 class EEBNavigationController : NSViewController {
@@ -26,10 +26,10 @@ class EEBNavigationController : NSViewController {
     override func viewDidLoad() {
         viewControllers = [NavigableViewController]()
         view.wantsLayer = true;
-        view.layerContentsRedrawPolicy = NSViewLayerContentsRedrawPolicy.OnSetNeedsDisplay
+        view.layerContentsRedrawPolicy = NSViewLayerContentsRedrawPolicy.onSetNeedsDisplay
         self.view.translatesAutoresizingMaskIntoConstraints = false
         
-        let vc = self.storyboard?.instantiateControllerWithIdentifier("clientViewController") as? EEBBaseTableViewController
+        let vc = self.storyboard?.instantiateController(withIdentifier: "clientViewController") as? EEBBaseTableViewController
         assert(vc != nil)
         vc!.sm = storeManager
         vc!.navigationController = self;
@@ -40,10 +40,10 @@ class EEBNavigationController : NSViewController {
         
         //Set view properties & constraints
         vc!.view.translatesAutoresizingMaskIntoConstraints = false
-        vc!.view.leadingAnchor.constraintEqualToAnchor(self.view.leadingAnchor).active = true
-        vc!.view.trailingAnchor.constraintEqualToAnchor(self.view.trailingAnchor).active = true
-        vc!.view.topAnchor.constraintEqualToAnchor(self.view.topAnchor).active = true
-        vc!.view.bottomAnchor.constraintEqualToAnchor(self.view.bottomAnchor).active = true        
+        vc!.view.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive = true
+        vc!.view.trailingAnchor.constraint(equalTo: self.view.trailingAnchor).isActive = true
+        vc!.view.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
+        vc!.view.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true        
     }
         
     override func viewWillAppear() {
@@ -76,8 +76,7 @@ class EEBNavigationController : NSViewController {
         storeManager.save()
     }
     
-    var constraints : [NSLayoutConstraint]  = []
-    func pushViewController(viewController : NavigableViewController, _ animated : Bool) {
+    func pushViewController(_ viewController : NavigableViewController, _ animated : Bool) {
         let destinationVC = viewController as? NSViewController
         let originVC = viewControllers.last as? NSViewController
         guard destinationVC != originVC else {
@@ -87,7 +86,7 @@ class EEBNavigationController : NSViewController {
         
         //we can only transition *to* a ViewController is we have a source *and* a destination VC
         if(originVC != nil){
-            let options = (animated ? NSViewControllerTransitionOptions.SlideLeft : NSViewControllerTransitionOptions.None)
+            let options = (animated ? NSViewControllerTransitionOptions.slideLeft : NSViewControllerTransitionOptions())
             
             //Note that we only add the destination VC as a child VC - the origin VC was added last time
             self.addChildViewController(destinationVC!)            
@@ -98,14 +97,14 @@ class EEBNavigationController : NSViewController {
 
             //animate the transition
             self.view.addSubview(destinationVC!.view)
-            self.transitionFromViewController(originVC!, toViewController: destinationVC!, options: options, completionHandler:nil)
+            self.transition(from: originVC!, to: destinationVC!, options: options, completionHandler:nil)
         }
         
         //push onto array used as a stack
         viewControllers.append(viewController)
     }
     
-    func popViewControllerAnimated(animated : Bool){
+    func popViewControllerAnimated(_ animated : Bool){
         guard  viewControllers.count > 1 else {
             print("Tried to pop root viewcontroller")
             return;
@@ -122,7 +121,7 @@ class EEBNavigationController : NSViewController {
         destinationVC!.view.frame.origin.x = -1*self.view.frame.width
         
         
-        self.transitionFromViewController(originVC!, toViewController: destinationVC!, options:NSViewControllerTransitionOptions.SlideRight,completionHandler:
+        self.transition(from: originVC!, to: destinationVC!, options:NSViewControllerTransitionOptions.slideRight,completionHandler:
             { () -> Void in
                 originVC?.view.removeFromSuperview()
             })
@@ -131,7 +130,7 @@ class EEBNavigationController : NSViewController {
     }
     
     
-    override func transitionFromViewController(fromViewController: NSViewController, toViewController: NSViewController, options: NSViewControllerTransitionOptions, completionHandler completion: (() -> Void)?) {
+    override func transition(from fromViewController: NSViewController, to toViewController: NSViewController, options: NSViewControllerTransitionOptions, completionHandler completion: (() -> Void)?) {
         
         //make sure that the views are both part of the hierarchy
         guard fromViewController.view.superview == self.view else {
@@ -140,11 +139,11 @@ class EEBNavigationController : NSViewController {
 
         NSAnimationContext.runAnimationGroup({ (context) -> Void in
             switch(options){
-                case NSViewControllerTransitionOptions.SlideRight:
+                case NSViewControllerTransitionOptions.slideRight:
                     fromViewController.view.animator().frame.origin.x += fromViewController.view.bounds.size.width
                     toViewController.view.animator().frame.origin.x = 0
                     break;
-                case NSViewControllerTransitionOptions.SlideLeft:
+                case NSViewControllerTransitionOptions.slideLeft:
                     fromViewController.view.animator().frame.origin.x -= fromViewController.view.bounds.size.width
                     toViewController.view.animator().frame.origin.x = 0
                     break;
@@ -156,45 +155,45 @@ class EEBNavigationController : NSViewController {
                 completion?()
                 
                 toViewController.view.translatesAutoresizingMaskIntoConstraints = false
-                toViewController.view.leadingAnchor.constraintEqualToAnchor(self.view.leadingAnchor).active = true
-                toViewController.view.trailingAnchor.constraintEqualToAnchor(self.view.trailingAnchor).active = true
-                toViewController.view.topAnchor.constraintEqualToAnchor(self.view.topAnchor).active = true
-                toViewController.view.bottomAnchor.constraintEqualToAnchor(self.view.bottomAnchor).active = true
+                toViewController.view.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive = true
+                toViewController.view.trailingAnchor.constraint(equalTo: self.view.trailingAnchor).isActive = true
+                toViewController.view.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
+                toViewController.view.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
         })
         
     }
     
-    @IBAction func add(sender : AnyObject){
+    @IBAction func add(_ sender : AnyObject){
         if let currentVC = viewControllers.last as? EEBBaseTableViewController {
             currentVC.add(self)
         }
     }
     
-    @IBAction func remove(sender : AnyObject){
+    @IBAction func remove(_ sender : AnyObject){
         if let currentVC = viewControllers.last as? EEBBaseTableViewController {
             currentVC.remove(self)
         }
     }
-    @IBAction func run(sender : AnyObject){
+    @IBAction func run(_ sender : AnyObject){
         if let currentVC = viewControllers.last as? EEBBaseTableViewController {
             currentVC.run(sender)
         }
         
     }
     
-    @IBAction func undo(sender : AnyObject){
+    @IBAction func undo(_ sender : AnyObject){
         if let currentVC = viewControllers.last as? EEBBaseTableViewController {
             currentVC.undo(sender)
         }
     }
     
-    @IBAction func redo(sender : AnyObject){
+    @IBAction func redo(_ sender : AnyObject){
         if let currentVC = viewControllers.last as? EEBBaseTableViewController {
             currentVC.redo(sender)
         }
     }
     
-    override func keyUp(theEvent: NSEvent) {
+    override func keyUp(with theEvent: NSEvent) {
         let currentVC = viewControllers.last as? EEBBaseTableViewController
         guard( currentVC != nil) else {
             return

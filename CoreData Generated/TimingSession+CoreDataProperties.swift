@@ -14,8 +14,8 @@ import CoreData
 
 extension TimingSession {
     
-    @NSManaged var startDate: NSDate
-    @NSManaged var endDate: NSDate
+    @NSManaged var startDate: Date
+    @NSManaged var endDate: Date
     @NSManaged var job : Job
 
 }
